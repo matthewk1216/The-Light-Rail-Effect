@@ -994,10 +994,6 @@ section{
           <h3>19th & Glendale</h3>
           <p>As part of the Northwest Extension, 19th and Glendale opened on March 19th, 2016, as the first phase of the line’s development. The extension added 3.2 miles (ca. 5 km) of track, which was estimated, upon announcement, to serve 5,000 riders a day. The adjacent tract, Census Tract 1067.01 in Maricopa County, has a median household income of $44,224. The region has an 84% occupancy rate. 24% of the population is in poverty. In the treated graph, the six years preceding the station’s opening show the median rent declining gradually until the shift towards an increase began in 2015. Anticipation of the new infrastructure may have increased economic stimulus in the area, which could explain the increase, i.e., anticipatory pricing/effect. The advent of COVID-19, migration, and a broader metropolitan rent hike may also confound the census tract’s gradual rise. In the graph comparing the treated and control (Census Tract 1066), the movement is practically inverted, almost patently. This may indicate station-specific effects, but speculation doesn't confirm causal relationships.</p>
         </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Light rail infrastructure development can provide accessible, reliable transport, revitalization, and environmental benefits. However, its effect on local housing remains contested. Some studies show a clear increase in rental prices and property values near light rail stations, while others find heterogeneous and weak effects across neighborhoods. This project examines whether light rail station openings are associated with changes in median rent in surrounding census tracts, using a quasi-experimental design to test that relationship.
-        </div>
       </div>
     <div class="photo station"><img src="PhoenixPhoto1.jpg" alt="Station or line photo for 19th & Glendale" />
       <div class="photo-caption">
@@ -1078,6 +1074,15 @@ section{
           return;
         }
 
+        function openLightbox(triggerEl) {
+          lastTrigger = triggerEl;
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+          lightbox.classList.add('is-open');
+          lightbox.setAttribute('aria-hidden', 'false');
+          closeBtn.focus();
+        }
+
         var btn = document.createElement('button');
         btn.className = 'gis-expand-btn';
         btn.type = 'button';
@@ -1086,12 +1091,16 @@ section{
         photo.appendChild(btn);
 
         btn.addEventListener('click', function() {
-          lastTrigger = btn;
-          lightboxImg.src = img.src;
-          lightboxImg.alt = img.alt;
-          lightbox.classList.add('is-open');
-          lightbox.setAttribute('aria-hidden', 'false');
-          closeBtn.focus();
+          openLightbox(btn);
+        });
+
+        photo.style.cursor = 'zoom-in';
+        img.style.cursor = 'zoom-in';
+        photo.addEventListener('click', function(event) {
+          if (event.target === btn) {
+            return;
+          }
+          openLightbox(photo);
         });
       });
 
