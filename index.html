@@ -25,6 +25,13 @@ body{
   color:var(--text);
   font-family:'Inter',sans-serif;
   line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* keep mobile browsers from inflating text and creating zoom-like layout shifts */
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
 }
 main{
   width:min(1180px,92vw);
@@ -282,6 +289,9 @@ section{
   .hero-inner{ padding-left:2rem; }
   .hero-inner::before{ background:rgba(255,255,255,0.92); }
   .sub,.intro{ max-width:760px; }
+  .hero{
+    background-attachment:scroll;
+  }
 }
 
 @media (max-width:900px){
@@ -310,6 +320,20 @@ section{
     margin-top:.5rem;
     min-width:0;
     transform:translateY(0);
+  }
+  .photo.gis{
+    min-height:auto;
+    width:100%;
+    margin-left:0;
+    margin-bottom:0;
+  }
+  .photo.station{
+    width:100%;
+    margin-left:0;
+    transform:none;
+  }
+  .chart-carousel{
+    top:0;
   }
 }
 

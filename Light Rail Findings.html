@@ -17,6 +17,26 @@
   --accent:#6f8f3a;
   --overlay:rgba(255,255,255,.78);
 }
+*{box-sizing:border-box;}
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+main{
+  width:min(1180px,92vw);
+  margin:0 auto;
+}
+section{
+  padding:8vh 0;
+  border-top:1px solid var(--line);
 }
 
 /* kicker */
@@ -1368,6 +1388,21 @@
   }
   .hero{
     min-height:86vh;
+    background-attachment:scroll;
+  }
+  .photo.gis{
+    min-height:auto;
+    width:100%;
+    margin-left:0;
+    margin-bottom:0;
+  }
+  .photo.station{
+    width:100%;
+    margin-left:0;
+    transform:none;
+  }
+  .chart-carousel{
+    top:0;
   }
 }
 </style>
