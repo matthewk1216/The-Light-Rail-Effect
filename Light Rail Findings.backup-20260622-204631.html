@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Light Rail Effect | Findings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#666666;
+  --line:#e9e9e9;
+  --soft:#fafafa;
+  --accent:#6f8f3a;
+  --overlay:rgba(255,255,255,.78);
+}
+}
+
+/* kicker */
+.kicker{
+  font-size:.78rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(0,0,0,.6);
+  margin-bottom:1rem;
+}
+
+/* floating white card for the hero content */
+.hero-card{
+  background:rgba(255,255,255,0.98);
+  padding:2.5rem 2.5rem;
+  border-radius:12px;
+  box-shadow:0 12px 36px rgba(0,0,0,0.14);
+  max-width:880px;
+  margin:0 auto;
+  position:relative;
+}
+.hero-card > *{ position:relative; z-index:1; }
+
+/* floating title block above the card */
+.floating-title{
+  max-width:980px;
+  margin:0 auto 1.25rem auto;
+  text-align:center;
+  background:transparent;
+  z-index:4;
+}
+.floating-title .title{
+  font-family:'NYT Imperial','Cormorant Garamond',Georgia,serif;
+  font-size:clamp(2.8rem,6.5vw,4.8rem);
+  line-height:1;
+  margin:0;
+  white-space:nowrap;
+  overflow:visible;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:0;
+  font-weight:700;
+}
+.floating-title .sub{
+  margin:0.6rem auto 0;
+  color:rgba(0,0,0,.78);
+  font-size:clamp(1.25rem,2.2vw,1.9rem);
+  text-align:center;
+  max-width:760px;
+  display:block;
+}
+.floating-title .sub{
+  margin-top:.6rem;
+  color:rgba(0,0,0,.6);
+  font-size:clamp(0.95rem,1.6vw,1.2rem);
+  text-align:center;
+}
+
+/* centered floating author name at bottom of hero */
+.hero-name{
+  position:absolute;
+  left:50%;
+  bottom:3rem;
+  transform:translateX(-50%);
+  z-index:5;
+}
+.hero-name .name{
+  background:rgba(255,255,255,0.98);
+  padding:.5rem .9rem;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,.08);
+  color:rgba(0,0,0,.85);
+  font-weight:600;
+}
+.sub{
+  font-family:'NYT Imperial','Cormorant Garamond',serif;
+  font-size:clamp(1rem,2vw,1.4rem);
+  margin:0 0 1rem 0;
+  max-width:760px;
+  color:rgba(0,0,0,.75);
+}
+.name{
+  margin-top:1.5rem;
+  display:inline-block;
+  padding:.55rem .8rem;
+  border:1px solid rgba(0,0,0,.12);
+  background:transparent;
+  backdrop-filter:blur(6px);
+  border-radius:999px;
+  font-size:.88rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+/* Simple white header */
+.site-header{
+  border:1px solid rgba(0,0,0,.12);
+  height:64px;
+  display:flex;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(0,0,0,.06);
+}
+.site-header .container{
+  width:min(1180px,92vw);
+  margin:0 auto;
+  padding:0 1rem;
+  display:flex;
+  align-items:center;
+  color:rgba(0,0,0,.9);
+  justify-content:flex-end;
+}
+.logo-link{
+  text-decoration:none;
+  color:inherit;
+}
+.logo-icon{
+  color:var(--accent);
+  font-size:1.35rem;
+  line-height:1;
+  display:inline-block;
+}
+.page-menu{
+  position:relative;
+  padding-bottom:.35rem;
+  margin-bottom:-.35rem;
+}
+.menu-trigger{
+  width:26px;
+  height:20px;
+  border:none;
+  border-radius:0;
+  background:transparent;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  padding:0;
+  transition:opacity .2s ease;
+}
+.menu-trigger:hover,
+.page-menu:focus-within .menu-trigger{
+  opacity:.72;
+}
+.menu-trigger .bar{
+  display:block;
+  width:18px;
+  height:2px;
+  margin:1px 0;
+  border-radius:2px;
+  background:#111;
+  transition:background .25s ease;
+}
+.page-menu-panel{
+  position:absolute;
+  top:100%;
+  right:0;
+  min-width:220px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:.45rem;
+  display:grid;
+  gap:.2rem;
+  box-shadow:0 18px 34px rgba(0,0,0,.08);
+  opacity:0;
+  transform:translateY(-8px);
+  visibility:hidden;
+  pointer-events:none;
+  transform-origin:top right;
+  transition:opacity .2s ease, transform .24s ease, visibility .24s;
+}
+.page-menu:hover .page-menu-panel,
+.page-menu:focus-within .page-menu-panel{
+  opacity:1;
+  transform:translateY(0);
+  visibility:visible;
+  pointer-events:auto;
+}
+.page-link{
+  text-decoration:none;
+  color:#111;
+  padding:.75rem .85rem;
+  border-radius:10px;
+  font-size:.92rem;
+}
+.page-link:hover{
+  background:var(--soft);
+}
+.page-link.current{
+  background:var(--soft);
+  font-weight:600;
+}
+.intro{
+  max-width:760px;
+  margin-top:1.2rem;
+  color:rgba(0,0,0,.9);
+  font-size:1.05rem;
+  line-height:1.6;
+}
+
+@media (min-width:900px){
+  .hero-inner{ padding-left:2rem; }
+  .hero-inner::before{ background:rgba(255,255,255,0.92); }
+  .sub,.intro{ max-width:760px; }
+}
+
+@media (max-width:700px){
+  .hero-inner{ text-align:center; padding:4rem 1rem; }
+  .hero-inner::before{ background:rgba(255,255,255,0.85); border-radius:6px; }
+  .title, .sub, .intro{ text-align:center; }
+  .site-header{
+    height:auto;
+  }
+  .site-header .container{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.55rem;
+    padding:.85rem 1rem;
+  }
+  .page-menu{
+    width:100%;
+  }
+  .menu-trigger{
+    width:100%;
+    border-radius:0;
+    height:24px;
+  }
+  .page-menu-panel{
+    position:static;
+    margin-top:.5rem;
+    min-width:0;
+    transform:translateY(0);
+  }
+}
+
+.scrolly{
+  display:grid;
+  grid-template-columns:minmax(0,0.95fr) minmax(560px,2.1fr);
+  gap:2rem;
+  align-items:start;
+}
+.left{
+  padding-top:1rem;
+  max-width:500px;
+  align-self:stretch;
+  position:relative;
+}
+.sticky{
+  position:static;
+}
+.step{
+  background:var(--soft);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1.1rem 1.15rem;
+  margin:0 0 1rem 0;
+  min-height:42vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.step h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;
+  margin:0 0 .4rem 0;
+}
+.step p{
+  margin:.35rem 0 0 0;
+  color:#222;
+}
+.note{
+  background:#fff;
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  padding:1rem 1.1rem;
+  border-radius:10px;
+  margin-top:1rem;
+}
+.note strong{
+  display:block;
+  margin-bottom:.25rem;
+}
+.scrolly .right{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:0;
+}
+.scrolly .right .gis{
+  order:-1;
+}
+.left{
+  padding-top:1rem;
+  max-width:420px;
+}
+.right{
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+  align-items:stretch;
+}
+.photo{
+  border:none;
+  border-radius:0;
+  background:transparent;
+  overflow:hidden;
+  position:relative;
+  display:block;
+}
+.photo img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+.photo.gis{
+  order:0;
+  min-height:700px;
+  width:100%;
+}
+.photo.gis img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+.photo.station{
+  background:transparent;
+  border-radius:0;
+  width:100%;
+  overflow:hidden;
+  position:relative;
+  margin-top:1rem;
+  transform:scale(1.35);
+  transform-origin:top right;
+}
+.photo.station img{
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  display:block;
+}
+.photo-caption{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:.35rem .55rem;
+  background:rgba(255,255,255,.8);
+  border-top:1px solid rgba(0,0,0,.1);
+  font-family:'Inter',sans-serif;
+  font-size:.72rem;
+  color:#111;
+  line-height:1.2;
+}
+.photo-caption strong{
+  display:block;
+  font-weight:600;
+  margin-bottom:.05rem;
+}
+.photo.station .station-placeholder{
+  width:100%;
+  padding:1.5rem;
+  border:none;
+  border-radius:0;
+  background:transparent;
+  color:#222;
+  font-family:'Inter',sans-serif;
+  font-size:1rem;
+  text-align:center;
+}
+.chart-carousel{
+  display:grid;
+  gap:1rem;
+  width:100%;
+  margin:0;
+  position:relative;
+  top:-7rem;
+}
+.carousel-inner{
+  position:relative;
+  overflow:hidden;
+  border-radius:0;
+  background:transparent;
+}
+.carousel-slide{
+  display:none;
+  opacity:0;
+  transition:opacity .35s ease;
+}
+.carousel-slide.active{
+  display:block;
+  opacity:1;
+}
+.carousel-slide img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+.photo .ph{
+  min-height:260px;
+  display:grid;
+  place-items:center;
+  color:#999;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:.82rem;
+  padding:2rem;
+}
+.photo .caption{
+  display:none;
+}
+.gis{
+  min-height:auto;
+  background:transparent;
+  position:static;
+  align-self:auto;
+}
+.gis img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+.chart{
+  min-height:auto;
+  aspect-ratio:auto;
+  background:transparent;
+  position:static;
+  overflow:visible;
+}
+.chart img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+}
+.chart .ph{
+  min-height:340px;
+}
+.carousel-controls{
+  display:flex;
+  justify-content:flex-end;
+  gap:.75rem;
+  align-items:center;
+}
+.carousel-arrow{
+  border:1px solid rgba(0,0,0,.9);
+  background:transparent;
+  color:#111;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  font-size:1.1rem;
+  cursor:pointer;
+  transition:background .2s ease, color .2s ease;
+}
+.carousel-arrow:hover{
+  background:rgba(0,0,0,.08);
+}
+.carousel-label{
+  display:none;
+}
+.placeholder{
+  background:linear-gradient(180deg,#fff,#f7f7f7);
+}
+.caption{
+  padding:.7rem .9rem;
+  border-top:1px solid var(--line);
+  font-size:.85rem;
+  color:var(--muted);
+}
+.subject{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(420px,.92fr);
+  gap:2rem;
+  align-items:start;
+  padding:7vh 0;
+  border-top:1px solid var(--line);
+}
+.subject .box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1rem;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:1rem;
+  align-items:start;
+}
+.subject .box > div{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:1rem;
+  align-items:start;
+}
+.subject .box .gis{
+  position:sticky;
+  top:6rem;
+  grid-row:span 2;
+}
+.subject .box .chart{
+  background:#fafafa;
+  border:1px solid #e6e6e6;
+  border-radius:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.subject .box .chart:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 30px rgba(0,0,0,.08);
+}
+.subject .box .chart .ph{
+  min-height:260px;
+  display:grid;
+  place-items:center;
+  color:#555;
+  font-weight:600;
+  text-transform:none;
+  letter-spacing:0;
+  font-size:1rem;
+}
+.subject .copy h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.75rem;
+  margin:0 0 .4rem 0;
+}
+.subject .copy p{
+  margin:.35rem 0 0 0;
+  color:#222;
+}
+
+.findings{
+  padding:9vh 0 10vh;
+}
+.findings-header{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);
+  gap:2rem;
+  align-items:end;
+  margin-bottom:2rem;
+}
+.findings-kicker{
+  font-size:.78rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin:0 0 .65rem 0;
+}
+.findings h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,4vw,3.4rem);
+  line-height:1;
+  margin:0;
+}
+.findings-note{
+  background:var(--soft);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1rem 1.1rem;
+  color:#222;
+}
+.findings-note strong{
+  display:block;
+  margin:0;
+}
+.findings-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+.stat-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1.15rem;
+  box-shadow:0 10px 24px rgba(0,0,0,.04);
+}
+.stat-card .label{
+  display:block;
+  font-size:.78rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:.55rem;
+}
+.stat-card .value{
+  display:block;
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;
+  line-height:1;
+  margin:0;
+}
+.findings-body{
+  display:block;
+}
+.findings-scrolly{
+  display:grid;
+  grid-template-columns:minmax(240px,330px) minmax(0,1fr);
+  gap:1.25rem;
+  align-items:start;
+  margin-bottom:2rem;
+}
+.findings-scroll-copy{
+  position:relative;
+  width:64px;
+}
+.findings-scroll-step{
+  min-height:72vh;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:0;
+  margin-bottom:1rem;
+  opacity:.35;
+  transition:opacity .22s ease;
+  position:relative;
+}
+.findings-scroll-step[data-series="blue"]{
+  min-height:88vh;
+}
+.findings-scroll-step::before{
+  content:'';
+  position:sticky;
+  top:96px;
+  display:block;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:rgba(111,143,58,.35);
+  border:2px solid rgba(111,143,58,.65);
+  margin:0 auto;
+}
+.findings-scroll-step h4{
+  display:none;
+}
+.findings-scroll-step p{
+  display:none;
+}
+.findings-scroll-step.is-active{
+  opacity:1;
+}
+.findings-scroll-step.is-active::before{
+  background:rgba(111,143,58,.9);
+  border-color:#fff;
+  box-shadow:0 0 0 4px rgba(111,143,58,.25);
+}
+.findings-scroll-sticky{
+  position:sticky;
+  top:76px;
+  align-self:start;
+}
+.findings-image-first{
+  margin:1rem 0 9rem 0;
+  position:relative;
+  left:50%;
+  width:min(1760px,100vw);
+  height:auto;
+  transform:translateX(-50%);
+  background:#fff;
+}
+.findings-image-first.scrolly-pin{
+  margin:0;
+  left:auto;
+  transform:none;
+  width:100%;
+}
+.findings-scrolly-canvas{
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 14px 30px rgba(0,0,0,.06);
+}
+.findings-scene{
+  position:relative;
+  transform-origin:0 0;
+  will-change:transform;
+  transition:transform .9s cubic-bezier(.22,.61,.36,1);
+}
+.findings-series-base,
+.findings-series-full{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:contrast(1.12) saturate(1.08) brightness(1.02);
+  image-rendering:-webkit-optimize-contrast;
+}
+.findings-series-base{
+  position:relative;
+}
+.findings-series-full{
+  opacity:0;
+  transition:opacity .75s ease;
+}
+.findings-scrolly.is-blue-visible .findings-series-full{
+  opacity:1;
+}
+.findings-floating-note{
+  position:absolute;
+  left:var(--note-x,7%);
+  top:var(--note-y,8%);
+  transform:translate(-50%,-50%);
+  width:min(320px,38vw);
+  z-index:5;
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:.85rem .95rem;
+  box-shadow:0 18px 34px rgba(0,0,0,.14);
+  transition:left .7s cubic-bezier(.22,.61,.36,1), top .7s cubic-bezier(.22,.61,.36,1), opacity .25s ease;
+}
+.findings-floating-note h4{
+  margin:0 0 .25rem 0;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem;
+  line-height:1.05;
+}
+.findings-floating-note p{
+  margin:0;
+  font:500 .84rem/1.4 'Inter',sans-serif;
+  color:#222;
+}
+.findings-image-first img{
+  width:100%;
+  height:auto;
+  display:block;
+  margin:0;
+}
+.findings-dot-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+.findings-dot{
+  appearance:none;
+  -webkit-appearance:none;
+  padding:0;
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-50%);
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  border:2px solid #fff;
+  background:#d84f3d;
+  box-shadow:0 0 0 1px rgba(0,0,0,.2), 0 3px 10px rgba(0,0,0,.22);
+  pointer-events:auto;
+  cursor:default;
+}
+.findings-hotspot-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:auto;
+  z-index:3;
+}
+.findings-hotspot{
+  appearance:none;
+  -webkit-appearance:none;
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-50%);
+  width:9px;
+  height:9px;
+  aspect-ratio:1/1;
+  border:none;
+  border-radius:50%;
+  background:transparent;
+  padding:0;
+  margin:0;
+  cursor:default;
+}
+.findings-hotspot::after{
+  content:attr(data-pct);
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 9px);
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font:600 .78rem/1.2 'Inter',sans-serif;
+  color:#111;
+  background:rgba(255,255,255,.98);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:.36rem .5rem;
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .15s ease, transform .15s ease;
+  pointer-events:none;
+}
+.findings-hotspot:hover::after,
+.findings-hotspot:focus-visible::after{
+  opacity:1;
+  visibility:visible;
+  transform:translateX(-50%) translateY(-2px);
+}
+.findings-hotspot-readout{
+  position:relative;
+  z-index:1;
+  margin-top:1rem;
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:.45rem .55rem;
+  font:500 .74rem/1.35 'Inter',sans-serif;
+  color:#111;
+  white-space:pre-line;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+  max-height:240px;
+  max-width:100%;
+  overflow:auto;
+}
+.findings-story-editor{
+  margin-top:1rem;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  padding:.7rem .75rem;
+  display:grid;
+  gap:.55rem;
+}
+.findings-editor-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+}
+.findings-editor-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:999px;
+  font:600 .74rem/1 'Inter',sans-serif;
+  padding:.42rem .65rem;
+  color:#111;
+  cursor:pointer;
+}
+.findings-editor-btn[disabled]{
+  opacity:.45;
+  cursor:not-allowed;
+}
+.findings-editor-btn.is-on{
+  border-color:#6f8f3a;
+  background:#eef4e2;
+  color:#3c5221;
+}
+.findings-editor-readout{
+  font:500 .73rem/1.35 'Inter',sans-serif;
+  color:#333;
+  white-space:pre-line;
+}
+.findings-floating-note.is-draggable{
+  cursor:grab;
+  border-color:rgba(111,143,58,.85);
+  box-shadow:0 22px 40px rgba(0,0,0,.2);
+}
+.findings-floating-note.is-dragging{
+  cursor:grabbing;
+}
+.findings-scrolly.is-editing .findings-floating-note,
+.findings-scrolly.is-editing .findings-scene,
+.findings-scrolly.is-editing .findings-scroll-step{
+  transition:none !important;
+}
+.findings-scrolly.is-editing .findings-scroll-step{
+  transform:none !important;
+}
+.findings-table-wrap h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.7rem;
+  margin:0 0 .7rem 0;
+}
+.findings-table-wrap{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1.2rem 1.25rem;
+  overflow:auto;
+}
+.findings-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.94rem;
+}
+.findings-table th,
+.findings-table td{
+  padding:.72rem .5rem;
+  text-align:left;
+  border-top:1px solid var(--line);
+  vertical-align:top;
+}
+.findings-table thead th{
+  border-top:none;
+  border-bottom:1px solid var(--line);
+  font-size:.77rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.findings-table tbody tr:nth-child(even){
+  background:#fcfcfc;
+}
+.findings-table td:last-child,
+.findings-table td:nth-last-child(2){
+  font-weight:600;
+}
+.research-entry{
+  margin-top:1rem;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:.95rem 1rem 1rem;
+  background:#fff;
+}
+.research-entry textarea{
+  width:100%;
+  min-height:190px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:.8rem .9rem;
+  font:inherit;
+  color:#111;
+  background:#fcfcfc;
+  resize:vertical;
+}
+.research-entry textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(111,143,58,.14);
+  background:#fff;
+}
+
+@media (max-width:950px){
+  .scrolly,.subject{
+    grid-template-columns:1fr;
+  }
+  .findings-header,
+  .findings-body,
+  .findings-stats{
+    grid-template-columns:1fr;
+  }
+  .findings-scrolly{
+    grid-template-columns:1fr;
+  }
+  .findings-scroll-sticky{
+    position:relative;
+    top:auto;
+    order:-1;
+  }
+  .findings-scroll-step{
+    min-height:auto;
+  }
+  .findings-scroll-step::before{
+    position:relative;
+    top:auto;
+  }
+  .findings-floating-note{
+    width:min(86vw,360px);
+    left:50%;
+    top:88%;
+  }
+  .sticky{
+    position:relative;
+    top:auto;
+  }
+  .step{
+    min-height:auto;
+  }
+  .hero{
+    min-height:86vh;
+  }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <nav class="page-menu" aria-label="Page selection">
+      <button class="menu-trigger" type="button" aria-label="Open page menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <div class="page-menu-panel">
+        <a class="page-link" href="index.html">Overview</a>
+        <a class="page-link current" href="Light%20Rail%20Findings.html">Findings</a>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="findings" id="findings" style="border-top:none;padding-top:0;">
+    <div class="findings-body">
+      <div class="findings-scrolly" id="findings-scrolly">
+        <div class="findings-scroll-copy">
+          <article class="findings-scroll-step is-active" data-series="green" data-target="first-d1,first-d2,first-d3,first-d4" data-zoom="1.00" data-note-x="16" data-note-y="14">
+            <h4>Treated Line First</h4>
+            <p>The chart starts with the treated trajectory only so the initial trend is easier to read.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g1-d1,g1-d2,g1-d3,g1-d4" data-zoom="1.22" data-note-x="15" data-note-y="16">
+            <h4>The Good: 4214</h4>
+            <p>The scroll journey begins with one of the strongest positive outcomes.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g2-d1,g2-d2,g2-d3,g2-d4" data-zoom="1.20" data-note-x="83" data-note-y="18">
+            <h4>The Good: 4216.02</h4>
+            <p>Another strong performer appears as the view shifts across the chart.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g3-d1,g3-d2,g3-d3,g3-d4" data-zoom="1.20" data-note-x="16" data-note-y="82">
+            <h4>The Good: 2.02</h4>
+            <p>The final stop in the good tier keeps the momentum positive.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g4-d1,g4-d2,g4-d3,g4-d4" data-zoom="1.20" data-note-x="83" data-note-y="84">
+            <h4>The Bad: 3101.01</h4>
+            <p>The narrative transitions into mixed and weaker trajectories.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g5-d1,g5-d2,g5-d3,g5-d4" data-zoom="1.18" data-note-x="14" data-note-y="49">
+            <h4>The Bad: 53.05</h4>
+            <p>Here the outcomes flatten and diverge from the strongest gains.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g6-d1,g6-d2,g6-d3,g6-d4" data-zoom="1.18" data-note-x="83" data-note-y="49">
+            <h4>The Bad: 3104</h4>
+            <p>The final bad segment rounds out the middle of the distribution.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="first-d1,first-d2,first-d3,first-d4" data-zoom="1.18" data-note-x="15" data-note-y="21">
+            <h4>The Ugly: 1067.01</h4>
+            <p>Now the view moves to the most difficult trajectories.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g8-d1,g8-d2,g8-d3,g8-d4" data-zoom="1.20" data-note-x="84" data-note-y="20">
+            <h4>The Ugly: 75.02</h4>
+            <p>The path continues across the lowest-performing end of the chart.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g9-d1,g9-d2,g9-d3,g9-d4" data-zoom="1.20" data-note-x="15" data-note-y="76">
+            <h4>The Ugly: 57</h4>
+            <p>The final stop closes the safari through the most negative results.</p>
+          </article>
+        </div>
+        <div class="findings-scroll-sticky">
+          <figure class="findings-image-first scrolly-pin">
+            <div class="findings-scrolly-canvas">
+              <div class="findings-scene">
+                <img class="findings-series-base" src="rent_trends_green_only.png" alt="Rent trends, treated series only" />
+                <img class="findings-series-full" src="rent_trends.png" alt="Rent trends across treated and control areas" />
+                <aside class="findings-floating-note" id="findings-floating-note" aria-live="polite">
+                  <h4 id="findings-floating-title">Treated Line First</h4>
+                  <p id="findings-floating-copy">The chart starts with the treated trajectory only so the initial trend is easier to read.</p>
+                </aside>
+                <div class="findings-hotspot-layer" aria-label="Tract 1067.01 treated green dot percentages">
+          <button class="findings-hotspot" type="button" title="-0.7%" aria-label="Treated value -0.7 percent" style="--x:15.6%; --y:11.1%;" data-id="first-d1" data-pct="-0.7%"></button>
+          <button class="findings-hotspot" type="button" title="-2.0%" aria-label="Treated value -2.0 percent" style="--x:24.0%; --y:12.1%;" data-id="first-d2" data-pct="-2.0%"></button>
+          <button class="findings-hotspot" type="button" title="-3.6%" aria-label="Treated value -3.6 percent" style="--x:32.6%; --y:13.9%;" data-id="first-d3" data-pct="-3.6%"></button>
+          <button class="findings-hotspot" type="button" title="+0.7%" aria-label="Treated value +0.7 percent" style="--x:41.1%; --y:13.6%;" data-id="first-d4" data-pct="+0.7%"></button>
+
+          <button class="findings-hotspot" type="button" title="+0.8%" aria-label="Treated value +0.8 percent" style="--x:64.5%; --y:86.0%;" data-id="g1-d1" data-pct="+0.8%"></button>
+          <button class="findings-hotspot" type="button" title="+7.1%" aria-label="Treated value +7.1 percent" style="--x:72.9%; --y:84.5%;" data-id="g1-d2" data-pct="+7.1%"></button>
+          <button class="findings-hotspot" type="button" title="+8.5%" aria-label="Treated value +8.5 percent" style="--x:81.4%; --y:82.6%;" data-id="g1-d3" data-pct="+8.5%"></button>
+          <button class="findings-hotspot" type="button" title="-2.8%" aria-label="Treated value -2.8 percent" style="--x:89.9%; --y:83.2%;" data-id="g1-d4" data-pct="-2.8%"></button>
+
+          <button class="findings-hotspot" type="button" title="+4.4%" aria-label="Treated value +4.4 percent" style="--x:15.6%; --y:80.3%;" data-id="g2-d1" data-pct="+4.4%"></button>
+          <button class="findings-hotspot" type="button" title="+1.9%" aria-label="Treated value +1.9 percent" style="--x:24.1%; --y:79.7%;" data-id="g2-d2" data-pct="+1.9%"></button>
+          <button class="findings-hotspot" type="button" title="+6.3%" aria-label="Treated value +6.3 percent" style="--x:32.5%; --y:77.1%;" data-id="g2-d3" data-pct="+6.3%"></button>
+          <button class="findings-hotspot" type="button" title="+4.1%" aria-label="Treated value +4.1 percent" style="--x:41.1%; --y:75.5%;" data-id="g2-d4" data-pct="+4.1%"></button>
+
+          <button class="findings-hotspot" type="button" title="+1.9%" aria-label="Treated value +1.9 percent" style="--x:64.5%; --y:67.9%;" data-id="g3-d1" data-pct="+1.9%"></button>
+          <button class="findings-hotspot" type="button" title="+1.5%" aria-label="Treated value +1.5 percent" style="--x:73.0%; --y:67.6%;" data-id="g3-d2" data-pct="+1.5%"></button>
+          <button class="findings-hotspot" type="button" title="+2.4%" aria-label="Treated value +2.4 percent" style="--x:81.4%; --y:67.1%;" data-id="g3-d3" data-pct="+2.4%"></button>
+          <button class="findings-hotspot" type="button" title="+3.2%" aria-label="Treated value +3.2 percent" style="--x:89.9%; --y:66.7%;" data-id="g3-d4" data-pct="+3.2%"></button>
+
+          <button class="findings-hotspot" type="button" title="-19.3%" aria-label="Treated value -19.3 percent" style="--x:15.5%; --y:68.1%;" data-id="g4-d1" data-pct="-19.3%"></button>
+          <button class="findings-hotspot" type="button" title="+32.4%" aria-label="Treated value +32.4 percent" style="--x:24.1%; --y:62.9%;" data-id="g4-d2" data-pct="+32.4%"></button>
+          <button class="findings-hotspot" type="button" title="+2.3%" aria-label="Treated value +2.3 percent" style="--x:32.6%; --y:62.5%;" data-id="g4-d3" data-pct="+2.3%"></button>
+          <button class="findings-hotspot" type="button" title="+5.1%" aria-label="Treated value +5.1 percent" style="--x:41.1%; --y:61.3%;" data-id="g4-d4" data-pct="+5.1%"></button>
+
+          <button class="findings-hotspot" type="button" title="-1.5%" aria-label="Treated value -1.5 percent" style="--x:10.3%; --y:36.6%;" data-id="g5-d1" data-pct="-1.5%"></button>
+          <button class="findings-hotspot" type="button" title="-0.6%" aria-label="Treated value -0.6 percent" style="--x:18%; --y:36%;" data-id="g5-d2" data-pct="-0.6%"></button>
+          <button class="findings-hotspot" type="button" title="-2.0%" aria-label="Treated value -2.0 percent" style="--x:26%; --y:36%;" data-id="g5-d3" data-pct="-2.0%"></button>
+          <button class="findings-hotspot" type="button" title="-3.6%" aria-label="Treated value -3.6 percent" style="--x:34%; --y:36%;" data-id="g5-d4" data-pct="-3.6%"></button>
+
+          <button class="findings-hotspot" type="button" title="0.0%" aria-label="Treated value 0.0 percent" style="--x:64.4%; --y:14.0%;" data-id="g6-d1" data-pct="0.0%"></button>
+          <button class="findings-hotspot" type="button" title="+2.0%" aria-label="Treated value +2.0 percent" style="--x:72.9%; --y:13.6%;" data-id="g6-d2" data-pct="+2.0%"></button>
+          <button class="findings-hotspot" type="button" title="+2.2%" aria-label="Treated value +2.2 percent" style="--x:81.4%; --y:13.4%;" data-id="g6-d3" data-pct="+2.2%"></button>
+          <button class="findings-hotspot" type="button" title="+1.5%" aria-label="Treated value +1.5 percent" style="--x:89.9%; --y:13.2%;" data-id="g6-d4" data-pct="+1.5%"></button>
+
+          <button class="findings-hotspot" type="button" title="+1.0%" aria-label="Treated value +1.0 percent" style="--x:15.6%; --y:30.1%;" data-id="g7-d1" data-pct="+1.0%"></button>
+          <button class="findings-hotspot" type="button" title="-3.1%" aria-label="Treated value -3.1 percent" style="--x:24.1%; --y:31.0%;" data-id="g7-d2" data-pct="-3.1%"></button>
+          <button class="findings-hotspot" type="button" title="-2.6%" aria-label="Treated value -2.6 percent" style="--x:32.6%; --y:31.7%;" data-id="g7-d3" data-pct="-2.6%"></button>
+          <button class="findings-hotspot" type="button" title="-1.1%" aria-label="Treated value -1.1 percent" style="--x:41.1%; --y:31.9%;" data-id="g7-d4" data-pct="-1.1%"></button>
+
+          <button class="findings-hotspot" type="button" title="+15.0%" aria-label="Treated value +15.0 percent" style="--x:64.4%; --y:27.9%;" data-id="g8-d1" data-pct="+15.0%"></button>
+          <button class="findings-hotspot" type="button" title="+6.6%" aria-label="Treated value +6.6 percent" style="--x:72.9%; --y:26.2%;" data-id="g8-d2" data-pct="+6.6%"></button>
+          <button class="findings-hotspot" type="button" title="+16.8%" aria-label="Treated value +16.8 percent" style="--x:81.4%; --y:21.4%;" data-id="g8-d3" data-pct="+16.8%"></button>
+          <button class="findings-hotspot" type="button" title="-5.2%" aria-label="Treated value -5.2 percent" style="--x:89.9%; --y:23.1%;" data-id="g8-d4" data-pct="-5.2%"></button>
+
+          <button class="findings-hotspot" type="button" title="+7.3%" aria-label="Treated value +7.3 percent" style="--x:15.6%; --y:46.1%;" data-id="g9-d1" data-pct="+7.3%"></button>
+          <button class="findings-hotspot" type="button" title="+1.2%" aria-label="Treated value +1.2 percent" style="--x:24.1%; --y:45.8%;" data-id="g9-d2" data-pct="+1.2%"></button>
+          <button class="findings-hotspot" type="button" title="+3.2%" aria-label="Treated value +3.2 percent" style="--x:32.6%; --y:44.7%;" data-id="g9-d3" data-pct="+3.2%"></button>
+          <button class="findings-hotspot" type="button" title="+12.3%" aria-label="Treated value +12.3 percent" style="--x:41.1%; --y:40.4%;" data-id="g9-d4" data-pct="+12.3%"></button>
+
+          <button class="findings-hotspot" type="button" title="+2.7%" aria-label="Treated value +2.7 percent" style="--x:64.5%; --y:49.2%;" data-id="g10-d1" data-pct="+2.7%"></button>
+          <button class="findings-hotspot" type="button" title="-0.4%" aria-label="Treated value -0.4 percent" style="--x:72.9%; --y:49.2%;" data-id="g10-d2" data-pct="-0.4%"></button>
+          <button class="findings-hotspot" type="button" title="+7.2%" aria-label="Treated value +7.2 percent" style="--x:81.5%; --y:46.7%;" data-id="g10-d3" data-pct="+7.2%"></button>
+          <button class="findings-hotspot" type="button" title="+7.1%" aria-label="Treated value +7.1 percent" style="--x:89.9%; --y:44.0%;" data-id="g10-d4" data-pct="+7.1%"></button>
+                </div>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </div>
+      <div class="findings-table-wrap">
+        <h3>Station-Level Difference-in-Differences Estimates</h3>
+        <table class="findings-table">
+          <thead>
+            <tr>
+              <th scope="col">City</th>
+              <th scope="col">Station</th>
+              <th scope="col">Opened</th>
+              <th scope="col">Treated Pre/Post ($)</th>
+              <th scope="col">Control Pre/Post ($)</th>
+              <th scope="col">Treated Δ ($)</th>
+              <th scope="col">Control Δ ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Phoenix</td><td>19th &amp; Glendale</td><td>2016</td><td>733 / 806</td><td>837 / 894</td><td>+73</td><td>+57</td></tr>
+            <tr><td>Mesa</td><td>Gilbert Rd/Main St</td><td>2019</td><td>740 / 958</td><td>1204 / 1476</td><td>+218</td><td>+272</td></tr>
+            <tr><td>Mesa</td><td>Country Club Dr</td><td>2015</td><td>648 / 729</td><td>836 / 844</td><td>+80</td><td>+8</td></tr>
+            <tr><td>Seattle</td><td>45th St/15th Ave</td><td>2021</td><td>1427 / 1703</td><td>1235 / 1638</td><td>+276</td><td>+404</td></tr>
+            <tr><td>Houston</td><td>Lockwood/Eastwood</td><td>2015</td><td>579 / 611</td><td>632 / 696</td><td>+32</td><td>+64</td></tr>
+            <tr><td>Portland</td><td>South Waterfront</td><td>2015</td><td>943 / 1208</td><td>936 / 1148</td><td>+264</td><td>+212</td></tr>
+            <tr><td>Portland</td><td>SE Bybee Blvd</td><td>2015</td><td>727 / 888</td><td>936 / 1140</td><td>+161</td><td>+204</td></tr>
+            <tr><td>Seattle</td><td>Capitol Hill</td><td>2016</td><td>1144 / 1507</td><td>1182 / 1554</td><td>+363</td><td>+372</td></tr>
+            <tr><td>Houston</td><td>Coffee Plant/2nd Ward</td><td>2015</td><td>911 / 1096</td><td>1089 / 1187</td><td>+185</td><td>+99</td></tr>
+            <tr><td>Houston</td><td>Leeland/Third Ward</td><td>2015</td><td>908 / 1017</td><td>1365 / 1650</td><td>+109</td><td>+285</td></tr>
+          </tbody>
+        </table>
+        <div class="research-entry">
+          <textarea id="findings-notes" placeholder="Write your research interpretation here..."></textarea>
+        </div>
+        <div class="findings-story-editor" id="findings-story-editor">
+          <div class="findings-editor-row">
+            <button class="findings-editor-btn" id="story-edit-toggle" type="button">Edit Mode: Off</button>
+            <button class="findings-editor-btn" id="story-prev" type="button">Prev Step</button>
+            <button class="findings-editor-btn" id="story-next" type="button">Next Step</button>
+            <button class="findings-editor-btn" id="story-up" type="button">Move Up</button>
+            <button class="findings-editor-btn" id="story-down" type="button">Move Down</button>
+          </div>
+          <div class="findings-editor-row">
+            <button class="findings-editor-btn" id="focus-left" type="button">Focus Left</button>
+            <button class="findings-editor-btn" id="focus-right" type="button">Focus Right</button>
+            <button class="findings-editor-btn" id="focus-up" type="button">Focus Up</button>
+            <button class="findings-editor-btn" id="focus-down" type="button">Focus Down</button>
+            <button class="findings-editor-btn" id="zoom-out" type="button">Zoom -</button>
+            <button class="findings-editor-btn" id="zoom-in" type="button">Zoom +</button>
+          </div>
+          <div class="findings-editor-readout" id="story-editor-readout">Edit mode lets you drag the floating box and tune the active step.</div>
+        </div>
+        <div class="findings-hotspot-readout" id="hotspot-readout">Locked dot coordinates.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+<script>
+  (function () {
+    var scrolly = document.getElementById('findings-scrolly');
+    if (!scrolly) return;
+
+    var steps = Array.prototype.slice.call(scrolly.querySelectorAll('.findings-scroll-step'));
+    var fullSeries = scrolly.querySelector('.findings-series-full');
+    var scene = scrolly.querySelector('.findings-scene');
+    var canvas = scrolly.querySelector('.findings-scrolly-canvas');
+    var layer = scrolly.querySelector('.findings-hotspot-layer');
+    var note = document.getElementById('findings-floating-note');
+    var noteTitle = document.getElementById('findings-floating-title');
+    var noteCopy = document.getElementById('findings-floating-copy');
+    var editToggle = document.getElementById('story-edit-toggle');
+    var prevBtn = document.getElementById('story-prev');
+    var nextBtn = document.getElementById('story-next');
+    var upBtn = document.getElementById('story-up');
+    var downBtn = document.getElementById('story-down');
+    var focusLeftBtn = document.getElementById('focus-left');
+    var focusRightBtn = document.getElementById('focus-right');
+    var focusUpBtn = document.getElementById('focus-up');
+    var focusDownBtn = document.getElementById('focus-down');
+    var zoomOutBtn = document.getElementById('zoom-out');
+    var zoomInBtn = document.getElementById('zoom-in');
+    var editorReadout = document.getElementById('story-editor-readout');
+    if (steps.length === 0) return;
+
+    var editMode = false;
+    var activeIndex = 0;
+    var noteDrag = null;
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function refreshSteps() {
+      steps = Array.prototype.slice.call(scrolly.querySelectorAll('.findings-scroll-step'));
+    }
+
+    function getStepTitle(step) {
+      var h = step ? step.querySelector('h4') : null;
+      return h ? h.textContent || '' : '';
+    }
+
+    function getFocusFromTargets(step) {
+      var targets = (step.getAttribute('data-target') || '').split(',').map(function (item) {
+        return item.trim();
+      }).filter(Boolean);
+
+      var fx = 50;
+      var fy = 50;
+      if (targets.length > 0 && layer) {
+        var accX = 0;
+        var accY = 0;
+        var count = 0;
+        targets.forEach(function (id) {
+          var dot = layer.querySelector('[data-id="' + id + '"]');
+          if (!dot) return;
+          var xRaw = dot.style.getPropertyValue('--x').trim();
+          var yRaw = dot.style.getPropertyValue('--y').trim();
+          var x = parseFloat(xRaw.replace('%', ''));
+          var y = parseFloat(yRaw.replace('%', ''));
+          if (!isFinite(x) || !isFinite(y)) return;
+          accX += x;
+          accY += y;
+          count += 1;
+        });
+        if (count > 0) {
+          fx = accX / count;
+          fy = accY / count;
+        }
+      }
+      return { fx: fx, fy: fy };
+    }
+
+    function getStepState(step) {
+      var base = getFocusFromTargets(step);
+      var fx = parseFloat(step.getAttribute('data-fx'));
+      var fy = parseFloat(step.getAttribute('data-fy'));
+      var zoom = parseFloat(step.getAttribute('data-zoom'));
+
+      if (!isFinite(fx)) fx = base.fx;
+      if (!isFinite(fy)) fy = base.fy;
+      if (!isFinite(zoom)) zoom = 1;
+
+      return {
+        fx: clamp(fx, 0, 100),
+        fy: clamp(fy, 0, 100),
+        zoom: clamp(zoom, 1, 2.4)
+      };
+    }
+
+    function saveStepState(step, state) {
+      step.setAttribute('data-fx', state.fx.toFixed(2));
+      step.setAttribute('data-fy', state.fy.toFixed(2));
+      step.setAttribute('data-zoom', state.zoom.toFixed(2));
+    }
+
+    function setSeries(mode) {
+      var showBlue = mode === 'blue';
+      scrolly.classList.toggle('is-blue-visible', showBlue);
+      if (fullSeries) {
+        fullSeries.style.opacity = showBlue ? '1' : '0';
+      }
+      steps.forEach(function (step) {
+        step.classList.toggle('is-active', step.getAttribute('data-series') === mode);
+      });
+    }
+
+    function setFocus(step) {
+      if (!scene || !canvas || !step) return;
+      var state = getStepState(step);
+      var fx = state.fx;
+      var fy = state.fy;
+      var zoom = state.zoom;
+
+      var sceneW = scene.offsetWidth;
+      var sceneH = scene.offsetHeight;
+      var viewW = canvas.clientWidth;
+      var viewH = canvas.clientHeight;
+      if (!sceneW || !sceneH || !viewW || !viewH) return;
+
+      var targetX = (fx / 100) * sceneW;
+      var targetY = (fy / 100) * sceneH;
+
+      var tx = (viewW * 0.5) - (targetX * zoom);
+      var ty = (viewH * 0.5) - (targetY * zoom);
+
+      var minTx = viewW - (sceneW * zoom);
+      var minTy = viewH - (sceneH * zoom);
+      tx = clamp(tx, minTx, 0);
+      ty = clamp(ty, minTy, 0);
+
+      scene.style.transform = 'translate(' + tx.toFixed(2) + 'px, ' + ty.toFixed(2) + 'px) scale(' + zoom.toFixed(3) + ')';
+    }
+
+    function setFloatingNote(step) {
+      if (!note || !step) return;
+      var x = parseFloat(step.getAttribute('data-note-x'));
+      var y = parseFloat(step.getAttribute('data-note-y'));
+      if (!isFinite(x)) x = 15;
+      if (!isFinite(y)) y = 15;
+      note.style.setProperty('--note-x', x.toFixed(2) + '%');
+      note.style.setProperty('--note-y', y.toFixed(2) + '%');
+
+      var h = step.querySelector('h4');
+      var p = step.querySelector('p');
+      if (noteTitle && h) noteTitle.textContent = h.textContent || '';
+      if (noteCopy && p) noteCopy.textContent = p.textContent || '';
+    }
+
+    function getActiveStepFromScroll() {
+      var probeY = window.innerHeight * 0.52;
+      var active = steps[0];
+      var bestDist = Infinity;
+      for (var i = 0; i < steps.length; i += 1) {
+        var rect = steps[i].getBoundingClientRect();
+        var center = rect.top + (rect.height * 0.5);
+        var dist = Math.abs(center - probeY);
+        if (dist < bestDist) {
+          bestDist = dist;
+          active = steps[i];
+          activeIndex = i;
+        }
+
+        var maxDist = window.innerHeight * 0.7;
+        var normDist = Math.min(Math.abs(center - probeY), maxDist);
+        var t = 1 - (normDist / maxDist);
+        var floatY = (1 - t) * 20;
+        var scale = 0.965 + (t * 0.04);
+        var opacity = 0.5 + (t * 0.5);
+
+        steps[i].style.setProperty('--float-y', floatY.toFixed(2) + 'px');
+        steps[i].style.setProperty('--float-scale', scale.toFixed(3));
+        steps[i].style.opacity = opacity.toFixed(3);
+      }
+      return active;
+    }
+
+    function updateEditorReadout(step) {
+      if (!editorReadout || !step) return;
+      var state = getStepState(step);
+      var idx = steps.indexOf(step) + 1;
+      var total = steps.length;
+      editorReadout.textContent =
+        'Active step ' + idx + '/' + total + ': ' + getStepTitle(step) + '\n' +
+        'view x ' + state.fx.toFixed(1) + '%, y ' + state.fy.toFixed(1) + '%, zoom ' + state.zoom.toFixed(2) + '\n' +
+        (editMode ? 'Drag floating box to place text. Use buttons to reorder and tune view.' : 'Turn on Edit Mode to adjust order, view, and textbox placement.');
+    }
+
+    function updateEditorButtons() {
+      if (!editToggle) return;
+      editToggle.textContent = editMode ? 'Edit Mode: On' : 'Edit Mode: Off';
+      editToggle.classList.toggle('is-on', editMode);
+      scrolly.classList.toggle('is-editing', editMode);
+      if (note) note.classList.toggle('is-draggable', editMode);
+
+      var disabled = !editMode;
+      [prevBtn, nextBtn, upBtn, downBtn, focusLeftBtn, focusRightBtn, focusUpBtn, focusDownBtn, zoomOutBtn, zoomInBtn].forEach(function (btn) {
+        if (btn) btn.disabled = disabled;
+      });
+    }
+
+    function applyStep(step) {
+      if (!step) return;
+      var mode = step.getAttribute('data-series') || 'green';
+      setSeries(mode);
+      setFocus(step);
+      setFloatingNote(step);
+      updateEditorReadout(step);
+    }
+
+    function selectStepByIndex(index, scrollToStep) {
+      if (steps.length === 0) return;
+      activeIndex = clamp(index, 0, steps.length - 1);
+      var step = steps[activeIndex];
+      if (scrollToStep) {
+        step.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      applyStep(step);
+    }
+
+    function nudgeFocus(dx, dy, dz) {
+      var step = steps[activeIndex];
+      if (!step) return;
+      var state = getStepState(step);
+      state.fx = clamp(state.fx + dx, 0, 100);
+      state.fy = clamp(state.fy + dy, 0, 100);
+      state.zoom = clamp(state.zoom + dz, 1, 2.4);
+      saveStepState(step, state);
+      applyStep(step);
+    }
+
+    function moveStep(direction) {
+      var step = steps[activeIndex];
+      if (!step) return;
+      if (direction < 0) {
+        var prev = step.previousElementSibling;
+        if (prev) step.parentNode.insertBefore(step, prev);
+      } else {
+        var next = step.nextElementSibling;
+        if (next) step.parentNode.insertBefore(next, step);
+      }
+      refreshSteps();
+      activeIndex = steps.indexOf(step);
+      applyStep(step);
+      step.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function setNotePositionFromClient(step, clientX, clientY) {
+      if (!step || !canvas || !note) return;
+      var rect = canvas.getBoundingClientRect();
+      var x = ((clientX - rect.left) / rect.width) * 100;
+      var y = ((clientY - rect.top) / rect.height) * 100;
+      x = clamp(x, 8, 92);
+      y = clamp(y, 8, 92);
+      step.setAttribute('data-note-x', x.toFixed(2));
+      step.setAttribute('data-note-y', y.toFixed(2));
+      setFloatingNote(step);
+      updateEditorReadout(step);
+    }
+
+    function updateFromScroll() {
+      if (editMode) {
+        applyStep(steps[activeIndex]);
+        return;
+      }
+      var active = getActiveStepFromScroll();
+      applyStep(active);
+    }
+
+    if (editToggle) {
+      editToggle.addEventListener('click', function () {
+        editMode = !editMode;
+        if (editMode) {
+          var current = getActiveStepFromScroll();
+          activeIndex = steps.indexOf(current);
+        }
+        updateEditorButtons();
+        updateFromScroll();
+      });
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { selectStepByIndex(activeIndex - 1, true); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { selectStepByIndex(activeIndex + 1, true); });
+    if (upBtn) upBtn.addEventListener('click', function () { moveStep(-1); });
+    if (downBtn) downBtn.addEventListener('click', function () { moveStep(1); });
+    if (focusLeftBtn) focusLeftBtn.addEventListener('click', function () { nudgeFocus(-1.5, 0, 0); });
+    if (focusRightBtn) focusRightBtn.addEventListener('click', function () { nudgeFocus(1.5, 0, 0); });
+    if (focusUpBtn) focusUpBtn.addEventListener('click', function () { nudgeFocus(0, -1.5, 0); });
+    if (focusDownBtn) focusDownBtn.addEventListener('click', function () { nudgeFocus(0, 1.5, 0); });
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', function () { nudgeFocus(0, 0, -0.08); });
+    if (zoomInBtn) zoomInBtn.addEventListener('click', function () { nudgeFocus(0, 0, 0.08); });
+
+    if (note) {
+      note.addEventListener('pointerdown', function (event) {
+        if (!editMode) return;
+        noteDrag = { pointerId: event.pointerId };
+        note.classList.add('is-dragging');
+        note.setPointerCapture(event.pointerId);
+        setNotePositionFromClient(steps[activeIndex], event.clientX, event.clientY);
+      });
+      note.addEventListener('pointermove', function (event) {
+        if (!noteDrag || noteDrag.pointerId !== event.pointerId) return;
+        setNotePositionFromClient(steps[activeIndex], event.clientX, event.clientY);
+      });
+      function endNoteDrag(event) {
+        if (!noteDrag || noteDrag.pointerId !== event.pointerId) return;
+        try { note.releasePointerCapture(event.pointerId); } catch (_err) {}
+        noteDrag = null;
+        note.classList.remove('is-dragging');
+      }
+      note.addEventListener('pointerup', endNoteDrag);
+      note.addEventListener('pointercancel', endNoteDrag);
+    }
+
+    window.addEventListener('scroll', updateFromScroll, { passive: true });
+    window.addEventListener('resize', updateFromScroll);
+    window.addEventListener('load', updateFromScroll);
+    updateEditorButtons();
+    setSeries('green');
+    setFocus(steps[0]);
+    setFloatingNote(steps[0]);
+    updateEditorReadout(steps[0]);
+  })();
+</script>
+</body>
+</html>

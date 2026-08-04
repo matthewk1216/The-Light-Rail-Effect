@@ -747,8 +747,8 @@ section{
         <span class="bar"></span>
       </button>
       <div class="page-menu-panel">
-        <a class="page-link current" href="Light Rail Effect.html">Overview</a>
-        <a class="page-link" href="Light Rail Findings.html">Findings</a>
+        <a class="page-link current" href="index.html">Overview</a>
+        <a class="page-link" href="Light%20Rail%20Findings.html">Findings</a>
       </div>
     </nav>
   </div>

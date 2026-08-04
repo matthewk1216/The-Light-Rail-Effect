@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Results Template</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --text: #171717;
+      --muted: #5a5f67;
+      --line: #dfe3e8;
+      --accent: #1f4e79;
+      --accent-soft: #e9f2fb;
+      --warn: #7a3e00;
+      --warn-soft: #fff3e7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f9fbfd 0%, var(--bg) 100%);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      width: min(1120px, 94vw);
+      margin: 0 auto;
+      padding: 2.2rem 0 3rem;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    h1 {
+      margin: 0 0 0.45rem;
+      color: var(--accent);
+      font-size: clamp(1.5rem, 2.7vw, 2.1rem);
+    }
+
+    h2 {
+      margin: 0 0 0.7rem;
+      font-size: 1.2rem;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 1.02rem;
+    }
+
+    p { margin: 0.25rem 0 0.65rem; }
+
+    .muted { color: var(--muted); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    }
+
+    .tip {
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-top: 0.6rem;
+    }
+
+    .warning {
+      background: var(--warn-soft);
+      border-left: 4px solid var(--warn);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-top: 0.6rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin-top: 0.6rem;
+    }
+
+    .field {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.55rem 0.65rem;
+      background: #fcfdff;
+    }
+
+    .field strong {
+      display: block;
+      font-size: 0.84rem;
+      letter-spacing: 0.01em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .placeholder {
+      color: #3d4652;
+      font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.9rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.65rem;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.55rem 0.45rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f3f7fb;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td.fill {
+      color: #425061;
+      font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.83rem;
+    }
+
+    pre {
+      margin: 0.65rem 0 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fbfcfe;
+      padding: 0.75rem;
+      overflow-x: auto;
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+
+    ul {
+      margin: 0.4rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    li { margin: 0.25rem 0; }
+
+    @media (max-width: 760px) {
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Research Results and Data Template</h1>
+      <p class="muted">Use this page as a fill-in template for an undergraduate empirical project. Replace each bracketed placeholder with your own values.</p>
+      <div class="tip">
+        Keep this as a template version. Duplicate it for each project and only fill values in the duplicate.
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Project Metadata</h2>
+        <div class="meta-grid">
+          <div class="field"><strong>Project Title</strong><span class="placeholder">[Your project title]</span></div>
+          <div class="field"><strong>Author</strong><span class="placeholder">[Your name]</span></div>
+          <div class="field"><strong>Research Question</strong><span class="placeholder">[Causal question in one sentence]</span></div>
+          <div class="field"><strong>Main Outcome</strong><span class="placeholder">[e.g., Median monthly rent]</span></div>
+          <div class="field"><strong>Treatment Definition</strong><span class="placeholder">[e.g., Tract within X miles of station opening]</span></div>
+          <div class="field"><strong>Identification Strategy</strong><span class="placeholder">[e.g., Difference-in-Differences with tract and year FE]</span></div>
+          <div class="field"><strong>Time Window</strong><span class="placeholder">[Start year] to [End year]</span></div>
+          <div class="field"><strong>Data Sources</strong><span class="placeholder">[ACS B25064, transit authority openings, controls]</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Table 1: Core DiD Results</h2>
+        <p class="muted">One row per model specification. First row should be your primary specification.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Spec</th>
+              <th>Outcome</th>
+              <th>Treatment x Post</th>
+              <th>SE (Clustered)</th>
+              <th>95% CI</th>
+              <th>p-value</th>
+              <th>N Obs</th>
+              <th>N Units</th>
+              <th>Fixed Effects</th>
+              <th>Controls</th>
+              <th>Interpretation (1 line)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fill">[Main]</td>
+              <td class="fill">[Rent]</td>
+              <td class="fill">[beta]</td>
+              <td class="fill">[se]</td>
+              <td class="fill">[[lb, ub]]</td>
+              <td class="fill">[p]</td>
+              <td class="fill">[N]</td>
+              <td class="fill">[tracts]</td>
+              <td class="fill">[Tract + Year]</td>
+              <td class="fill">[List]</td>
+              <td class="fill">[Effect size summary]</td>
+            </tr>
+            <tr>
+              <td class="fill">[Alt 1]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+              <td class="fill">[...]</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Table 2: Event Study Template</h2>
+        <p class="muted">Use relative time where 0 is opening year. Include pre-trend coefficients explicitly.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Relative Year (k)</th>
+              <th>Coefficient</th>
+              <th>SE</th>
+              <th>95% CI</th>
+              <th>p-value</th>
+              <th>Pre/Post</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="fill">[-5]</td><td class="fill">[coef]</td><td class="fill">[se]</td><td class="fill">[[lb, ub]]</td><td class="fill">[p]</td><td class="fill">[Pre]</td><td class="fill">[parallel trends check]</td></tr>
+            <tr><td class="fill">[-4]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[Pre]</td><td class="fill">[...]</td></tr>
+            <tr><td class="fill">[-3]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[Pre]</td><td class="fill">[...]</td></tr>
+            <tr><td class="fill">[-2]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[Pre]</td><td class="fill">[...]</td></tr>
+            <tr><td class="fill">[0]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[Post]</td><td class="fill">[opening year]</td></tr>
+            <tr><td class="fill">[+1]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[Post]</td><td class="fill">[...]</td></tr>
+            <tr><td class="fill">[+2]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[Post]</td><td class="fill">[...]</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Table 3: Robustness Checks</h2>
+        <p class="muted">Document how sensitive your main estimate is to alternate assumptions.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Check ID</th>
+              <th>What Changed</th>
+              <th>Estimate</th>
+              <th>SE</th>
+              <th>95% CI</th>
+              <th>Direction vs Main</th>
+              <th>Conclusion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="fill">[R1]</td><td class="fill">[Exclude 2020-2021]</td><td class="fill">[beta]</td><td class="fill">[se]</td><td class="fill">[[lb, ub]]</td><td class="fill">[same/larger/smaller]</td><td class="fill">[supports/weakens]</td></tr>
+            <tr><td class="fill">[R2]</td><td class="fill">[Different control pool]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td></tr>
+            <tr><td class="fill">[R3]</td><td class="fill">[Distance threshold change]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td></tr>
+            <tr><td class="fill">[R4]</td><td class="fill">[Placebo opening year]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Table 4: Station-Level Summary</h2>
+        <p class="muted">This keeps your narrative concise and comparable across cases.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Station</th>
+              <th>Opening Date</th>
+              <th>Treated Tract</th>
+              <th>Control Tract(s)</th>
+              <th>Pre-Trend Status</th>
+              <th>Post Effect Direction</th>
+              <th>Main Confounder</th>
+              <th>Confidence (High/Med/Low)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="fill">[Station A]</td><td class="fill">[YYYY-MM-DD]</td><td class="fill">[id]</td><td class="fill">[id]</td><td class="fill">[passes/concern]</td><td class="fill">[up/down/none]</td><td class="fill">[e.g., upzoning]</td><td class="fill">[Low]</td></tr>
+            <tr><td class="fill">[Station B]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td><td class="fill">[...]</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Data File Templates (CSV Schemas)</h2>
+        <p class="muted">These are header templates. Keep column names stable to make scripts reproducible.</p>
+
+        <h3>panel_data.csv</h3>
+        <pre>tract_id,year,city,state,median_rent,treated,post,event_time,station_id,population,median_income,poverty_rate,vacancy_rate,source_note</pre>
+
+        <h3 style="margin-top: 0.8rem;">station_metadata.csv</h3>
+        <pre>station_id,station_name,city,state,opening_date,line_name,latitude,longitude,treatment_radius_miles,selection_rule,notes</pre>
+
+        <h3 style="margin-top: 0.8rem;">control_selection.csv</h3>
+        <pre>treated_tract_id,control_tract_id,matching_method,distance_miles,same_city_flag,pretrend_similarity_score,included_flag,reason</pre>
+
+        <h3 style="margin-top: 0.8rem;">model_runs.csv</h3>
+        <pre>run_id,spec_name,outcome,formula,cluster_level,fixed_effects,covariates,time_window,estimate,se,ci_lower,ci_upper,p_value,n_obs,n_units,created_at</pre>
+      </section>
+
+      <section class="card">
+        <h2>Methods and Validity Checklist</h2>
+        <ul>
+          <li>[ ] Treatment and control assignment rule written in one paragraph.</li>
+          <li>[ ] Pre-trend check reported (graph + table).</li>
+          <li>[ ] Standard errors and clustering level justified.</li>
+          <li>[ ] At least three robustness checks completed.</li>
+          <li>[ ] Missing data handling documented.</li>
+          <li>[ ] Limitations and likely confounders listed explicitly.</li>
+          <li>[ ] Reproducibility note included (how someone reruns analysis).</li>
+        </ul>
+        <div class="warning">
+          Do not overclaim causality when pre-trends fail or robustness checks are unstable. Mark confidence level honestly.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>One-Paragraph Abstract Template</h2>
+        <pre>[Question] This study estimates whether [treatment] changed [outcome] in [setting] from [start] to [end].
+[Design] I use [method] comparing [treated group] to [control group], with [fixed effects/controls].
+[Main result] The baseline estimate is [beta] ([SE], 95% CI [lb, ub]), implying [plain-English effect size].
+[Credibility] Pre-trends are [supported/not supported], and robustness checks [support/partially support/weaken] the baseline result.
+[Takeaway] Findings suggest [policy implication], with key limitations including [top limitations].</pre>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

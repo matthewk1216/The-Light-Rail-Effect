@@ -315,29 +315,31 @@ section{
 
 .scrolly{
   display:grid;
-  grid-template-columns:minmax(0,0.95fr) minmax(560px,2.1fr);
-  gap:2rem;
+  grid-template-columns:minmax(420px,1.32fr) minmax(700px,2.38fr);
+  gap:2.6rem;
   align-items:start;
 }
 .left{
   padding-top:1rem;
-  max-width:500px;
+  max-width:680px;
   align-self:stretch;
   position:relative;
+  margin-left:clamp(-5rem,-4vw,-1.5rem);
 }
 .sticky{
   position:static;
 }
 .step{
-  background:var(--soft);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:1.1rem 1.15rem;
+  background:rgba(255,255,255,.98);
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:18px;
+  padding:1.2rem 1.45rem;
   margin:0 0 1rem 0;
-  min-height:42vh;
+  min-height:26vh;
   display:flex;
   flex-direction:column;
-  justify-content:center;
+  justify-content:flex-start;
+  box-shadow:0 18px 34px rgba(0,0,0,.06);
 }
 .step h3{
   font-family:'Cormorant Garamond',serif;
@@ -348,13 +350,60 @@ section{
   margin:.35rem 0 0 0;
   color:#222;
 }
+.step-pager{
+  display:flex;
+  flex-direction:column;
+  gap:.72rem;
+}
+.step-pages{
+  min-height:17.5em;
+}
+.step-page{
+  margin:.35rem 0 0 0;
+  color:#222;
+  display:none;
+}
+.step-page.is-active{
+  display:block;
+}
+.step-pager-controls{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:.85rem;
+  border-top:1px solid var(--line);
+  padding-top:.75rem;
+}
+.step-pager-buttons{
+  display:flex;
+  gap:.5rem;
+}
+.step-pager-arrow{
+  border:1px solid rgba(0,0,0,.9);
+  background:transparent;
+  color:#111;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  font-size:1rem;
+  cursor:pointer;
+  transition:background .2s ease, color .2s ease, opacity .2s ease;
+}
+.step-pager-arrow:hover{
+  background:rgba(0,0,0,.08);
+}
+.step-pager-arrow:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
 .note{
-  background:#fff;
-  border:1px solid var(--line);
-  border-left:3px solid var(--accent);
-  padding:1rem 1.1rem;
-  border-radius:10px;
-  margin-top:1rem;
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(0,0,0,.08);
+  border-left:4px solid var(--accent);
+  padding:1.05rem 1.15rem;
+  border-radius:14px;
+  margin-top:1.1rem;
+  box-shadow:0 14px 26px rgba(0,0,0,.04);
 }
 .note strong{
   display:block;
@@ -370,12 +419,12 @@ section{
 }
 .left{
   padding-top:1rem;
-  max-width:420px;
+  max-width:680px;
 }
 .right{
   display:flex;
   flex-direction:column;
-  gap:1.5rem;
+  gap:.35rem;
   align-items:stretch;
 }
 .photo{
@@ -394,8 +443,10 @@ section{
 }
 .photo.gis{
   order:0;
-  min-height:700px;
-  width:100%;
+  min-height:860px;
+  width:min(100%,calc(100% + 5rem));
+  margin-left:-1rem;
+  margin-bottom:-5.5rem;
 }
 .photo.gis img{
   width:100%;
@@ -406,12 +457,13 @@ section{
 .photo.station{
   background:transparent;
   border-radius:0;
-  width:100%;
+  width:min(100%,calc(100% + 2rem));
   overflow:hidden;
   position:relative;
-  margin-top:1rem;
-  transform:scale(1.35);
-  transform-origin:top right;
+  margin-top:1.6rem;
+  margin-left:clamp(-8.5rem,-7vw,-4rem);
+  transform:scale(1.34);
+  transform-origin:top left;
 }
 .photo.station img{
   width:100%;
@@ -454,7 +506,7 @@ section{
   width:100%;
   margin:0;
   position:relative;
-  top:-7rem;
+  top:-10rem;
 }
 .carousel-inner{
   position:relative;
@@ -467,6 +519,9 @@ section{
   opacity:0;
   transition:opacity .35s ease;
 }
+.carousel-slide.has-hotspots{
+  position:relative;
+}
 .carousel-slide.active{
   display:block;
   opacity:1;
@@ -476,6 +531,57 @@ section{
   height:auto;
   display:block;
   object-fit:contain;
+}
+.dot-hotspot-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:auto;
+  z-index:3;
+}
+.dot-hotspot{
+  appearance:none;
+  -webkit-appearance:none;
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-50%);
+  width:3.8%;
+  min-width:28px;
+  max-width:42px;
+  aspect-ratio:1/1;
+  border:none;
+  border-radius:50%;
+  background:rgba(0,0,0,0);
+  box-shadow:none;
+  padding:0;
+  margin:0;
+  cursor:default;
+  pointer-events:auto;
+}
+.dot-hotspot::after{
+  content:attr(data-pct);
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 8px);
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font:600 .78rem/1.2 'Inter',sans-serif;
+  color:#111;
+  background:rgba(255,255,255,.98);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:.36rem .48rem;
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .15s ease, transform .15s ease;
+  pointer-events:none;
+}
+.dot-hotspot:hover::after,
+.dot-hotspot:focus-visible::after{
+  opacity:1;
+  visibility:visible;
+  transform:translateX(-50%) translateY(-2px);
 }
 .photo .ph{
   min-height:260px;
@@ -731,6 +837,9 @@ section{
   .step{
     min-height:auto;
   }
+  .step-pages{
+    min-height:auto;
+  }
   .hero{
     min-height:86vh;
   }
@@ -749,6 +858,7 @@ section{
       <div class="page-menu-panel">
         <a class="page-link current" href="index.html">Overview</a>
         <a class="page-link" href="Light%20Rail%20Findings.html">Findings</a>
+        <a class="page-link" href="Conclusion.html">Conclusion</a>
       </div>
     </nav>
   </div>
@@ -763,11 +873,20 @@ section{
       </div>
 
       <div class="hero-card">
-        <p class="intro">A clean, mostly white, newspaper-style template with a fullscreen title photo, scrolling text blocks, a fixed GIS panel, and two chart panels that can update by section. Replace the placeholders with your own images, maps, and charts template sjasdjasdjasjdajsdajsdjasdjasdjasjdsajasdjasdjasdjasdjasdjasdjasdjasdjajsdasjdajsdjsadjjasdjasd.</p>
+        <p class="intro">Light rail infrastructure development often provides accessible, reliable transport, revitalization, and environmental benefits. However, its effect on local housing remains contested. Some studies show a clear increase in rental prices and property values near light rail stations, while others find heterogeneous and weak effects across neighborhoods. This project seeks to examine whether light rail station openings are associated with changes in median rent in surrounding census tracts by utilizing a quasi-experimental design.</p>
       </div>
 
       <div class="hero-name">
         <div class="name">Matthew Kabbe</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="methodology-section">
+    <div class="hero-card">
+      <div class="methodology">
+        <strong>Methodology</strong>
+        <p>The analysis begins by examining the individual graphs of treated tracts and their respective control tracts. A Difference-in-Differences model was then used to estimate causal effects after first examining the parallel-trends assumption and conducting an event study. This sequence helps identify specific movements across the full period rather than relying only on aggregate trends and their relationship, which could fail to account for idiosyncrasies. The treated tracts were selected either for their proximity to specific light rail stations or for containing a light rail station. The control tracts were selected for their relative proximity to the treated tracts while not being in the vicinity of a station. Median rent data was sourced from the United States Census Bureau's American Community Survey (ACS), table B25064.</p>
       </div>
     </div>
   </section>
@@ -777,11 +896,11 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>19th & Glendale</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
+          <p>As part of the Northwest Extension, 19th and Glendale opened on March 19th, 2016, as the first phase of the line’s development. The extension added 3.2 miles (ca. 5 km) of track, which was estimated, upon announcement, to serve 5,000 riders a day. The adjacent tract, Census Tract 1067.01 in Maricopa County, has a median household income of $44,224. The region has an 84% occupancy rate. 24% of the population is in poverty. In the treated graph, the six years preceding the station’s opening show the median rent declining gradually until the shift towards an increase began in 2015. Anticipation of the new infrastructure may have increased economic stimulus in the area, which could explain the increase, i.e., anticipatory pricing/effect. The advent of COVID-19, migration, and a broader metropolitan rent hike may also confound the census tract’s gradual rise. In the graph comparing the treated and control (Census Tract 1066), the movement is practically inverted, almost patently. This may indicate station-specific effects, but speculation doesn't confirm causal relationships.</p>
         </div>
         <div class="note">
           <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          Light rail infrastructure development can provide accessible, reliable transport, revitalization, and environmental benefits. However, its effect on local housing remains contested. Some studies show a clear increase in rental prices and property values near light rail stations, while others find heterogeneous and weak effects across neighborhoods. This project examines whether light rail station openings are associated with changes in median rent in surrounding census tracts, using a quasi-experimental design to test that relationship.
         </div>
       </div>
     <div class="photo station"><img src="PhoenixPhoto1.jpg" alt="Station or line photo for 19th & Glendale" />
@@ -794,8 +913,14 @@ section{
       <div class="photo gis"><img src="Tract1067.01.png" alt="GIS photo for 19th & Glendale" /></div>
       <div class="chart-carousel" data-carousel>
         <div class="carousel-inner">
-          <div class="carousel-slide active" data-slide>
+          <div class="carousel-slide active has-hotspots" data-slide>
             <img src="19th%3Aglendale.png" alt="Treated chart for 19th & Glendale" />
+            <div class="dot-hotspot-layer" aria-label="Treated green dot percentages for tract 1067.01">
+              <button class="dot-hotspot" type="button" title="+0.8%" aria-label="Treated value +0.8 percent" style="--x:20.0%; --y:42.9%;" data-pct="+0.8%"></button>
+              <button class="dot-hotspot" type="button" title="+7.1%" aria-label="Treated value +7.1 percent" style="--x:26.2%; --y:43.2%;" data-pct="+7.1%"></button>
+              <button class="dot-hotspot" type="button" title="+8.5%" aria-label="Treated value +8.5 percent" style="--x:32.4%; --y:44.1%;" data-pct="+8.5%"></button>
+              <button class="dot-hotspot" type="button" title="-2.8%" aria-label="Treated value -2.8 percent" style="--x:38.6%; --y:45.7%;" data-pct="-2.8%"></button>
+            </div>
           </div>
           <div class="carousel-slide" data-slide>
             <img src="19th%3AglendaleControl.png" alt="Control chart for 19th & Glendale" />
@@ -828,6 +953,96 @@ section{
           show(current);
         });
       });
+
+      function splitTextInHalf(text) {
+        var cleaned = text.replace(/\s+/g, ' ').trim();
+        var midpoint = Math.floor(cleaned.length / 2);
+        var splitAt = cleaned.indexOf(' ', midpoint);
+
+        if (splitAt === -1) {
+          splitAt = cleaned.lastIndexOf(' ', midpoint);
+        }
+        if (splitAt === -1) {
+          return [cleaned, ''];
+        }
+
+        var first = cleaned.slice(0, splitAt).trim();
+        var second = cleaned.slice(splitAt + 1).trim();
+        return [first, second];
+      }
+
+      document.querySelectorAll('.step > p').forEach(function(paragraph) {
+        var fullText = paragraph.textContent.replace(/\s+/g, ' ').trim();
+        if (fullText.length < 950) {
+          return;
+        }
+
+        var splitParts = splitTextInHalf(fullText);
+        if (!splitParts[1]) {
+          return;
+        }
+
+        var pager = document.createElement('div');
+        pager.className = 'step-pager';
+
+        var pages = document.createElement('div');
+        pages.className = 'step-pages';
+
+        var pageOne = document.createElement('p');
+        pageOne.className = 'step-page is-active';
+        pageOne.textContent = splitParts[0];
+
+        var pageTwo = document.createElement('p');
+        pageTwo.className = 'step-page';
+        pageTwo.textContent = splitParts[1];
+
+        pages.appendChild(pageOne);
+        pages.appendChild(pageTwo);
+
+        var controls = document.createElement('div');
+        controls.className = 'step-pager-controls';
+
+        var buttons = document.createElement('div');
+        buttons.className = 'step-pager-buttons';
+
+        var prev = document.createElement('button');
+        prev.className = 'step-pager-arrow';
+        prev.type = 'button';
+        prev.setAttribute('aria-label', 'Previous text section');
+        prev.textContent = '←';
+        prev.disabled = true;
+
+        var next = document.createElement('button');
+        next.className = 'step-pager-arrow';
+        next.type = 'button';
+        next.setAttribute('aria-label', 'Next text section');
+        next.textContent = '→';
+
+        buttons.appendChild(prev);
+        buttons.appendChild(next);
+        controls.appendChild(buttons);
+
+        pager.appendChild(pages);
+        pager.appendChild(controls);
+
+        paragraph.replaceWith(pager);
+
+        function showPage(pageIndex) {
+          var showFirst = pageIndex === 0;
+          pageOne.classList.toggle('is-active', showFirst);
+          pageTwo.classList.toggle('is-active', !showFirst);
+          prev.disabled = showFirst;
+          next.disabled = !showFirst;
+        }
+
+        prev.addEventListener('click', function() {
+          showPage(0);
+        });
+
+        next.addEventListener('click', function() {
+          showPage(1);
+        });
+      });
     });
   </script>
 
@@ -836,11 +1051,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>Gilbert Rd / Main St</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>Established as an addition to the Gilbert Road extension, the Gilbert Road and Main Street station in Mesa, Arizona, opened on May 18th, 2019. The extension added 1.9 miles (ca. 3 km) of new coverage and two stations. Census tract 4216.02 has a median household income of $46,228. The region has a 95% occupancy rate. 16.7% of the population is in poverty. Census tract 4216.02 is not directly touching the station, which should be noted. To explain this lapse in methodology, the tract was chosen to avoid the census tracts above and below the line. Both sit next to two stations, which could confound the results. In the years preceding the opening, there was an incline, with a few dips (such as 2011 and 2014, albeit minimal). The most drastic changes are revealed post-opening. The control (Census Tract 4218.01) displays much bumpier and more volatile motion pre-opening, compared to the treated’s rather stable increase. However, as soon as the station opens, the movements (between 2019 and 2022) mirror each other.</p>
         </div>
       </div>
     <div class="photo station"><img src="GilbertRoadPhoto1.jpg" alt="Station or line photo for Gilbert Rd / Main St" />
@@ -873,11 +1084,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>Country Club Dr / Main St</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>Developed as part of the Central Mesa Extension, the Country Club Drive/Main Street station in Mesa, Arizona, opened on August 22, 2015. Census Tract 4214 has a median household income of $49,958. The region has an 89% occupancy rate. 17.3% of the population is in poverty. The median rent decreased between 2011 and 2014, then began to rise steadily in 2015. The station’s announcement in March 2012 may have induced gradual change in rent demand in the three years pre-opening. The rent’s increase stabilized shortly after the opening; from 2016 to early 2020 (before the national rent surge spawned by COVID-19), a clear ascension in the rent is apparent. Prices increased by 14% from 2019 to 2020. Although rent prices are consistently higher in the control (Census tract 4209.01), rental rates begin to converge in the year immediately before opening and the years following the opening, specifically 2019-2020. Then, in 2020-2023, the gap becomes incredibly narrow (in 2022 almost completely shrinking). This may indicate specific growth behavior of the treated census tract, which may or may not have been triggered by earlier transit infrastructure development. Still, this convergence occurred in a chaotic, noisy period for rent analysis. It's not possible to isolate single variables just yet, as the disrupted rental market highlights the importance of avoiding simple answers for complex phenomena.</p>
         </div>
       </div>
     <div class="photo station"><img src="MesaPhoto1.jpg" alt="Station or line photo for Country Club Dr / Main St" />
@@ -910,11 +1117,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>45th St / 15th Ave</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>The U District Station, part of the Northgate Link extension, opened on October 2, 2021. Census Tract 53.05 has a median household income of $24,444. Note: The low median household income is largely due to a high student population, with 76.6% of the University of Washington’s student population being full-time (percentage sourced from <a href="https://nces.ed.gov/ipeds/use-the-data" target="_blank" rel="noopener noreferrer">IPEDS</a>, <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx" target="_blank" rel="noopener noreferrer">Fall Enrollment</a>). The region has a 70% occupancy rate. 60.7% of the population is in poverty. The station opened during the national rent surge of 2021, making it increasingly difficult to establish a causal relationship. The anticipation of upcoming light-rail infrastructure may have driven the period between 2018 and 2019 and its significant increase. University District also saw significant change in housing density, as upzoning (commenced in 2017) increased the maximum building height to 320 ft (ca. 98 m), allowing greater flexibility in development and diversification, such as mixed-use. By comparing the control (Census Tract 43.02) and treated tracts, the control’s comparatively lower increase between 2018 and 2019 may allow for clear isolation of the light station’s direct effect on the nearest housing units and the area's idiosyncrasies stemming from light rail. The rent and percentage change decrease in 2020-2021, immediately following the steep increase, is possibly attributed to student migration trends precipitated by the onslaught of COVID-19 (the University of Washington’s classes going online triggered a radical change in the demand for off-campus student housing). The trend directly following the station’s opening can most likely be linked to the surge in housing that occurred before the station’s opening, where increased options (post-opening) for renters forced older units to lower rents to remain competitive. It must also be noted that the four-year (on average) college student lifespan gives rise to a more dynamic market system, as new tenants pop up continuously, resulting in swift, continuous rental turnover.</p>
         </div>
       </div>
     <div class="photo station"><img src="SeattlePhoto1.jpg" alt="Station or line photo for 45th St / 15th Ave" />
@@ -947,11 +1150,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>Capitol Hill Station</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>As part of the Sound Transit University Link extension, the Capitol Hill Station opened on March 19, 2016. Census Tract 75.02 has a median household income of $109,471. The region has a 96% occupancy rate. 6.9% of the population is in poverty. The area is densely populated, which could create a rapidly responsive ecosystem for the immediate effects of light rail. The period between 2014 and 2015 saw a substantial increase, perhaps indicating anticipation. Throughout most of the recorded period, growth was generally stable, except for the movement between 2023 and 2024, which may indicate a response to a surge in housing supply and its subsequent effects. The period directly after the opening also showed substantial increases (pre-COVID), yet comparing both the control (Census Tract 79.02) and the treated during that period suggests the increase wasn't solely in the region proximal to the station. Comparing the control and treated tracts in the three years preceding the opening, it appears that both displayed noticeably different rent price movement. The control shows a steady decline in the years immediately before opening; this could help isolate an effect in regions closest to light-rail stations pre-opening but could violate the parallel trends assumption.</p>
         </div>
       </div>
     <div class="photo station"><img src="SeattlePhoto2.png" alt="Station or line photo for Capitol Hill Station" />
@@ -984,11 +1183,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>South Waterfront / S Moody Station</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>Opened on September 12, 2015, as an addition to the MAX Orange Line, South Waterfront and South Moody Station in Portland, Oregon, has a median household income of $98,304. The region (Census Tract 57) has an occupancy rate of 72%. 10.6% of the population is in poverty. The years preceding the opening saw a stable incline. The percentage change in growth increased between 2015 and 2016, coinciding with the station's opening. The station's opening date is particularly advantageous, as it provides quality data: the six years beforehand, followed by a full five years of non-COVID-affected data. The graph's most explosive movement occurs between 2020 and 2023, which can almost certainly be attributed to COVID-19. The rent momentum immediately post-opening is similarly stable to the trend pre-opening; it's not directly apparent if new transit infrastructure prompted any significant impact. If we take a look at the treated and control (Census Tract 56.02), we can note that the control's pre-opening period is substantially less firm. The much bumpier trend of the control could allow a clearer look into the treated’s anticipatory trend if the expectation of the light rail provides a consistent influx of investment that the control (whose proximity didn't allow such opportunities) didn't have access to. It must be stated that the South Waterfront neighborhood, which is in the census tract being analyzed, saw an expansion of the nearby Oregon Health and Science University around the same time as the station’s opening. This confounding data will make it harder to pin down the station’s opening as an isolated variable.</p>
         </div>
       </div>
     <div class="photo station"><img src="PortlandPhoto1.jpg" alt="Station or line photo for South Waterfront / S Moody Station" />
@@ -1021,11 +1216,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>SE Bybee Blvd Station</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>Opened on September 12, 2015, as an addition to the MAX Orange Line, SE Bybee Blvd Station (in Census Tract 2.02) of Portland, Oregon, has a median household income of $73,806. The region has a 99% occupancy rate. 11.7% of the population is in poverty. At first glance, a rather interesting pre-opening behavior becomes noticeable: between 2013 and 2015, rents experienced a consecutive drop after a rapid rise. While a localized supply change can cause a sudden drop in rent prices, in this context it most likely reflects pre-opening market volatility. What is noteworthy is the immediate increase coinciding with the opening of the station. Rent prices stabilize right before the COVID-19 surge, which could signal a stabilization in new migration or demand. The control (Census Tract 3.01) did not experience this dip or the same sporadic movement, which may imply that this region specifically underwent significant changes in demand and lacked adequate housing infrastructure to support it.</p>
         </div>
       </div>
     <div class="photo station"><img src="PortlandPhoto2.jpg" alt="Station or line photo for SE Bybee Blvd Station" />
@@ -1058,11 +1249,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>Coffee Plant / Second Ward</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>The Coffee Plant and Second Ward station was the first phase of the Green Line in Houston, Texas, and opened on May 23, 2015. The census tract surrounding the station (Census Tract 3101.01) has a median household income of $95,786 and an occupancy rate of 80%. Additionally, 23.4% of the population lives in poverty. The four years leading up to the opening can be characterized as stable and gradual. The immediate years after the opening also showed steady increases. Between 2017 and 2020, rent prices rose sharply and rapidly. The area's proximity to the Central Business District and the extensive revitalization of pre-existing housing into high-density, luxury housing significantly changed demand in the area. This gentrification is made more evident by the almost paradoxical high median income of $95,786 alongside the 23.4% poverty rate. The transformation of the area into a walkable urban hub caused rent to skyrocket, with stabilization occurring between 2020 and 2024, where the recent drop could reflect a natural adjustment to a surge in supply. With a rent spike produced by gentrification, we may have a clear issue of causality: was the light rail infrastructure developed to support this pre-existing plan to revitalize? In effect, to catch the trend and add on to the pile? When comparing the control (Census Tract 3125.01) and the treated areas, the rent increase in the treated area is higher. In the preceding years, there was a continuous gap between the two; then, during the period of large increase, the treated area overtook the control for a full year before falling short of the control’s unimpeded growth. Both the control and treated groups responded to the national COVID-19 rent surge between 2021 and 2022, with the control group possibly being more responsive to the trend. Why did the rent in the treated group not increase substantially between 2020 and 2024? Is it possible that the inevitable response to the housing supply and its previous increase counteracted what would have been a spike?</p>
         </div>
       </div>
     <div class="photo station"><img src="CoffeePlant%3ASecondWardPhoto.jpg" alt="Station photo for Coffee Plant / Second Ward" />
@@ -1095,11 +1282,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>Leeland / Third Ward</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>Opened on May 23, 2015, Leeland and Third Ward station was an addition to the Purple Line in Houston, Texas. The surrounding Census Tract 3102 has a median household income of $132,929. The region has an 87% occupancy rate. 12.9% of the population is in poverty. There is relatively steady growth throughout the entire period. A brief period of stagnation is noticeable in 2019. The highest period of growth coincides with the COVID-19 rent surge, so it may be harder to diagnose specific patterns or isolate variables. The period before 2019, which coincides with the opening, doesn't appear to contain any striking details that may provide clarity. The area clearly shows continual investment and improvement, but nothing in the preceding years highlights an anticipatory trend. The years after also don't see a clear response in the new development. What may have occurred is that the station was added on top of ongoing gentrification in the area. It could be that the new infrastructure didn't induce radical change because it was an addition to an already pre-existing rehaul or revitalization. The placement didn't cause change, but rather change caused the placement, i.e., reverse causality or endogeneity. A look at the control (Census Tract 1000.01) and treated implies a large radius of this gentrification, as the control is experiencing an incline to an even greater degree.</p>
         </div>
       </div>
     <div class="photo station"><img src="Leeland_ThirdPhoto.png" alt="Station photo for Leeland / Third Ward" />
@@ -1132,11 +1315,7 @@ section{
       <div class="sticky">
         <div class="step">
           <h3>Lockwood / Eastwood EB</h3>
-          <p>Put your section text here. This left column is for your narrative, interpretation, or short academic framing.</p>
-        </div>
-        <div class="note">
-          <strong>Textbox</strong>
-          Add a short takeaway, statistic, or methodological note beside the images.
+          <p>Opened on May 23, 2015, the Lockwood and Eastwood EB station was an addition to the Green Line’s first phase in Houston, Texas. Census Tract 3104 has a median household income of $57,163. The occupancy rate in the region is 86%. 10.6% of the population is in poverty. Between 2012 and 2014, a somewhat substantial climb occurred, before a subsequent fall between 2014 and 2016. This could be attributed to an anticipation of the forthcoming station. The years following the opening saw a steady, gradual incline, then a noticeable dip in 2018, shortly before a rapid increase in 2019. This complete, nearly unprecedented transformation of the rent may have been a component of the gentrification or revitalization that was gaining momentum in the downtown core of Houston and subsequently spread to the east. A comparable change exists in Coffee Plant and Second Ward, therefore establishing this growth as a greater trend. The track line, which was opened four years prior to the abrupt increase, may have provided the necessary infrastructure needed for a reliable and appealing eastward expansion. It may have provided a foundation for the overall incentivization of migration to Houston’s east end, contributing to a more walkable urban hub, thereby increasing demand. Comparing the control (Census Tract 3123) and the treated, the period of 2014 to 2017 shows parallel momentum. The two tracts then radically differ in movement between 2019 and 2021. In 2023 to 2024, both have opposite trajectories. Unlike Coffee Plant and Second Ward, Lockwood and Eastwood EB, for the most part, continue to grow past the surge. The stations of both areas were opened on the same line, at the same time. This brings into question: was this a deliberate plan of establishing transit infrastructure alongside areas deemed for revitalization (which may have already been occurring progressively)? Since light rail, as a supplementary system (as Houston is hardly a city known for its public transit), can only help to attract young professionals who want proximity to core business areas, therefore adding sprinkles to the cake. So light rail, as a driving force of rent, may not be plausible, or hardly the primary causal force for a rent hike.</p>
         </div>
       </div>
     <div class="photo station"><img src="Lockwood%3AEastwoodEBPhoto.jpg" alt="Station photo for Lockwood / Eastwood EB" />
@@ -1164,12 +1343,6 @@ section{
     </div>
   </section>
 
-  <section id="closing-note">
-    <div class="step" style="min-height:auto;">
-      <h3>Closing note</h3>
-      <p>Use this final section for a conclusion, limitations, or data-source notes.</p>
-    </div>
-  </section>
 </main>
 </body>
 </html>

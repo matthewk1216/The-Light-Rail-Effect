@@ -154,7 +154,6 @@
   border:none;
   border-radius:0;
   background:transparent;
-  font-family:'Inter',sans-serif;
   display:grid;
   place-items:center;
   cursor:pointer;
@@ -183,7 +182,6 @@
   border:1px solid var(--line);
   border-radius:14px;
   padding:.45rem;
-  font-family:'Inter',sans-serif;
   display:grid;
   gap:.2rem;
   box-shadow:0 18px 34px rgba(0,0,0,.08);
@@ -206,7 +204,6 @@
   color:#111;
   padding:.75rem .85rem;
   border-radius:10px;
-  font-family:'Inter',sans-serif;
   font-size:.92rem;
 }
 .page-link:hover{
@@ -261,13 +258,13 @@
 
 .scrolly{
   display:grid;
-  grid-template-columns:minmax(380px,1.15fr) minmax(440px,1.65fr);
-  gap:2.5rem;
+  grid-template-columns:minmax(0,0.95fr) minmax(560px,2.1fr);
+  gap:2rem;
   align-items:start;
 }
 .left{
   padding-top:1rem;
-  max-width:560px;
+  max-width:500px;
   align-self:stretch;
   position:relative;
 }
@@ -623,21 +620,16 @@
 }
 .findings-scrolly{
   display:grid;
-  grid-template-columns:minmax(0,1fr);
-  gap:0;
+  grid-template-columns:minmax(300px,360px) minmax(0,1fr);
+  gap:2rem;
   align-items:start;
-  margin-bottom:.35rem;
-  margin-top:-1.8rem;
-  position:relative;
+  margin-bottom:2rem;
 }
 .findings-scroll-copy{
   position:relative;
-  width:100%;
+  width:auto;
   display:grid;
   gap:1rem;
-  grid-area:1 / 1;
-  z-index:2;
-  pointer-events:none;
 }
 .findings-scroll-step{
   min-height:72vh;
@@ -654,7 +646,16 @@
   min-height:88vh;
 }
 .findings-scroll-step::before{
-  content:none;
+  content:'';
+  position:sticky;
+  top:96px;
+  display:block;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:rgba(111,143,58,.35);
+  border:2px solid rgba(111,143,58,.65);
+  margin:0 auto;
 }
 .findings-scroll-step h4{
   display:none;
@@ -672,20 +673,14 @@
 }
 .findings-scroll-sticky{
   position:sticky;
-  top:53vh;
-  transform:translateY(-50%);
+  top:96px;
   align-self:start;
-  grid-area:1 / 1;
-  justify-self:center;
-  width:min(112vw,1780px);
-  z-index:1;
 }
 .findings-image-first{
   margin:0;
   position:relative;
   left:auto;
   width:100%;
-  max-width:none;
   height:auto;
   transform:none;
   background:#fff;
@@ -702,27 +697,12 @@
   border:1px solid var(--line);
   border-radius:14px;
   background:#fff;
-  padding-top:26px;
   box-shadow:0 14px 30px rgba(0,0,0,.06);
-}
-.findings-scrolly.is-intro-step .findings-scrolly-canvas{
-  padding-top:26px;
-  overflow:visible;
-}
-.findings-scrolly.is-intro-step .findings-floating-note{
-  --intro-note-w:clamp(260px,24vw,360px);
-  left:12px;
-  top:12px;
-  transform:none;
-  width:var(--intro-note-w);
-  height:auto;
-  min-height:0;
-  max-height:none;
 }
 .findings-scene{
   position:relative;
   transform-origin:0 0;
-  will-change:auto;
+  will-change:transform;
   transition:transform .9s cubic-bezier(.22,.61,.36,1);
 }
 .findings-series-base,
@@ -732,8 +712,8 @@
   width:100%;
   height:100%;
   object-fit:contain;
-  filter:none;
-  image-rendering:auto;
+  filter:contrast(1.12) saturate(1.08) brightness(1.02);
+  image-rendering:-webkit-optimize-contrast;
 }
 .findings-series-base{
   position:relative;
@@ -752,24 +732,20 @@
   left:var(--note-x,7%);
   top:var(--note-y,8%);
   transform:translate(-50%,-50%);
-  width:var(--note-w,min(420px,42vw));
-  height:auto !important;
-  min-width:240px;
-  min-height:220px;
-  max-width:min(640px,88vw);
-  max-height:none;
+  width:var(--note-w,min(320px,38vw));
+  height:var(--note-h,140px);
+  min-width:220px;
+  min-height:92px;
+  max-width:min(560px,86vw);
+  max-height:min(420px,72vh);
   z-index:5;
   background:rgba(255,255,255,.96);
   border:1px solid var(--line);
   border-radius:14px;
-  padding:1rem 1.05rem;
+  padding:.85rem .95rem;
   box-shadow:0 18px 34px rgba(0,0,0,.14);
-  overflow:visible;
-  display:flex;
-  flex-direction:column;
-  gap:.7rem;
+  overflow:auto;
   transition:left .7s cubic-bezier(.22,.61,.36,1), top .7s cubic-bezier(.22,.61,.36,1), opacity .25s ease;
-  pointer-events:auto;
 }
 .findings-floating-note h4{
   margin:0 0 .25rem 0;
@@ -779,8 +755,7 @@
 }
 .findings-floating-note p{
   margin:0;
-  padding-right:0;
-  font:500 .9rem/1.52 'Inter',sans-serif;
+  font:500 .84rem/1.4 'Inter',sans-serif;
   color:#222;
 }
 .findings-note-resizer{
@@ -824,206 +799,10 @@
   display:block;
   margin:0;
 }
-.findings-chart-overlay{
-  position:absolute;
-  inset:0;
-  z-index:4;
-  pointer-events:none;
-  font-family:'NYT Imperial','Cormorant Garamond',Georgia,serif;
-  color:#111;
-}
-.findings-chart-overlay .chart-title,
-.findings-chart-overlay .chart-axis,
-.findings-chart-overlay .chart-legend,
-.findings-chart-overlay .chart-axis-left-mask,
-.findings-chart-overlay .chart-axis-bottom-mask,
-.findings-chart-overlay .chart-title-mask{
-  position:absolute;
-  background:#fff;
-}
-.findings-chart-overlay .chart-title-mask{
-  height:3.8%;
-  width:22.5%;
-  transform:translate(-50%,-50%);
-  border-radius:4px;
-}
-.findings-chart-overlay .chart-title{
-  transform:translate(-50%,-50%);
-  font-size:clamp(.95rem,1.15vw,1.25rem);
-  font-weight:700;
-  line-height:1;
-  white-space:nowrap;
-}
-.findings-chart-overlay .chart-title.parallel-title{
-  left:50%;
-  top:1.5%;
-  transform:translate(-50%,0);
-  font-size:clamp(1.35rem,1.95vw,2rem);
-  font-family:'NYT Imperial','Cormorant Garamond',Georgia,serif;
-  background:rgba(255,255,255,.96);
-  border-radius:5px;
-  padding:.25rem .7rem;
-}
-.parallel-trends-heading,
-.event-study-heading{
-  margin:0 0 10px 0;
-  text-align:center;
-  font-size:clamp(1.35rem,1.95vw,2rem);
-  font-family:'NYT Imperial','Cormorant Garamond',Georgia,serif;
-  font-weight:700;
-  line-height:1.1;
-}
-.findings-event-study{
-  display:grid;
-  grid-template-columns:minmax(300px,360px) minmax(0,1fr);
-  gap:.9rem;
-  align-items:start;
-  margin:1.25rem calc(50% - 50vw) 0;
-  width:100vw;
-  padding:0 1rem;
-  box-sizing:border-box;
-}
-.event-study-copy{
-  position:relative;
-  padding:.5rem 0 56vh .6rem;
-}
-.event-study-step{
-  display:none;
-}
-.event-study-card{
-  position:sticky;
-  top:10vh;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:1rem 1.05rem;
-  box-shadow:0 12px 24px rgba(0,0,0,.08);
-  max-width:100%;
-}
-.event-study-card h4{
-  margin:0 0 .35rem;
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.25rem;
-  line-height:1.1;
-}
-.event-study-card p{
-  margin:0;
-  font:500 .9rem/1.45 'Inter',sans-serif;
-  color:#222;
-}
-.event-study-controls{
-  margin-top:.85rem;
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  gap:.5rem;
-}
-.event-study-step-readout{
-  margin-right:.35rem;
-  font:600 .8rem/1 'Inter',sans-serif;
-  color:#555;
-}
-.event-study-visual{
-  position:sticky;
-  top:10vh;
-  margin-top:0;
-  background:transparent;
-  border:none;
-  border-radius:0;
-  padding:.25rem .35rem .45rem;
-  box-shadow:none;
-  min-width:0;
-  width:100%;
-  max-width:none;
-  justify-self:center;
-}
-.event-study-visual .event-study-heading{
-  margin:0 0 .1rem 0;
-}
-.findings-event-study .parallel-study-image{
-  width:34%;
-  max-width:none;
-  max-height:none;
-  height:auto;
-  display:block;
-  margin:0 auto;
-  border:none;
-  border-radius:0;
-  box-shadow:none;
-}
-.findings-event-study .average-effect-mask{
-  position:absolute;
-  left:2.52%;
-  top:0;
-  transform:none;
-  width:32.91%;
-  height:3.4%;
-  background:#fff;
-  border-radius:4px;
-  z-index:2;
-  pointer-events:none;
-}
-.findings-chart-overlay .chart-axis-left-mask{
-  left:0.2%;
-  top:12%;
-  width:6.2%;
-  height:74%;
-}
-.findings-chart-overlay .chart-axis-bottom-mask{
-  left:10%;
-  bottom:0.4%;
-  width:80%;
-  height:7.5%;
-}
-.findings-chart-overlay .chart-axis{
-  font-size:clamp(.95rem,1.1vw,1.4rem);
-  font-weight:700;
-  letter-spacing:.08em;
-  line-height:1;
-  white-space:nowrap;
-}
-.findings-chart-overlay .chart-axis.y{
-  left:2.1%;
-  top:50%;
-  transform:translate(-50%,-50%) rotate(-90deg);
-  transform-origin:center;
-}
-.findings-chart-overlay .chart-axis.x{
-  left:50%;
-  bottom:2.1%;
-  transform:translateX(-50%);
-}
-.findings-chart-overlay .chart-legend{
-  left:50%;
-  bottom:0.5%;
-  transform:translateX(-50%);
-  display:flex;
-  align-items:center;
-  gap:1.1rem;
-  font-size:clamp(.9rem,1vw,1.2rem);
-  font-weight:500;
-  white-space:nowrap;
-}
-.findings-chart-overlay .chart-legend::before,
-.findings-chart-overlay .chart-legend::after{
-  content:'';
-  width:.7rem;
-  height:.7rem;
-  border-radius:50%;
-  display:inline-block;
-  margin-right:.3rem;
-}
-.findings-chart-overlay .chart-legend::before{
-  background:#7d9432;
-}
-.findings-chart-overlay .chart-legend::after{
-  background:#9ecae6;
-}
 .findings-dot-layer{
   position:absolute;
   inset:0;
-  pointer-events:auto;
-  z-index:4;
+  pointer-events:none;
 }
 .findings-dot{
   appearance:none;
@@ -1033,46 +812,14 @@
   left:var(--x);
   top:var(--y);
   transform:translate(-50%,-50%);
-  width:0;
-  height:0;
+  width:12px;
+  height:12px;
   border-radius:50%;
-  border:none;
-  background:transparent;
-  box-shadow:none;
-  pointer-events:none;
+  border:2px solid #fff;
+  background:#d84f3d;
+  box-shadow:0 0 0 1px rgba(0,0,0,.2), 0 3px 10px rgba(0,0,0,.22);
+  pointer-events:auto;
   cursor:default;
-  opacity:1;
-  visibility:visible;
-  transition:none;
-}
-.findings-dot.is-active{
-  opacity:1;
-  visibility:visible;
-}
-.findings-dot.is-dragging{
-  cursor:default;
-}
-.findings-dot::after{
-  content:attr(data-pct);
-  position:absolute;
-  left:50%;
-  bottom:calc(100% + 9px);
-  transform:translateX(-50%);
-  white-space:nowrap;
-  font:600 .78rem/1.2 'Inter',sans-serif;
-  color:#111;
-  background:rgba(255,255,255,.98);
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:.36rem .5rem;
-  box-shadow:0 8px 24px rgba(0,0,0,.14);
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
-.findings-dot.show-label::after{
-  opacity:1;
-  visibility:visible;
 }
 .findings-hotspot-layer{
   position:absolute;
@@ -1116,7 +863,8 @@
   transition:opacity .15s ease, transform .15s ease;
   pointer-events:none;
 }
-.findings-hotspot.is-active::after{
+.findings-hotspot:hover::after,
+.findings-hotspot:focus-visible::after{
   opacity:1;
   visibility:visible;
   transform:translateX(-50%) translateY(-2px);
@@ -1146,14 +894,21 @@
   display:grid;
   gap:.55rem;
 }
-.findings-hotspot-readout{
-  display:none;
+.findings-floating-note{
+  position:sticky;
+  top:96px;
+  left:auto;
+  right:auto;
+  transform:none;
+  width:100%;
+  min-width:0;
+  min-height:180px;
+  max-width:none;
+  max-height:none;
 }
-.findings-pct-toggle{
-  position:static;
-  align-self:flex-end;
-  margin-top:.15rem;
-  z-index:8;
+.findings-hotspot-readout,
+.findings-story-editor{
+  display:none;
 }
 .findings-editor-row{
   display:flex;
@@ -1275,25 +1030,6 @@
   background:#fff;
 }
 
-.event-study-plot{
-  position:relative;
-  width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin:0;
-}
-.event-study-plot .parallel-study-image{
-  width:100%;
-  max-width:none;
-  max-height:none;
-  height:auto;
-  display:block;
-  margin:0 auto;
-  border:1px solid rgba(0,0,0,.12);
-  border-radius:8px;
-  box-shadow:0 8px 18px rgba(0,0,0,.12);
-}
 @media (max-width:950px){
   .scrolly,.subject{
     grid-template-columns:1fr;
@@ -1309,55 +1045,9 @@
   .findings-scroll-sticky{
     position:relative;
     top:auto;
-    transform:none;
-    width:100%;
-  }
-  .findings-floating-note{
-    position:relative;
-    left:auto;
-    top:auto;
-    transform:none;
-    width:100%;
-    max-width:100%;
-    min-height:auto;
-    margin-top:.75rem;
-  }
-  .findings-image-first{
-    width:100%;
   }
   .findings-scroll-step{
     min-height:auto;
-  }
-  .findings-event-study{
-    grid-template-columns:1fr;
-    gap:.9rem;
-    width:100%;
-    margin:1.25rem 0 0;
-    padding:0 .35rem;
-  }
-  .event-study-copy{
-    position:relative;
-    left:auto;
-    top:auto;
-    width:100%;
-    padding:.1rem 0 0;
-  }
-  .event-study-visual{
-    position:relative;
-    top:auto;
-    margin-top:0;
-  }
-  .event-study-plot .parallel-study-image,
-  .findings-event-study .parallel-study-image{
-    max-height:none;
-    width:100%;
-  }
-  .event-study-card{
-    position:relative;
-    top:auto;
-  }
-  .event-study-controls{
-    justify-content:flex-start;
   }
   .sticky{
     position:relative;
@@ -1384,7 +1074,6 @@
       <div class="page-menu-panel">
         <a class="page-link" href="index.html">Overview</a>
         <a class="page-link current" href="Light%20Rail%20Findings.html">Findings</a>
-        <a class="page-link" href="Conclusion.html">Conclusion</a>
       </div>
     </nav>
   </div>
@@ -1395,62 +1084,56 @@
       <div class="findings-scrolly" id="findings-scrolly">
         <div class="findings-scroll-copy">
           <aside class="findings-floating-note" id="findings-floating-note" aria-live="polite">
-            <h4 id="findings-floating-title">Treated Areas First</h4>
-            <p id="findings-floating-copy">Start by reading the treated pattern on its own, before the control trend is introduced.</p>
-            <button class="carousel-arrow next findings-pct-toggle" id="pct-toggle" type="button" aria-label="Switch percentage set">→</button>
+            <h4 id="findings-floating-title">Treated Line First</h4>
+            <p id="findings-floating-copy">The chart starts with the treated trajectory only so the initial trend is easier to read.</p>
             <span class="findings-note-resizer" data-dir="nw" aria-hidden="true"></span>
             <span class="findings-note-resizer" data-dir="ne" aria-hidden="true"></span>
             <span class="findings-note-resizer" data-dir="sw" aria-hidden="true"></span>
             <span class="findings-note-resizer" data-dir="se" aria-hidden="true"></span>
           </aside>
-          <article class="findings-scroll-step is-active" data-intro="true" data-series="green" data-target="" data-zoom="1.00" data-fx="50.00" data-fy="50.00" data-note-x="2.00" data-note-y="18.00" data-note-w="14.00" data-note-h="10.50">
-            <h4>Introduction</h4>
-            <p>To establish a causal relationship, verifying the parallel trends assumption prior to an event study is essential. In the treated graphs to the right, a wide array of differing behaviors is immediately evident. However, in the specific case of station openings and the aforementioned anticipatory pricing, the parallel-trends assumption becomes trickier. This raises a more complicated question of the correct application of quasi-experiments to predict or model noisy, nuanced real-world phenomena. This point will be expanded upon in the conclusions section.</p>
+          <article class="findings-scroll-step is-active" data-series="green" data-target="first-d1,first-d2,first-d3,first-d4" data-zoom="1.00" data-fx="50" data-fy="50" data-note-x="16" data-note-y="14">
+            <h4>Treated Line First</h4>
+            <p>The chart starts with the treated trajectory only so the initial trend is easier to read.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="first-d1,first-d2,first-d3,first-d4" data-zoom="1.00" data-fx="49.97" data-fy="51.75" data-note-x="66.00" data-note-y="16.50" data-note-w="40.60" data-note-h="17.39">
-            <h4>Census Tract - 1067.01</h4>
-            <p>Immediately, an inversion is noticeable. The two tracts’ diverging and opposite behavior is worrisome if the parallel trends assumption must hold. Additionally, the treated tract’s downward sweep compared to the control tract’s upward may deem an anticipation false. This case may violate the parallel trends assumption and the anticipation hypothesis. It could be that the anticipation occurred before the data's time frame, but anticipation should, in theory, peak closest to the opening. Although if construction of the line proved to be a nuisance to proximal residents (who evidently have more elasticity in what they pay), and demand for housing in an area situated closely to an active construction site drops, then so too would prices. If this theory is correct, we should see a post-opening increase to make up for the earlier dip.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="g1-d1,g1-d2,g1-d3,g1-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="15" data-note-y="16">
+            <h4>The Good: 4214</h4>
+            <p>The scroll journey begins with one of the strongest positive outcomes.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g7-d1,g7-d2,g7-d3,g7-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="66.00" data-note-y="28.95">
-            <h4>Census Tract - 4214</h4>
-            <p>It's immediately apparent that more promising behavior exists than in the previous tract pair, though the two tracts don't display a perfect parallel. The general downward movement may indicate a common trend. It's also likely that the treated tract didn’t show anticipation. Both tracts share similar percentage changes of -1.1% and -1.0% in the year immediately before treatment, which could point to a direct parallel. Though for the parallel trend assumption to hold, this similarity should have been continuous throughout the period. Expecting mathematical equivalence between the points is unrealistic. No anticipatory effect likely exists in the treated, due to the perpetual decline. The conditions of both tracts are similar enough throughout to not completely rule out the parallel trends assumption.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="g2-d1,g2-d2,g2-d3,g2-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="83" data-note-y="18">
+            <h4>The Good: 4216.02</h4>
+            <p>Another strong performer appears as the view shifts across the chart.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g9-d1,g9-d2,g9-d3,g9-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="66.00" data-note-y="46.94">
-            <h4>Census Tract - 75.02</h4>
-            <p>The movement evident arouses suspicion. While the treated tract shows consistent growth, the control tract’s dissimilar behavior invalidates a parallel trend. The treated tract’s 12.3% increase shortly before opening may point to early market anticipation. This anticipation could make it challenging for the null to conclude that an opening has a marginal effect. The station’s expected opening likely caused a rent change ahead of treatment, a crucial piece of information made more evident by further analysis of the pre-treatment timeline. This suggests that the simple lack of verification of a parallel trend is not disqualifying in this scenario.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="g3-d1,g3-d2,g3-d3,g3-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="16" data-note-y="82">
+            <h4>The Good: 2.02</h4>
+            <p>The final stop in the good tier keeps the momentum positive.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g4-d1,g4-d2,g4-d3,g4-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="66.00" data-note-y="63.26">
-            <h4>Census Tract - 3101.01</h4>
-            <p>The dip four years prior (-19.3%) is likely an anomaly, as the rent rebounds with a 32.4% increase, then stabilizes. The behavior directly following the rebound may confirm a stable pre-treatment market anticipation. At first, it seems both tracts follow a similar pattern. Still, upon closer inspection of the percentage changes, it is clear that they had dissimilar pre-treatment behavior, ruling out a parallel trend. Anticipation, while not definitive, is likely.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="g4-d1,g4-d2,g4-d3,g4-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="83" data-note-y="84">
+            <h4>The Bad: 3101.01</h4>
+            <p>The narrative transitions into mixed and weaker trajectories.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g2-d1,g2-d2,g2-d3,g2-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="66.00" data-note-y="81.99">
-            <h4>Census Tract - 57</h4>
-            <p>There is a good chance that the percentage change increases two years prior to the opening in Census Tract 57, and the steady rise in the years before makes this an anticipatory effect. Comparing the specific percentage changes between the treated and control tracts makes this more apparent, as the control saw relatively minimal increases in the two years prior. A parallel trend can be firmly established as being non-existent; the two tracts hardly share any commonality. The lack of a parallel trend may cause issues for further analysis, giving way to a shaky foundation for any firm declaration of causal effects.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="g5-d1,g5-d2,g5-d3,g5-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="14" data-note-y="49">
+            <h4>The Bad: 53.05</h4>
+            <p>Here the outcomes flatten and diverge from the strongest gains.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g6-d1,g6-d2,g6-d3,g6-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="30.00" data-note-y="16.50">
-            <h4>Census Tract - 4216.02</h4>
-            <p>Averaging the movements of both tracts, the treated’s 1.4% increase contrasted with the controls' 6.3% and indicates drastically different behavior in a pre-opening period. The clear difference in average percentage change most likely points to a non-parallel trend. To avoid oversimplifying, the control tract has a median household income 62% higher than the treated's (as of 2024), and the treated has an 86.7% higher poverty rate. The control's steeper incline as a result of gentrification or revitalization, which the treated experienced less of, or not at all, could be a plausible explanation, but is speculative. The treated's modest, stable rise during this same window argues against a strong anticipatory effect, since rent would have been expected to lead rather than trail if anticipation were driving the trend.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="g6-d1,g6-d2,g6-d3,g6-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="83" data-note-y="49">
+            <h4>The Bad: 3104</h4>
+            <p>The final bad segment rounds out the middle of the distribution.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g8-d1,g8-d2,g8-d3,g8-d4" data-zoom="1.00" data-fx="50.00" data-fy="50.00" data-note-x="30.00" data-note-y="27.94">
-            <h4>Census Tract - 53.05</h4>
-            <p>The treated and control tracts display similar growth in the beginning, but the treated diverges, increasing and widening the gap. The treated tract had an average percentage change of 8.3%; the control tract’s was 5.9%. This suggests a difference, which may threaten the parallel trends assumption. The treated tract's significant jumps shortly before a fall of 5.2% in the year before opening may indicate anticipation. While anticipation can't be completely established, it is fair to say the area saw growth. The transit may have been developed in an area of already rapid growth, rather than the transit being the source of that growth. This speculation can't be firmly established with the present data, though.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="first-d1,first-d2,first-d3,first-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="15" data-note-y="21">
+            <h4>The Ugly: 1067.01</h4>
+            <p>Now the view moves to the most difficult trajectories.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g10-d1,g10-d2,g10-d3,g10-d4" data-zoom="1.00" data-fx="50.00" data-fy="49.99" data-note-x="30.00" data-note-y="46.59">
-            <h4>Census Tract - 3104</h4>
-            <p>Both tracts in the three to five years before opening show broadly similar movement, which suggests a broader regional trend. The exact percentage points differ, but both tracts’ shared sharp rise in the year immediately before opening is still informative, since parallel trends graphs do not require identical movement but comparable behavior and direction. This commonality may be supported in the comparison of the average percent changes: the treated tract saw a 4.2% increase, in contrast to the control tract's 5.5%. These values do not differ immensely, but their closeness doesn't automatically equate to a parallel trend. Though mathematical equality between the two, when reviewing the data of something as disorderly as rent, isn’t realistic. The broad similarity between the two favors the parallel trends assumption, but it does not prove a firm conclusion.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="g8-d1,g8-d2,g8-d3,g8-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="84" data-note-y="20">
+            <h4>The Ugly: 75.02</h4>
+            <p>The path continues across the lowest-performing end of the chart.</p>
           </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g3-d1,g3-d2,g3-d3,g3-d4" data-zoom="1.00" data-fx="49.98" data-fy="49.99" data-note-x="30.00" data-note-y="64.25">
-            <h4>Census Tract - 3102</h4>
-            <p>The treated tract’s 2.3% average compared to the control tract’s 11% suggests a significant difference. The treated tract’s comparatively lower rise complicates the interpretation of an anticipatory effect. Census Tract 3102 has a $132,929 median household income, compared to Census Tract 1000.01’s $102,588. Census Tract 3102 has a 12.9% poverty rate; Census Tract 1000.01 has a poverty rate of 11.2%. The socioeconomic profiles share a similarity. Despite some socioeconomic similarity, the pre-treatment trends differ enough that the parallel-trends assumption is less convincing.</p>
-          </article>
-          <article class="findings-scroll-step" data-series="blue" data-target="g1-d1,g1-d2,g1-d3,g1-d4" data-zoom="2.40" data-fx="49.99" data-fy="50.04" data-note-x="30.00" data-note-y="82.68" data-note-w="40.60" data-note-h="19.67">
-            <h4>Census Tract - 2.02</h4>
-            <p>In the year before opening, the tracts diverge: the control tract increases while the treated tract decreases. This divergence is also visible in the three years before opening, when the treated tract increases as the control tract decreases. In the four years prior, the control tract grows substantially more than the treated tract. These patterns of divergence suggest that the parallel trend assumption does not hold. If the values had increased together, this would have been more plausible. The treated tract’s dip in the year immediately before opening doesn't outright invalidate an anticipatory effect, but it does show that the pre-treatment path is not stable.</p>
+          <article class="findings-scroll-step" data-series="blue" data-target="g9-d1,g9-d2,g9-d3,g9-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="15" data-note-y="76">
+            <h4>The Ugly: 57</h4>
+            <p>The final stop closes the safari through the most negative results.</p>
           </article>
         </div>
         <div class="findings-scroll-sticky">
           <figure class="findings-image-first scrolly-pin">
-            <h3 class="parallel-trends-heading">Parallel Trends Assumption</h3>
             <div class="findings-scrolly-canvas">
               <div class="findings-scene">
                 <img class="findings-series-base" src="rent_trends_green_only.png" alt="Rent trends, treated series only" />
@@ -1516,75 +1199,43 @@
           </figure>
         </div>
       </div>
-      <div class="findings-event-study" id="event-study-static">
-        <div class="event-study-copy" aria-label="Event study narrative">
-          <aside class="event-study-card" id="event-study-card" aria-live="polite">
-            <h4 id="event-study-card-title">Methodology</h4>
-            <p id="event-study-card-copy">Using an event study with this type of data poses issues because the treatment timing is staggered across station openings. A standard Two-Way Fixed Effect (TWFE) difference-in-differences model requires all groups to be treated at the same time, which is not the case here given the clear differences in opening dates between the tracts. As a result, using the TWFE model would produce biased results and fail to account for the heterogeneous nature of the treatments. To address this issue, the Sant'Anna and Callaway event study model was utilized because it accommodates datasets with differing treatment times, i.e., staggered treatment.</p>
-            <div class="event-study-controls" aria-label="Event study text controls">
-              <span class="event-study-step-readout" id="event-study-step-readout">1 / 4</span>
-              <button class="carousel-arrow prev" id="event-study-prev" type="button" aria-label="Previous event study note">←</button>
-              <button class="carousel-arrow next" id="event-study-next" type="button" aria-label="Next event study note">→</button>
-            </div>
-          </aside>
-          <article class="event-study-step is-active" data-title="Methodology" data-copy="Using an event study with this type of data poses issues because the treatment timing is staggered across station openings. A standard Two-Way Fixed Effect (TWFE) difference-in-differences model requires all groups to be treated at the same time, which is not the case here given the clear differences in opening dates between the tracts. As a result, using the TWFE model would produce biased results and fail to account for the heterogeneous nature of the treatments. To address this issue, the Sant'Anna and Callaway event study model was utilized because it accommodates datasets with differing treatment times, i.e., staggered treatment."></article>
-          <article class="event-study-step" data-title="Pre-Treatment Analysis" data-copy="In the pre-treatment period of the event study graph, the points are broadly trendless and hover around the zero line. This pattern supports a parallel trend between the treated and control tracts. No point strays too far from the line, and the small confidence intervals suggest no significant statistical difference between the treated and control groups before treatment. This evidence makes it more plausible that the pre-treatment period was unaffected by the later treatment."></article>
-          <article class="event-study-step" data-title="Post-Treatment Analysis" data-copy="The post-treatment period showed no significant change relative to the pre-treatment trend in the point estimates, except for the final two years. The confidence intervals widen progressively as more time passes, which is attributed to the limited amount of data. Only a few tracts have nine years of data following their station opening for analysis. The dips in the point estimates in the last two years between the treated and control tracts are statistically insignificant, as the confidence intervals are wide and both cross the zero line."></article>
-          <article class="event-study-step" data-title="Interpretation" data-copy="The lack of a sharp break between the pre- and post-opening periods is largely due to the chaotic nature of rent itself. Rent, which is influenced by a variety of external factors, including inflation, gentrification, localized pressures, and, in this instance, COVID-19, is the result of a combination of competing and supportive factors that ultimately influence prices. Likely, rent and its shifts cannot be attributed entirely to one factor. Light rail is just one variable among many; it does not operate in a vacuum. The lack of substantial change upon a station opening can be interpreted as light-rail infrastructure having minimal effect."></article>
+      <div class="findings-table-wrap">
+        <h3>Station-Level Difference-in-Differences Estimates</h3>
+        <table class="findings-table">
+          <thead>
+            <tr>
+              <th scope="col">City</th>
+              <th scope="col">Station</th>
+              <th scope="col">Opened</th>
+              <th scope="col">Treated Pre/Post ($)</th>
+              <th scope="col">Control Pre/Post ($)</th>
+              <th scope="col">Treated Δ ($)</th>
+              <th scope="col">Control Δ ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Phoenix</td><td>19th &amp; Glendale</td><td>2016</td><td>733 / 806</td><td>837 / 894</td><td>+73</td><td>+57</td></tr>
+            <tr><td>Mesa</td><td>Gilbert Rd/Main St</td><td>2019</td><td>740 / 958</td><td>1204 / 1476</td><td>+218</td><td>+272</td></tr>
+            <tr><td>Mesa</td><td>Country Club Dr</td><td>2015</td><td>648 / 729</td><td>836 / 844</td><td>+80</td><td>+8</td></tr>
+            <tr><td>Seattle</td><td>45th St/15th Ave</td><td>2021</td><td>1427 / 1703</td><td>1235 / 1638</td><td>+276</td><td>+404</td></tr>
+            <tr><td>Houston</td><td>Lockwood/Eastwood</td><td>2015</td><td>579 / 611</td><td>632 / 696</td><td>+32</td><td>+64</td></tr>
+            <tr><td>Portland</td><td>South Waterfront</td><td>2015</td><td>943 / 1208</td><td>936 / 1148</td><td>+264</td><td>+212</td></tr>
+            <tr><td>Portland</td><td>SE Bybee Blvd</td><td>2015</td><td>727 / 888</td><td>936 / 1140</td><td>+161</td><td>+204</td></tr>
+            <tr><td>Seattle</td><td>Capitol Hill</td><td>2016</td><td>1144 / 1507</td><td>1182 / 1554</td><td>+363</td><td>+372</td></tr>
+            <tr><td>Houston</td><td>Coffee Plant/2nd Ward</td><td>2015</td><td>911 / 1096</td><td>1089 / 1187</td><td>+185</td><td>+99</td></tr>
+            <tr><td>Houston</td><td>Leeland/Third Ward</td><td>2015</td><td>908 / 1017</td><td>1365 / 1650</td><td>+109</td><td>+285</td></tr>
+          </tbody>
+        </table>
+        <div class="research-entry">
+          <textarea id="findings-notes" placeholder="Write your research interpretation here..."></textarea>
         </div>
-        <div class="event-study-visual">
-          <h3 class="event-study-heading">Event Study</h3>
-          <div class="event-study-plot">
-            <img class="parallel-study-image" src="EventStudy.svg" alt="Event study graph" />
-          </div>
-        </div>
+        <div class="findings-story-editor" id="findings-story-editor"></div>
       </div>
     </div>
   </section>
 
 </main>
 <script>
-  (function () {
-    var root = document.getElementById('event-study-static');
-    if (!root) return;
-
-    var steps = Array.prototype.slice.call(root.querySelectorAll('.event-study-step'));
-    var title = document.getElementById('event-study-card-title');
-    var copy = document.getElementById('event-study-card-copy');
-    var prev = document.getElementById('event-study-prev');
-    var next = document.getElementById('event-study-next');
-    var readout = document.getElementById('event-study-step-readout');
-    if (!steps.length || !title || !copy || !prev || !next) return;
-
-    var activeIndex = 0;
-
-    function setActiveIndex(index) {
-      var len = steps.length;
-      activeIndex = (index + len) % len;
-      var step = steps[activeIndex];
-
-      steps.forEach(function (item, itemIndex) {
-        item.classList.toggle('is-active', itemIndex === activeIndex);
-      });
-
-      title.textContent = step.getAttribute('data-title') || '';
-      copy.textContent = step.getAttribute('data-copy') || '';
-      if (readout) {
-        readout.textContent = String(activeIndex + 1) + ' / ' + String(len);
-      }
-    }
-
-    prev.addEventListener('click', function () {
-      setActiveIndex(activeIndex - 1);
-    });
-
-    next.addEventListener('click', function () {
-      setActiveIndex(activeIndex + 1);
-    });
-
-    setActiveIndex(0);
-  })();
-
   (function () {
     var scrolly = document.getElementById('findings-scrolly');
     if (!scrolly) return;
@@ -1594,38 +1245,9 @@
     var scene = scrolly.querySelector('.findings-scene');
     var canvas = scrolly.querySelector('.findings-scrolly-canvas');
     var layer = scrolly.querySelector('.findings-hotspot-layer');
-    var hotspots = Array.prototype.slice.call(scrolly.querySelectorAll('.findings-hotspot'));
-    var controlLayer = null;
-    var controlDotsByStep = [];
-    var blueSteps = [];
-    var frozenControlPositions = [
-      [{ x: 15.5, y: 12.95 }, { x: 23.98, y: 9.71 }, { x: 32.51, y: 5.38 }, { x: 41.05, y: 3.3 }],
-      [{ x: 15.63, y: 21.36 }, { x: 24.08, y: 21.63 }, { x: 32.53, y: 25.29 }, { x: 41, y: 25.4 }],
-      [{ x: 15.58, y: 50.02 }, { x: 23.89, y: 47.8 }, { x: 32.41, y: 39.7 }, { x: 40.99, y: 39.32 }],
-      [{ x: 15.7, y: 57.89 }, { x: 23.94, y: 58.41 }, { x: 32.48, y: 57.36 }, { x: 40.96, y: 57.59 }],
-      [{ x: 15.57, y: 82.39 }, { x: 24.06, y: 78.31 }, { x: 32.55, y: 78.13 }, { x: 41.09, y: 77.37 }],
-      [{ x: 64.56, y: 7.2 }, { x: 72.93, y: 6.43 }, { x: 81.52, y: 5.15 }, { x: 89.93, y: 3.43 }],
-      [{ x: 64.42, y: 30.03 }, { x: 72.98, y: 29.2 }, { x: 81.42, y: 27.7 }, { x: 89.94, y: 26.28 }],
-      [{ x: 64.36, y: 44.76 }, { x: 72.88, y: 44.58 }, { x: 81.33, y: 45.26 }, { x: 89.83, y: 39.52 }],
-      [{ x: 64.34, y: 63.71 }, { x: 72.84, y: 61.94 }, { x: 81.39, y: 58.41 }, { x: 89.8, y: 57.44 }],
-      [{ x: 64.44, y: 78.02 }, { x: 73.02, y: 77.92 }, { x: 81.53, y: 76.17 }, { x: 89.91, y: 75.52 }]
-    ];
-    var controlChanges = [
-      [-0.4, 6.1, 8.3, 3.7],
-      [5.2, -0.6, -9.9, -1.0],
-      [-0.8, 7.3, 24.7, 0.2],
-      [6.1, -2.1, 4.0, -0.1],
-      [11.6, 12.3, 0.4, 1.8],
-      [7.2, 3.6, 6.7, 7.8],
-      [9.2, 3.0, 6.1, 5.2],
-      [8.9, 0.0, -1.5, 14.5],
-      [14.1, 9.1, 16.8, 3.6],
-      [10.0, -0.3, 6.2, 2.0]
-    ];
     var note = document.getElementById('findings-floating-note');
     var noteTitle = document.getElementById('findings-floating-title');
     var noteCopy = document.getElementById('findings-floating-copy');
-    var pctToggleBtn = document.getElementById('pct-toggle');
     var editToggle = document.getElementById('story-edit-toggle');
     var prevBtn = document.getElementById('story-prev');
     var nextBtn = document.getElementById('story-next');
@@ -1642,134 +1264,17 @@
 
     var editMode = false;
     var activeIndex = 0;
-    var lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
     var noteDrag = null;
     var noteResize = null;
     var viewPan = null;
     var noteManualSize = null;
-    var pctSetIndex = 0;
-
-    if (note && canvas && note.parentNode !== canvas) {
-      canvas.appendChild(note);
-    }
 
     function clamp(value, min, max) {
       return Math.max(min, Math.min(max, value));
     }
 
-    function parsePct(value) {
-      var n = parseFloat(String(value || '').replace('%', ''));
-      return isFinite(n) ? n : 0;
-    }
-
-    function fmtPct(value) {
-      var rounded = Math.round(value * 10) / 10;
-      if (Math.abs(rounded) < 0.05) {
-        return '0.0%';
-      }
-      var sign = rounded > 0 ? '+' : '';
-      return sign + rounded.toFixed(1) + '%';
-    }
-
-    function getTargets(step) {
-      return (step.getAttribute('data-target') || '').split(',').map(function (item) {
-        return item.trim();
-      }).filter(Boolean);
-    }
-
-    function togglePercentageSet() {
-      pctSetIndex = (pctSetIndex + 1) % 2;
-      applyStep(steps[activeIndex]);
-    }
-
-    function refreshBlueSteps() {
-      blueSteps = steps.filter(function (step) {
-        return (step.getAttribute('data-series') || '') === 'blue';
-      });
-    }
-
-    function getBlueStepIndex(step) {
-      return blueSteps.indexOf(step);
-    }
-
     function refreshSteps() {
       steps = Array.prototype.slice.call(scrolly.querySelectorAll('.findings-scroll-step'));
-      refreshBlueSteps();
-    }
-
-    function setControlDotLabel(dot, deltaPct) {
-      var label = fmtPct(deltaPct);
-      dot.setAttribute('data-pct', label);
-      dot.setAttribute('title', label);
-      dot.setAttribute('aria-label', label);
-    }
-
-    function ensureControlLayer() {
-      if (!scene || !layer || controlLayer) return;
-      controlLayer = document.createElement('div');
-      controlLayer.className = 'findings-dot-layer';
-      controlLayer.setAttribute('aria-label', 'Control red dot percentages');
-      scene.insertBefore(controlLayer, layer);
-    }
-
-    function createControlDots() {
-      ensureControlLayer();
-      if (!controlLayer || !layer) return;
-
-      controlLayer.innerHTML = '';
-      controlDotsByStep = [];
-      refreshBlueSteps();
-
-      blueSteps.forEach(function (step, blueIndex) {
-        var targets = getTargets(step);
-        var deltas = controlChanges[blueIndex] || [0, 0, 0, 0];
-        var dots = [];
-
-        targets.forEach(function (targetId, pointIndex) {
-          var treated = layer.querySelector('[data-id="' + targetId + '"]');
-          if (!treated) return;
-
-          var tx = parseFloat((treated.style.getPropertyValue('--x') || '50%').replace('%', ''));
-          var ty = parseFloat((treated.style.getPropertyValue('--y') || '50%').replace('%', ''));
-          if (!isFinite(tx)) tx = 50;
-          if (!isFinite(ty)) ty = 50;
-
-          var treatedPct = parsePct(treated.getAttribute('data-pct'));
-          var deltaPct = deltas[pointIndex] || 0;
-          var controlPct = treatedPct + deltaPct;
-          var frozenPos = (frozenControlPositions[blueIndex] || [])[pointIndex] || null;
-          var xVal = frozenPos ? frozenPos.x : clamp(tx + ((pointIndex - 1.5) * 0.25), 2, 98);
-          var yVal = frozenPos ? frozenPos.y : clamp(ty - 0.2, 2, 98);
-
-          var dot = document.createElement('button');
-          dot.type = 'button';
-          dot.className = 'findings-dot';
-          dot.style.setProperty('--x', xVal.toFixed(2) + '%');
-          dot.style.setProperty('--y', yVal.toFixed(2) + '%');
-          dot.setAttribute('data-step-index', String(blueIndex));
-          dot.setAttribute('data-point-index', String(pointIndex));
-          dot.setAttribute('data-treated-pct', String(treatedPct));
-          dot.setAttribute('data-delta-pct', String(deltaPct));
-          dot.setAttribute('data-control-pct', String(controlPct));
-          setControlDotLabel(dot, deltaPct);
-          controlLayer.appendChild(dot);
-          dots.push(dot);
-        });
-
-        controlDotsByStep[blueIndex] = dots;
-      });
-    }
-
-    function setControlDotsForStep(step) {
-      if (!controlLayer) return;
-      var blueIndex = getBlueStepIndex(step);
-      controlDotsByStep.forEach(function (dots, idx) {
-        dots.forEach(function (dot) {
-          var isCurrent = idx === blueIndex;
-          dot.classList.toggle('is-active', isCurrent);
-          dot.classList.toggle('show-label', isCurrent && pctSetIndex === 1);
-        });
-      });
     }
 
     function getStepTitle(step) {
@@ -1854,58 +1359,27 @@
 
     function setFloatingNote(step) {
       if (!note || !step) return;
-      var stepIndex = steps.indexOf(step);
-      var block = Math.floor(Math.max(stepIndex, 0) / 5);
-      var sideX = block % 2 === 0 ? 80 : 20;
       var x = parseFloat(step.getAttribute('data-note-x'));
       var y = parseFloat(step.getAttribute('data-note-y'));
-      var w = parseFloat(step.getAttribute('data-note-w'));
-      var h = parseFloat(step.getAttribute('data-note-h'));
-      if (!isFinite(x)) x = sideX;
+      if (!isFinite(x)) x = 15;
       if (!isFinite(y)) y = 15;
       note.style.setProperty('--note-x', x.toFixed(2) + '%');
       note.style.setProperty('--note-y', y.toFixed(2) + '%');
-
-      if (isFinite(w) && isFinite(h)) {
-        noteManualSize = { wPct: w, hPct: h };
-        note.style.setProperty('--note-w', w.toFixed(2) + '%');
-        note.style.setProperty('--note-h', h.toFixed(2) + '%');
-      } else if (noteManualSize) {
+      if (noteManualSize) {
         note.style.setProperty('--note-w', noteManualSize.wPct.toFixed(2) + '%');
         note.style.setProperty('--note-h', noteManualSize.hPct.toFixed(2) + '%');
       }
 
       var titleEl = step.querySelector('h4');
       var p = step.querySelector('p');
-      var blueIndex = getBlueStepIndex(step);
       if (noteTitle && titleEl) noteTitle.textContent = titleEl.textContent || '';
       if (noteCopy && p) noteCopy.textContent = p.textContent || '';
-      if (pctToggleBtn) {
-        pctToggleBtn.hidden = blueIndex < 0;
-      }
-    }
-
-    function setHotspotTargets(step) {
-      if (!step || hotspots.length === 0) return;
-      var targets = (step.getAttribute('data-target') || '').split(',').map(function (item) {
-        return item.trim();
-      }).filter(Boolean);
-      var showTreated = pctSetIndex === 0;
-      hotspots.forEach(function (dot) {
-        var id = dot.getAttribute('data-id') || '';
-        dot.classList.toggle('is-active', showTreated && targets.indexOf(id) !== -1);
-      });
     }
 
     function saveNoteSizeForStep(step) {
-      if (!step) step = steps[activeIndex] || steps[0];
       if (!note || !canvas || !canvas.clientWidth || !canvas.clientHeight) return;
       var wPct = clamp((note.offsetWidth / canvas.clientWidth) * 100, 20, 92);
       var hPct = clamp((note.offsetHeight / canvas.clientHeight) * 100, 10, 80);
-      if (step) {
-        step.setAttribute('data-note-w', wPct.toFixed(2));
-        step.setAttribute('data-note-h', hPct.toFixed(2));
-      }
       noteManualSize = { wPct: wPct, hPct: hPct };
       note.style.setProperty('--note-w', wPct.toFixed(2) + '%');
       note.style.setProperty('--note-h', hPct.toFixed(2) + '%');
@@ -1936,43 +1410,18 @@
 
     function getActiveStepFromScroll() {
       var probeY = window.innerHeight * 0.52;
-      var advanceY = window.innerHeight * 0.45;
-      var retreatY = window.innerHeight * 0.62;
-      var currentScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-      var movingDown = currentScrollTop >= lastScrollTop;
-      var guard = 0;
-
-      if (movingDown) {
-        // Catch up in sequence when momentum scrolling moves across multiple steps.
-        while (activeIndex < steps.length - 1 && guard < steps.length) {
-          var nextRect = steps[activeIndex + 1].getBoundingClientRect();
-          if (nextRect.top <= advanceY) {
-            activeIndex += 1;
-            guard += 1;
-            continue;
-          }
-          break;
-        }
-      } else {
-        while (activeIndex > 0 && guard < steps.length) {
-          var currentRect = steps[activeIndex].getBoundingClientRect();
-          if (currentRect.top > retreatY) {
-            activeIndex -= 1;
-            guard += 1;
-            continue;
-          }
-          break;
-        }
-      }
-
-      lastScrollTop = currentScrollTop;
-      activeIndex = clamp(activeIndex, 0, Math.max(steps.length - 1, 0));
-
-      var active = steps[activeIndex] || steps[0];
-
+      var active = steps[0];
+      var bestDist = Infinity;
       for (var i = 0; i < steps.length; i += 1) {
         var rect = steps[i].getBoundingClientRect();
         var center = rect.top + (rect.height * 0.5);
+        var dist = Math.abs(center - probeY);
+        if (dist < bestDist) {
+          bestDist = dist;
+          active = steps[i];
+          activeIndex = i;
+        }
+
         var maxDist = window.innerHeight * 0.7;
         var normDist = Math.min(Math.abs(center - probeY), maxDist);
         var t = 1 - (normDist / maxDist);
@@ -1988,60 +1437,18 @@
     }
 
     function updateEditorReadout(step) {
-      if (!editorReadout || !step) return;
-      var state = getStepState(step);
-      var stepNumber = steps.indexOf(step) + 1;
-      var noteX = parseFloat(step.getAttribute('data-note-x'));
-      var noteY = parseFloat(step.getAttribute('data-note-y'));
-      var noteW = parseFloat(step.getAttribute('data-note-w'));
-      var noteH = parseFloat(step.getAttribute('data-note-h'));
-
-      if (!isFinite(noteX)) noteX = 15;
-      if (!isFinite(noteY)) noteY = 15;
-      if (!isFinite(noteW) && noteManualSize) noteW = noteManualSize.wPct;
-      if (!isFinite(noteH) && noteManualSize) noteH = noteManualSize.hPct;
-
-      var lines = [];
-      lines.push('Step ' + stepNumber + ' of ' + steps.length + ': ' + getStepTitle(step));
-      lines.push('Mode: ' + (editMode ? 'EDITING (drag note/corners, drag chart, wheel zoom)' : 'view only'));
-      lines.push('');
-      lines.push('Save these on this step <article>:');
-      lines.push('data-note-x="' + noteX.toFixed(2) + '"  data-note-y="' + noteY.toFixed(2) + '"');
-      if (isFinite(noteW) && isFinite(noteH)) {
-        lines.push('data-note-w="' + noteW.toFixed(2) + '"  data-note-h="' + noteH.toFixed(2) + '"');
-      }
-      lines.push('data-fx="' + state.fx.toFixed(2) + '"  data-fy="' + state.fy.toFixed(2) + '"  data-zoom="' + state.zoom.toFixed(2) + '"');
-      editorReadout.textContent = lines.join('\n');
+      return;
     }
 
     function updateEditorButtons() {
-      var isOn = !!editMode;
-      scrolly.classList.toggle('is-editing', isOn);
-      if (note) note.classList.toggle('is-draggable', isOn);
-      if (editToggle) {
-        editToggle.classList.toggle('is-on', isOn);
-        editToggle.textContent = isOn ? 'Disable Edit Mode' : 'Enable Edit Mode';
-      }
-
-      var controls = [
-        prevBtn, nextBtn, upBtn, downBtn,
-        focusLeftBtn, focusRightBtn, focusUpBtn, focusDownBtn,
-        zoomOutBtn, zoomInBtn
-      ];
-      controls.forEach(function (btn) {
-        if (!btn) return;
-        btn.disabled = !isOn;
-      });
+      return;
     }
 
     function applyStep(step) {
       if (!step) return;
       var mode = step.getAttribute('data-series') || 'green';
-      scrolly.classList.toggle('is-intro-step', step.getAttribute('data-intro') === 'true');
       setSeries(mode);
       setFocus(step);
-      setHotspotTargets(step);
-      setControlDotsForStep(step);
       setFloatingNote(step);
       updateEditorReadout(step);
     }
@@ -2127,12 +1534,6 @@
     if (focusDownBtn) focusDownBtn.addEventListener('click', function () { nudgeFocus(0, 1.5, 0); });
     if (zoomOutBtn) zoomOutBtn.addEventListener('click', function () { nudgeFocus(0, 0, -0.08); });
     if (zoomInBtn) zoomInBtn.addEventListener('click', function () { nudgeFocus(0, 0, 0.08); });
-    if (pctToggleBtn) {
-      pctToggleBtn.addEventListener('click', function (event) {
-        event.stopPropagation();
-        togglePercentageSet();
-      });
-    }
 
     if (canvas) {
       canvas.addEventListener('pointerdown', function (event) {
@@ -2277,18 +1678,13 @@
     window.addEventListener('scroll', updateFromScroll, { passive: true });
     window.addEventListener('resize', updateFromScroll);
     window.addEventListener('load', updateFromScroll);
-    refreshBlueSteps();
-    createControlDots();
     updateEditorButtons();
-    setSeries((steps[0] && steps[0].getAttribute('data-series')) || 'green');
+    setSeries('green');
     setFocus(steps[0]);
-    if (steps[0] && (!steps[0].hasAttribute('data-note-w') || !steps[0].hasAttribute('data-note-h'))) {
-      saveNoteSizeForStep(steps[0]);
-    }
+    saveNoteSizeForStep();
     setFloatingNote(steps[0]);
     updateEditorReadout(steps[0]);
   })();
-
 </script>
 </body>
 </html>
