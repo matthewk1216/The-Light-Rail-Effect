@@ -204,25 +204,10 @@ p{
 }
 
 .quant-figure-note{
-  position:absolute;
-  right:1rem;
-  bottom:1rem;
-  max-width:min(360px, calc(100% - 2rem));
-  background:rgba(255,255,255,.94);
-  border:1px solid rgba(0,0,0,.12);
+  border-top:1px solid var(--line);
+  min-height:88px;
+  background:#fff;
   padding:.7rem .8rem;
-  font-size:.92rem;
-  line-height:1.45;
-  color:#222;
-  box-shadow:0 8px 20px rgba(0,0,0,.14);
-}
-
-.quant-figure-note strong{
-  display:block;
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.15rem;
-  line-height:1.1;
-  margin-bottom:.22rem;
 }
 
 .prompt{
@@ -253,11 +238,6 @@ p{
     margin-top:.5rem;
     min-width:0;
     transform:translateY(0);
-  }
-  .quant-figure-note{
-    position:static;
-    max-width:none;
-    margin:.7rem;
   }
 }
 </style>
@@ -303,10 +283,7 @@ p{
     <p>Because it examines the tracts more thoroughly than the event study and helps to clarify ambiguous data, the parallel trends graph is the reality, or the disaggregated view. The results of the parallel trends graph contradict the event study implication of a parallel trend. Various graphs show various connections between the control and treated tracts. On the other hand, the substantial disparities between the tracts indicate that the event study oversimplified the period preceding treatment. There is not a clear confirmation of a parallel trend pre-treatment. The parallel trends graph reinforces the complex and varied array of results observed in each region as it prepared for light rail.</p>
     <figure class="quant-figure">
       <img src="conclusion_table.png" alt="Conclusion quantitative results table" />
-      <figcaption class="quant-figure-note">
-        <strong>Key Quantitative Read</strong>
-        The table supports a null aggregate effect: estimates remain close to zero, while later periods widen in uncertainty.
-      </figcaption>
+      <figcaption class="quant-figure-note" aria-label="Blank note box"></figcaption>
     </figure>
   </section>
 
