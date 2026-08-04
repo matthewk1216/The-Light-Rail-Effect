@@ -29,6 +29,15 @@ body{
   font-family:'Inter',sans-serif;
   line-height:1.6;
   overflow-x:hidden;
+  zoom:0.8;
+}
+
+@supports not (zoom:1){
+  body{
+    transform:scale(0.8);
+    transform-origin:top left;
+    width:125%;
+  }
 }
 main{
   width:min(1180px,92vw);
