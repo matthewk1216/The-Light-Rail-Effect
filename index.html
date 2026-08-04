@@ -540,15 +540,19 @@ section{
   position:absolute;
   top:-2.25rem;
   right:0;
-  width:38px;
-  height:38px;
-  border:1px solid rgba(255,255,255,.45);
-  border-radius:999px;
-  background:rgba(0,0,0,.65);
-  color:#fff;
-  font-size:1.2rem;
+  width:34px;
+  height:34px;
+  border:1px solid rgba(0,0,0,.9);
+  border-radius:50%;
+  background:rgba(255,255,255,.94);
+  color:#111;
+  font-size:1.1rem;
   line-height:1;
   cursor:pointer;
+  transition:background .2s ease, color .2s ease;
+}
+.gis-lightbox-close:hover{
+  background:rgba(0,0,0,.08);
 }
 .photo.station{
   background:transparent;
