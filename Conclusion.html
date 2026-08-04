@@ -123,6 +123,34 @@ main{
   padding:2.2rem 0 4rem;
 }
 
+.conclusion-hero{
+  height:min(56vh,520px);
+  min-height:300px;
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.16)),
+    url('AustinMap.png') center 24% / cover no-repeat;
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  align-items:end;
+}
+
+.conclusion-hero-inner{
+  width:min(760px,92vw);
+  margin:0 auto;
+  padding:0 0 1.35rem;
+}
+
+.conclusion-hero-card{
+  display:inline-block;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(0,0,0,.1);
+  padding:.7rem 1rem;
+}
+
 .kicker{
   font-size:.75rem;
   letter-spacing:.16em;
@@ -210,6 +238,15 @@ p{
     </nav>
   </div>
 </header>
+
+<section class="conclusion-hero" aria-label="Conclusion header image">
+  <div class="conclusion-hero-inner">
+    <div class="conclusion-hero-card">
+      <p class="kicker">Conclusion</p>
+      <h1>What the Evidence Suggests</h1>
+    </div>
+  </div>
+</section>
 
 <main>
   <section>
