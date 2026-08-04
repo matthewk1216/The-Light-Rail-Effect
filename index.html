@@ -486,6 +486,70 @@ section{
   display:block;
   object-fit:contain;
 }
+.gis-expand-btn{
+  position:absolute;
+  top:.65rem;
+  right:.65rem;
+  z-index:6;
+  width:36px;
+  height:36px;
+  border:1px solid rgba(0,0,0,.2);
+  background:rgba(255,255,255,.92);
+  color:#111;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  font-size:1.05rem;
+  line-height:1;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(0,0,0,.14);
+}
+.gis-expand-btn:hover{
+  background:#fff;
+}
+.gis-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  background:rgba(12,12,12,.82);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:3.2rem 1.4rem 1.4rem;
+}
+.gis-lightbox.is-open{
+  display:flex;
+}
+.gis-lightbox-inner{
+  position:relative;
+  width:min(1280px,96vw);
+  max-height:90vh;
+  display:grid;
+  place-items:center;
+}
+.gis-lightbox img{
+  max-width:100%;
+  max-height:88vh;
+  width:auto;
+  height:auto;
+  display:block;
+  box-shadow:0 22px 55px rgba(0,0,0,.45);
+  background:#fff;
+}
+.gis-lightbox-close{
+  position:absolute;
+  top:-2.25rem;
+  right:0;
+  width:38px;
+  height:38px;
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:999px;
+  background:rgba(0,0,0,.65);
+  color:#fff;
+  font-size:1.2rem;
+  line-height:1;
+  cursor:pointer;
+}
 .photo.station{
   background:transparent;
   border-radius:0;
@@ -984,6 +1048,65 @@ section{
           current = (current + 1) % slides.length;
           show(current);
         });
+      });
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'gis-lightbox';
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightbox.innerHTML =
+        '<div class="gis-lightbox-inner">' +
+        '<button class="gis-lightbox-close" type="button" aria-label="Close enlarged GIS image">×</button>' +
+        '<img src="" alt="" />' +
+        '</div>';
+      document.body.appendChild(lightbox);
+
+      var lightboxImg = lightbox.querySelector('img');
+      var closeBtn = lightbox.querySelector('.gis-lightbox-close');
+      var lastTrigger = null;
+
+      function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        if (lastTrigger) {
+          lastTrigger.focus();
+        }
+      }
+
+      document.querySelectorAll('.photo.gis').forEach(function(photo, index) {
+        var img = photo.querySelector('img');
+        if (!img) {
+          return;
+        }
+
+        var btn = document.createElement('button');
+        btn.className = 'gis-expand-btn';
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Enlarge GIS photo ' + (index + 1));
+        btn.textContent = '+';
+        photo.appendChild(btn);
+
+        btn.addEventListener('click', function() {
+          lastTrigger = btn;
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+          lightbox.classList.add('is-open');
+          lightbox.setAttribute('aria-hidden', 'false');
+          closeBtn.focus();
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+
+      lightbox.addEventListener('click', function(event) {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+          closeLightbox();
+        }
       });
 
       function splitTextInHalf(text) {
