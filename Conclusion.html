@@ -9,10 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#ffffff;
-  --text:#111111;
-  --muted:#666666;
-  --line:#e9e9e9;
+  --bg:#faf8f3;
+  --text:#161616;
+  --muted:#5f5f5f;
+  --line:#e4dfd4;
+  --card:#ffffff;
+  --card-line:rgba(20,20,20,.14);
 }
 *{box-sizing:border-box;}
 body{
@@ -20,7 +22,7 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:'Inter',sans-serif;
-  line-height:1.6;
+  line-height:1.55;
   zoom:0.8;
 }
 
@@ -33,16 +35,20 @@ body{
 }
 
 .site-header{
-  border-bottom:1px solid var(--line);
-  height:56px;
+  border-bottom:1px solid rgba(0,0,0,.12);
+  height:60px;
   display:flex;
   align-items:center;
-  background:#fff;
+  position:sticky;
+  top:0;
+  z-index:60;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(10px);
 }
 .site-header .container{
-  width:min(920px,92vw);
+  width:min(1140px,94vw);
   margin:0 auto;
-  padding:0;
+  padding:0 1rem;
   display:flex;
   align-items:center;
   justify-content:flex-end;
@@ -80,13 +86,13 @@ body{
   position:absolute;
   top:100%;
   right:0;
-  min-width:180px;
+  min-width:220px;
   background:#fff;
   border:1px solid var(--line);
-  border-radius:8px;
-  padding:.3rem;
+  border-radius:12px;
+  padding:.45rem;
   display:grid;
-  gap:.1rem;
+  gap:.2rem;
   box-shadow:0 8px 18px rgba(0,0,0,.08);
   opacity:0;
   transform:translateY(-6px);
@@ -105,69 +111,167 @@ body{
 .page-link{
   text-decoration:none;
   color:#111;
-  padding:.6rem .7rem;
-  border-radius:6px;
-  font-size:.9rem;
+  padding:.7rem .8rem;
+  border-radius:8px;
+  font-size:.92rem;
 }
 .page-link:hover{
-  background:#f6f6f6;
+  background:#f6f4ef;
 }
 .page-link.current{
-  background:#f6f6f6;
+  background:#f6f4ef;
   font-weight:600;
 }
 
-main{
-  width:min(760px,92vw);
-  margin:0 auto;
-  padding:2.2rem 0 4rem;
+.intro-band{
+  width:min(1080px,94vw);
+  margin:1.35rem auto 0;
+  padding:0 1rem;
 }
 
-.kicker{
-  font-size:.75rem;
+.intro-band h1{
+  margin:0;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.7vw,3rem);
+  line-height:1;
+}
+
+.intro-band p{
+  margin:.45rem 0 0;
+  max-width:740px;
+  color:#333;
+}
+
+.scrolly{
+  width:100%;
+  margin-top:1rem;
+}
+
+.scrolly-wrap{
+  position:relative;
+  width:100%;
+}
+
+.scrolly-media{
+  position:sticky;
+  top:60px;
+  height:calc(100vh - 60px);
+  overflow:hidden;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.media-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .5s ease;
+}
+
+.media-slide.is-active{
+  opacity:1;
+}
+
+.media-bg{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  filter:saturate(.96) contrast(1.02);
+}
+
+.media-bg::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(250,248,243,.52),rgba(250,248,243,.78));
+}
+
+.media-template{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:clamp(170px,20vw,290px);
+  height:clamp(240px,44vh,460px);
+  border:2px dashed rgba(30,30,30,.26);
+  border-radius:14px;
+  background:rgba(255,255,255,.5);
+  display:grid;
+  place-items:center;
+  color:#3f3f3f;
+  font:600 .86rem/1.2 'Inter',sans-serif;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  z-index:2;
+}
+
+.media-template.left{
+  left:clamp(1rem,3vw,3rem);
+}
+
+.media-template.right{
+  right:clamp(1rem,3vw,3rem);
+}
+
+.scrolly-steps{
+  position:relative;
+  z-index:4;
+  width:min(980px,92vw);
+  margin:-86vh auto 0;
+  padding-bottom:18vh;
+}
+
+.step{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:4rem 0;
+}
+
+.step-card{
+  width:min(700px,92vw);
+  border:1px solid var(--card-line);
+  background:rgba(255,255,255,.97);
+  border-radius:16px;
+  box-shadow:0 22px 44px rgba(0,0,0,.16);
+  padding:1.35rem 1.45rem;
+}
+
+.step-kicker{
+  margin:0 0 .35rem;
+  font:600 .75rem/1 'Inter',sans-serif;
   letter-spacing:.16em;
   text-transform:uppercase;
-  color:var(--muted);
-  margin:0 0 .55rem 0;
-}
-h1{
-  font-family:'Cormorant Garamond',serif;
-  font-size:2.4rem;
-  line-height:1.05;
-  margin:0 0 1rem 0;
+  color:#4d4d4d;
 }
 
-section{
-  border-top:1px solid var(--line);
-  padding:1.15rem 0;
-}
-section:first-of-type{
-  border-top:none;
-  padding-top:0;
-}
-h2{
+.step h2{
   font-family:'Cormorant Garamond',serif;
-  font-size:1.55rem;
+  font-size:clamp(1.7rem,2.8vw,2.35rem);
   line-height:1.2;
-  margin:0 0 .35rem 0;
+  margin:0 0 .55rem;
 }
-h3{
+
+.step h3{
   font-family:'Cormorant Garamond',serif;
   font-size:1.2rem;
   line-height:1.25;
-  margin:.9rem 0 .3rem 0;
-}
-p{
-  margin:.2rem 0 0 0;
+  margin:.85rem 0 .35rem;
 }
 
-.prompt{
-  color:var(--muted);
-  font-size:.95rem;
-  margin-top:.35rem;
+.step p{
+  margin:.22rem 0 0;
+  color:#1f1f1f;
+}
+
+.end-pad{
+  height:16vh;
 }
 
 @media (max-width:700px){
+  .intro-band{
+    margin-top:1rem;
+  }
   .site-header{
     height:auto;
   }
@@ -190,6 +294,19 @@ p{
     min-width:0;
     transform:translateY(0);
   }
+  .scrolly-media{
+    top:0;
+    height:100vh;
+  }
+  .media-template{
+    display:none;
+  }
+  .scrolly-steps{
+    margin:-88vh auto 0;
+  }
+  .step-card{
+    padding:1.05rem 1rem;
+  }
 }
 </style>
 </head>
@@ -211,29 +328,107 @@ p{
   </div>
 </header>
 
-<main>
-  <section>
-    <h2>The Qualitative</h2>
-    <p>As previously discussed, COVID-19 created a turbulent rental market. Station openings near the worldwide COVID-19 lockdown were going to show rent data not attributable to the effect of light rail. Even though the light rail effect may influence rent, it is most likely a soft one. Any effect that would have been apparent was drowned out by the radical change in rent caused by the period-specific external factors. These period-specific factors, while not completely invalidating the analysis, did prove to complicate the search for a clear effect. Endogeneity also proved to complicate the data, as the variables studied can feed into each other simultaneously. Light rail may influence rents, but the decision to develop a station may itself be related to neighborhood growth, rising rents, or expectations of future development. In that case, a rent increase after a station opening cannot automatically be interpreted as evidence that light rail caused the increase. The relationship may operate in both directions: neighborhoods expected to grow may attract light rail, while the new station may then contribute to additional rent growth. Anticipation was another complicated factor. If developers, landlords, or residents demonstrated anticipation that resulted in rent fluctuations, this would generate an effect during the pre-treatment period, which could potentially account for the absence of a consistent, shared trend prior to the opening.</p>
-  </section>
+<section class="intro-band">
+  <h1>Conclusion</h1>
+  <p>Scroll to move through the final synthesis. Each chapter uses a centered analysis card and full-bleed photo templates in the background, NYT-style.</p>
+</section>
 
-  <section>
-    <h2>The Quantitative</h2>
-    <h3>The Aggregate (Event Study)</h3>
-    <p>When aggregated, the numbers point to pre-treatment stability. When you look at the market as a whole, the event study gives you a different answer than when you look at individual tracts. The pre-treatment stability supports the parallel trends assumption. The control and treated tracts, when contrasted, share enough similarity to warrant parallel trends before treatment. The confidence intervals are also contained, which is attributed to a sufficient amount of data provided for this time period. As the treatment takes effect, the points hardly budge from their original momentum. There is no clear break, which would help to discern or conclude a clear effect. The points hover near zero, then in the final two years dip substantially. The confidence intervals widen due to the decrease in the amount of data. The post-treatment period produces a null effect. The confidence intervals widening makes the estimates less precise.</p>
-    <h3>The Individual (Parallel Trends)</h3>
-    <p>Because it examines the tracts more thoroughly than the event study and helps to clarify ambiguous data, the parallel trends graph is the reality, or the disaggregated view. The results of the parallel trends graph contradict the event study implication of a parallel trend. Various graphs show various connections between the control and treated tracts. On the other hand, the substantial disparities between the tracts indicate that the event study oversimplified the period preceding treatment. There is not a clear confirmation of a parallel trend pre-treatment. The parallel trends graph reinforces the complex and varied array of results observed in each region as it prepared for light rail.</p>
-  </section>
+<section class="scrolly" aria-label="Conclusion scrollytelling">
+  <div class="scrolly-wrap" id="conclusion-scrolly">
+    <div class="scrolly-media" aria-hidden="true">
+      <div class="media-slide is-active" data-slide="0">
+        <div class="media-bg" style="background-image:url('AustinMap.png');"></div>
+        <div class="media-template left">Photo Template</div>
+        <div class="media-template right">Photo Template</div>
+      </div>
+      <div class="media-slide" data-slide="1">
+        <div class="media-bg" style="background-image:url('EventStudy.png');"></div>
+        <div class="media-template left">Chart / Figure</div>
+        <div class="media-template right">Chart / Figure</div>
+      </div>
+      <div class="media-slide" data-slide="2">
+        <div class="media-bg" style="background-image:url('rent_trends.png');"></div>
+        <div class="media-template left">Parallel Trends</div>
+        <div class="media-template right">Parallel Trends</div>
+      </div>
+      <div class="media-slide" data-slide="3">
+        <div class="media-bg" style="background-image:url('SeattlePhoto1.jpg');"></div>
+        <div class="media-template left">Policy Image</div>
+        <div class="media-template right">Policy Image</div>
+      </div>
+    </div>
 
-  <section>
-    <h2>Lack of Detectable Effect</h2>
-    <p>With the parallel trends graph lacking a clear pre-treatment trend that indicates commonality, the event study is weakened. The event study not displaying a clear break or change as the treatment takes place likely suggests no detectable aggregate effect.</p>
-  </section>
+    <div class="scrolly-steps">
+      <article class="step" data-step="0">
+        <div class="step-card">
+          <p class="step-kicker">Chapter 01</p>
+          <h2>The Qualitative</h2>
+          <p>As previously discussed, COVID-19 created a turbulent rental market. Station openings near the worldwide COVID-19 lockdown were going to show rent data not attributable to the effect of light rail. Even though the light rail effect may influence rent, it is most likely a soft one. Any effect that would have been apparent was drowned out by the radical change in rent caused by the period-specific external factors. These period-specific factors, while not completely invalidating the analysis, did prove to complicate the search for a clear effect. Endogeneity also proved to complicate the data, as the variables studied can feed into each other simultaneously. Light rail may influence rents, but the decision to develop a station may itself be related to neighborhood growth, rising rents, or expectations of future development. In that case, a rent increase after a station opening cannot automatically be interpreted as evidence that light rail caused the increase. The relationship may operate in both directions: neighborhoods expected to grow may attract light rail, while the new station may then contribute to additional rent growth. Anticipation was another complicated factor. If developers, landlords, or residents demonstrated anticipation that resulted in rent fluctuations, this would generate an effect during the pre-treatment period, which could potentially account for the absence of a consistent, shared trend prior to the opening.</p>
+        </div>
+      </article>
 
-  <section>
-    <h2>Conclusion</h2>
-    <p>The analysis did not show a clear statistically significant detectable effect. Pre-treatment patterns are not consistently comparable across treated and control tracts, and later-year estimates are noisy. The most defensible conclusion, therefore, is that station openings may have produced heterogeneous local effects, but the current design and noise make it difficult to summarize them with a single number. Analysis in the future should aim to focus on the soundness of the data and its modeling and the explicit modeling of the heterogeneous effects.</p>
-  </section>
-</main>
+      <article class="step" data-step="1">
+        <div class="step-card">
+          <p class="step-kicker">Chapter 02</p>
+          <h2>The Quantitative</h2>
+          <h3>The Aggregate (Event Study)</h3>
+          <p>When aggregated, the numbers point to pre-treatment stability. When you look at the market as a whole, the event study gives you a different answer than when you look at individual tracts. The pre-treatment stability supports the parallel trends assumption. The control and treated tracts, when contrasted, share enough similarity to warrant parallel trends before treatment. The confidence intervals are also contained, which is attributed to a sufficient amount of data provided for this time period. As the treatment takes effect, the points hardly budge from their original momentum. There is no clear break, which would help to discern or conclude a clear effect. The points hover near zero, then in the final two years dip substantially. The confidence intervals widen due to the decrease in the amount of data. The post-treatment period produces a null effect. The confidence intervals widening makes the estimates less precise.</p>
+        </div>
+      </article>
+
+      <article class="step" data-step="2">
+        <div class="step-card">
+          <p class="step-kicker">Chapter 03</p>
+          <h2>Lack of Detectable Effect</h2>
+          <h3>The Individual (Parallel Trends)</h3>
+          <p>Because it examines the tracts more thoroughly than the event study and helps to clarify ambiguous data, the parallel trends graph is the reality, or the disaggregated view. The results of the parallel trends graph contradict the event study implication of a parallel trend. Various graphs show various connections between the control and treated tracts. On the other hand, the substantial disparities between the tracts indicate that the event study oversimplified the period preceding treatment. There is not a clear confirmation of a parallel trend pre-treatment. The parallel trends graph reinforces the complex and varied array of results observed in each region as it prepared for light rail.</p>
+          <p>With the parallel trends graph lacking a clear pre-treatment trend that indicates commonality, the event study is weakened. The event study not displaying a clear break or change as the treatment takes place likely suggests no detectable aggregate effect.</p>
+        </div>
+      </article>
+
+      <article class="step" data-step="3">
+        <div class="step-card">
+          <p class="step-kicker">Chapter 04</p>
+          <h2>Conclusion</h2>
+          <p>The analysis did not show a clear statistically significant detectable effect. Pre-treatment patterns are not consistently comparable across treated and control tracts, and later-year estimates are noisy. The most defensible conclusion, therefore, is that station openings may have produced heterogeneous local effects, but the current design and noise make it difficult to summarize them with a single number. Analysis in the future should aim to focus on the soundness of the data and its modeling and the explicit modeling of the heterogeneous effects.</p>
+        </div>
+      </article>
+      <div class="end-pad" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.getElementById('conclusion-scrolly');
+    if (!root) return;
+
+    var steps = Array.prototype.slice.call(root.querySelectorAll('.step[data-step]'));
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.media-slide[data-slide]'));
+    if (!steps.length || !slides.length) return;
+
+    function setActive(index) {
+      slides.forEach(function (slide, idx) {
+        slide.classList.toggle('is-active', idx === index);
+      });
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var idx = parseInt(entry.target.getAttribute('data-step'), 10);
+        if (!isNaN(idx)) setActive(idx);
+      });
+    }, {
+      threshold: 0.55
+    });
+
+    steps.forEach(function (step) {
+      observer.observe(step);
+    });
+
+    setActive(0);
+  })();
+</script>
 </body>
 </html>
