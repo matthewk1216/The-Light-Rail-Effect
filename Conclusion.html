@@ -152,6 +152,21 @@ main{
   padding:.7rem 1rem;
 }
 
+.section-break{
+  height:30vh;
+  min-height:170px;
+  max-height:280px;
+  width:100vw;
+  margin:1.2rem 0;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.18)),
+    url('AustinMap.png') center 46% / cover no-repeat;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
 .kicker{
   font-size:.75rem;
   letter-spacing:.16em;
@@ -239,6 +254,11 @@ p{
     min-width:0;
     transform:translateY(0);
   }
+  .section-break{
+    height:22vh;
+    min-height:140px;
+    margin:1rem 0;
+  }
 }
 </style>
 </head>
@@ -274,6 +294,8 @@ p{
     <h2>The Qualitative</h2>
     <p>As previously discussed, COVID-19 created a turbulent rental market. Station openings near the worldwide COVID-19 lockdown were going to show rent data not attributable to the effect of light rail. Even though the light rail effect may influence rent, it is most likely a soft one. Any effect that would have been apparent was drowned out by the radical change in rent caused by the period-specific external factors. These period-specific factors, while not completely invalidating the analysis, did prove to complicate the search for a clear effect. Endogeneity also proved to complicate the data, as the variables studied can feed into each other simultaneously. Light rail may influence rents, but the decision to develop a station may itself be related to neighborhood growth, rising rents, or expectations of future development. In that case, a rent increase after a station opening cannot automatically be interpreted as evidence that light rail caused the increase. The relationship may operate in both directions: neighborhoods expected to grow may attract light rail, while the new station may then contribute to additional rent growth. Anticipation was another complicated factor. If developers, landlords, or residents demonstrated anticipation that resulted in rent fluctuations, this would generate an effect during the pre-treatment period, which could potentially account for the absence of a consistent, shared trend prior to the opening.</p>
   </section>
+
+  <div class="section-break" role="img" aria-label="Visual break between qualitative and quantitative sections"></div>
 
   <section>
     <h2>The Quantitative</h2>
