@@ -13,6 +13,7 @@
   --text:#111111;
   --muted:#666666;
   --line:#e9e9e9;
+  --page-scale:.8;
 }
 *{box-sizing:border-box;}
 body{
@@ -127,9 +128,10 @@ main{
 .conclusion-hero{
   height:min(72vh,700px);
   min-height:420px;
-  width:100vw;
-  margin-left:calc(50% - 50vw);
-  margin-right:calc(50% - 50vw);
+  width:calc(100vw / var(--page-scale));
+  max-width:calc(100vw / var(--page-scale));
+  margin-left:calc(50% - (50vw / var(--page-scale)));
+  margin-right:calc(50% - (50vw / var(--page-scale)));
   background:
     linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.16)),
     url('USMap.png') center 24% / cover no-repeat,
@@ -167,10 +169,11 @@ main{
   height:30vh;
   min-height:170px;
   max-height:280px;
-  width:100vw;
+  width:calc(100vw / var(--page-scale));
+  max-width:calc(100vw / var(--page-scale));
   margin:1.2rem 0;
-  margin-left:calc(50% - 50vw);
-  margin-right:calc(50% - 50vw);
+  margin-left:calc(50% - (50vw / var(--page-scale)));
+  margin-right:calc(50% - (50vw / var(--page-scale)));
   background:
     linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.18)),
     url('AustinMap.png') center 46% / cover no-repeat;
