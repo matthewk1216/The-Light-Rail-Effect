@@ -21,6 +21,7 @@ body{
   color:var(--text);
   font-family:'Inter',sans-serif;
   line-height:1.6;
+  overflow-x:hidden;
   zoom:0.8;
 }
 
@@ -133,6 +134,7 @@ main{
     linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.16)),
     url('USMap.png') center 24% / cover no-repeat,
     url('AustinMap.png') center 24% / cover no-repeat;
+  background-attachment:fixed;
   position:relative;
   overflow:hidden;
   display:grid;
@@ -163,6 +165,7 @@ main{
   background:
     linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.18)),
     url('AustinMap.png') center 46% / cover no-repeat;
+  background-attachment:fixed;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
 }
@@ -232,6 +235,10 @@ p{
 }
 
 @media (max-width:700px){
+  .conclusion-hero,
+  .section-break{
+    background-attachment:scroll;
+  }
   .site-header{
     height:auto;
   }
