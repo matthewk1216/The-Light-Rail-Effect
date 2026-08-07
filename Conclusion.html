@@ -190,6 +190,9 @@ main{
 }
 
 .section-break-bottom{
+  height:56vh;
+  min-height:380px;
+  max-height:760px;
   background:
     linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.18)),
     url('PhoenixMap.png') center bottom / cover no-repeat;
@@ -261,6 +264,33 @@ p{
   opacity:.98;
 }
 
+.conclusion-band{
+  width:calc(100vw / var(--page-scale));
+  max-width:calc(100vw / var(--page-scale));
+  margin:1.2rem 0 0;
+  margin-left:calc(50% - (50vw / var(--page-scale)));
+  margin-right:calc(50% - (50vw / var(--page-scale)));
+  background:#95b782;
+  border-top:1px solid rgba(255,255,255,.14);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  color:#fff;
+}
+
+.conclusion-inner{
+  width:min(760px,92vw);
+  margin:0 auto;
+  padding:1.5rem 0 1.7rem;
+}
+
+.conclusion-band h2,
+.conclusion-band p{
+  color:#fff;
+}
+
+.conclusion-band p{
+  opacity:.98;
+}
+
 .quant-figure{
   position:relative;
   margin:1.25rem 0 .2rem;
@@ -318,6 +348,11 @@ p{
     height:54vh;
     min-height:380px;
     margin:1rem 0;
+  }
+  .section-break-bottom{
+    height:44vh;
+    min-height:300px;
+    max-height:560px;
   }
 }
 </style>
@@ -381,15 +416,10 @@ p{
     <p>With the parallel trends graph lacking a clear pre-treatment trend that indicates commonality, the event study is weakened. The event study not displaying a clear break or change as the treatment takes place likely suggests no detectable aggregate effect.</p>
   </section>
 
-  <section>
-    <h2>Conclusion</h2>
-    <p>The analysis did not show a clear statistically significant detectable effect. Pre-treatment patterns are not consistently comparable across treated and control tracts, and later-year estimates are noisy. The most defensible conclusion, therefore, is that station openings may have produced heterogeneous local effects, but the current design and noise make it difficult to summarize them with a single number. Analysis in the future should aim to focus on the soundness of the data and its modeling and the explicit modeling of the heterogeneous effects.</p>
-  </section>
-
-  <section class="so-what-band">
-    <div class="so-what-inner">
-      <h2>So What?</h2>
-      <p>The takeaway is not that light rail has no relationship to rent, but that the relationship is uneven, hard to isolate, and shaped by local context. For planners and researchers, that means transit should be studied alongside neighborhood change, timing, and confounding development pressures rather than treated as a simple one-directional cause. For this project, the value is less in producing a single definitive estimate and more in showing how a careful applied economics framework can surface uncertainty, limitations, and real policy relevance.</p>
+  <section class="conclusion-band">
+    <div class="conclusion-inner">
+      <h2>Conclusion</h2>
+      <p>The analysis did not show a clear statistically significant detectable effect. Pre-treatment patterns are not consistently comparable across treated and control tracts, and later-year estimates are noisy. The most defensible conclusion, therefore, is that station openings may have produced heterogeneous local effects, but the current design and noise make it difficult to summarize them with a single number. Analysis in the future should aim to focus on the soundness of the data and its modeling and the explicit modeling of the heterogeneous effects.</p>
     </div>
   </section>
 </main>
