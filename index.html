@@ -301,12 +301,31 @@ section{
 }
 
 @media (max-width:900px){
+  :root{
+    --page-scale:1;
+  }
+  body{
+    zoom:1;
+    transform:none;
+    width:auto;
+  }
   .hero{
     background-attachment:scroll;
+    width:100vw;
+    max-width:100vw;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
   }
   .hero-inner{ text-align:center; padding:4rem 1rem; }
   .hero-inner::before{ background:rgba(255,255,255,0.85); border-radius:6px; }
   .title, .sub, .intro{ text-align:center; }
+  .floating-title .title{
+    white-space:normal;
+    line-height:1.05;
+  }
+  .hero-card{
+    padding:1.35rem 1rem;
+  }
   .site-header{
     height:auto;
   }
@@ -329,6 +348,9 @@ section{
     margin-top:.5rem;
     min-width:0;
     transform:translateY(0);
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
   }
   .photo.gis{
     min-height:auto;
@@ -912,6 +934,11 @@ section{
 }
 
 @media (max-width:950px){
+  body{
+    zoom:1;
+    transform:none;
+    width:auto;
+  }
   .scrolly,.subject{
     grid-template-columns:1fr;
   }
