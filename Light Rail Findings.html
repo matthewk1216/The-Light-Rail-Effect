@@ -1366,6 +1366,8 @@ section{
   }
   .findings-scroll-step{
     min-height:auto;
+    opacity:1 !important;
+    transform:none !important;
   }
   .findings-event-study{
     grid-template-columns:1fr;
@@ -1989,6 +1991,29 @@ section{
     }
 
     function getActiveStepFromScroll() {
+      var useMobileMode = window.matchMedia('(max-width: 950px)').matches;
+      if (useMobileMode) {
+        var mobileProbeY = window.innerHeight * 0.45;
+        var bestStep = steps[0] || null;
+        var bestDist = Number.POSITIVE_INFINITY;
+
+        for (var m = 0; m < steps.length; m += 1) {
+          var mobileRect = steps[m].getBoundingClientRect();
+          var mobileCenter = mobileRect.top + (mobileRect.height * 0.5);
+          var mobileDist = Math.abs(mobileCenter - mobileProbeY);
+          if (mobileDist < bestDist) {
+            bestDist = mobileDist;
+            bestStep = steps[m];
+          }
+          steps[m].style.removeProperty('--float-y');
+          steps[m].style.removeProperty('--float-scale');
+          steps[m].style.opacity = '1';
+        }
+
+        activeIndex = Math.max(0, steps.indexOf(bestStep));
+        return bestStep;
+      }
+
       var probeY = window.innerHeight * 0.52;
       var advanceY = window.innerHeight * 0.45;
       var retreatY = window.innerHeight * 0.62;
@@ -2159,6 +2184,16 @@ section{
       applyStep(active);
     }
 
+    var scrollTicking = false;
+    function requestScrollUpdate() {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      window.requestAnimationFrame(function () {
+        scrollTicking = false;
+        updateFromScroll();
+      });
+    }
+
     if (editToggle) {
       editToggle.addEventListener('click', function () {
         editMode = !editMode;
@@ -2167,7 +2202,7 @@ section{
           activeIndex = steps.indexOf(current);
         }
         updateEditorButtons();
-        updateFromScroll();
+        requestScrollUpdate();
       });
     }
 
@@ -2328,9 +2363,9 @@ section{
       });
     }
 
-    window.addEventListener('scroll', updateFromScroll, { passive: true });
-    window.addEventListener('resize', updateFromScroll);
-    window.addEventListener('load', updateFromScroll);
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+    window.addEventListener('resize', requestScrollUpdate);
+    window.addEventListener('load', requestScrollUpdate);
     refreshBlueSteps();
     createControlDots();
     updateEditorButtons();
@@ -2341,6 +2376,7 @@ section{
     }
     setFloatingNote(steps[0]);
     updateEditorReadout(steps[0]);
+    requestScrollUpdate();
   })();
 
 </script>
