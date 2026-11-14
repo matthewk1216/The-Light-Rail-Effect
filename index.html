@@ -961,25 +961,1793 @@ section{
     min-height:86vh;
   }
 }
+
+
+:root{
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#666666;
+  --line:#e9e9e9;
+  --soft:#fafafa;
+  --accent:#6f8f3a;
+  --overlay:rgba(255,255,255,.78);
+}
+*{box-sizing:border-box;}
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+  zoom:0.8;
+}
+
+@supports not (zoom:1){
+  body{
+    transform:scale(0.8);
+    transform-origin:top left;
+    width:125%;
+  }
+}
+main{
+  width:min(1180px,92vw);
+  margin:0 auto;
+}
+section{
+  padding:8vh 0;
+  border-top:1px solid var(--line);
+}
+
+/* kicker */
+.kicker{
+  font-size:.78rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(0,0,0,.6);
+  margin-bottom:1rem;
+}
+
+/* floating white card for the hero content */
+.hero-card{
+  background:rgba(255,255,255,0.98);
+  padding:2.5rem 2.5rem;
+  border-radius:12px;
+  box-shadow:0 12px 36px rgba(0,0,0,0.14);
+  max-width:880px;
+  margin:0 auto;
+  position:relative;
+}
+.hero-card > *{ position:relative; z-index:1; }
+
+/* floating title block above the card */
+.floating-title{
+  max-width:980px;
+  margin:0 auto 1.25rem auto;
+  text-align:center;
+  background:transparent;
+  z-index:4;
+}
+.floating-title .title{
+  font-family:'NYT Imperial','Cormorant Garamond',Georgia,serif;
+  font-size:clamp(2.8rem,6.5vw,4.8rem);
+  line-height:1;
+  margin:0;
+  white-space:nowrap;
+  overflow:visible;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:0;
+  font-weight:700;
+}
+.floating-title .sub{
+  margin:0.6rem auto 0;
+  color:rgba(0,0,0,.78);
+  font-size:clamp(1.25rem,2.2vw,1.9rem);
+  text-align:center;
+  max-width:760px;
+  display:block;
+}
+.floating-title .sub{
+  margin-top:.6rem;
+  color:rgba(0,0,0,.6);
+  font-size:clamp(0.95rem,1.6vw,1.2rem);
+  text-align:center;
+}
+
+/* centered floating author name at bottom of hero */
+.hero-name{
+  position:absolute;
+  left:50%;
+  bottom:3rem;
+  transform:translateX(-50%);
+  z-index:5;
+}
+.hero-name .name{
+  background:rgba(255,255,255,0.98);
+  padding:.5rem .9rem;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,.08);
+  color:rgba(0,0,0,.85);
+  font-weight:600;
+}
+.sub{
+  font-family:'NYT Imperial','Cormorant Garamond',serif;
+  font-size:clamp(1rem,2vw,1.4rem);
+  margin:0 0 1rem 0;
+  max-width:760px;
+  color:rgba(0,0,0,.75);
+}
+.name{
+  margin-top:1.5rem;
+  display:inline-block;
+  padding:.55rem .8rem;
+  border:1px solid rgba(0,0,0,.12);
+  background:transparent;
+  backdrop-filter:blur(6px);
+  border-radius:999px;
+  font-size:.88rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+/* Simple white header */
+.site-header{
+  border:1px solid rgba(0,0,0,.12);
+  height:64px;
+  display:flex;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(0,0,0,.06);
+}
+.site-header .container{
+  width:min(1180px,92vw);
+  margin:0 auto;
+  padding:0 1rem;
+  display:flex;
+  align-items:center;
+  color:rgba(0,0,0,.9);
+  justify-content:flex-end;
+}
+.logo-link{
+  text-decoration:none;
+  color:inherit;
+}
+.logo-icon{
+  color:var(--accent);
+  font-size:1.35rem;
+  line-height:1;
+  display:inline-block;
+}
+.page-menu{
+  position:relative;
+  padding-bottom:.35rem;
+  margin-bottom:-.35rem;
+}
+.menu-trigger{
+  width:26px;
+  height:20px;
+  border:none;
+  border-radius:0;
+  background:transparent;
+  font-family:'Inter',sans-serif;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  padding:0;
+  transition:opacity .2s ease;
+}
+.menu-trigger:hover,
+.page-menu:focus-within .menu-trigger{
+  opacity:.72;
+}
+.menu-trigger .bar{
+  display:block;
+  width:18px;
+  height:2px;
+  margin:1px 0;
+  border-radius:2px;
+  background:#111;
+  transition:background .25s ease;
+}
+.page-menu-panel{
+  position:absolute;
+  top:100%;
+  right:0;
+  min-width:220px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:.45rem;
+  font-family:'Inter',sans-serif;
+  display:grid;
+  gap:.2rem;
+  box-shadow:0 18px 34px rgba(0,0,0,.08);
+  opacity:0;
+  transform:translateY(-8px);
+  visibility:hidden;
+  pointer-events:none;
+  transform-origin:top right;
+  transition:opacity .2s ease, transform .24s ease, visibility .24s;
+}
+.page-menu:hover .page-menu-panel,
+.page-menu:focus-within .page-menu-panel{
+  opacity:1;
+  transform:translateY(0);
+  visibility:visible;
+  pointer-events:auto;
+}
+.page-link{
+  text-decoration:none;
+  color:#111;
+  padding:.75rem .85rem;
+  border-radius:10px;
+  font-family:'Inter',sans-serif;
+  font-size:.92rem;
+}
+.page-link:hover{
+  background:var(--soft);
+}
+.page-link.current{
+  background:var(--soft);
+  font-weight:600;
+}
+.intro{
+  max-width:760px;
+  margin-top:1.2rem;
+  color:rgba(0,0,0,.9);
+  font-size:1.05rem;
+  line-height:1.6;
+}
+
+@media (min-width:900px){
+  .hero-inner{ padding-left:2rem; }
+  .hero-inner::before{ background:rgba(255,255,255,0.92); }
+  .sub,.intro{ max-width:760px; }
+}
+
+@media (max-width:700px){
+  body{
+    zoom:1;
+    transform:none;
+    width:auto;
+  }
+  .hero-inner{ text-align:center; padding:4rem 1rem; }
+  .hero-inner::before{ background:rgba(255,255,255,0.85); border-radius:6px; }
+  .title, .sub, .intro{ text-align:center; }
+  .floating-title .title{
+    white-space:normal;
+    line-height:1.05;
+  }
+  .hero-card{
+    padding:1.35rem 1rem;
+  }
+  .site-header{
+    height:auto;
+  }
+  .site-header .container{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.55rem;
+    padding:.85rem 1rem;
+  }
+  .page-menu{
+    width:100%;
+  }
+  .menu-trigger{
+    width:100%;
+    border-radius:0;
+    height:24px;
+  }
+  .page-menu-panel{
+    position:static;
+    margin-top:.5rem;
+    min-width:0;
+    transform:translateY(0);
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+}
+
+.scrolly{
+  display:grid;
+  grid-template-columns:minmax(380px,1.15fr) minmax(440px,1.65fr);
+  gap:2.5rem;
+  align-items:start;
+}
+.left{
+  padding-top:1rem;
+  max-width:560px;
+  align-self:stretch;
+  position:relative;
+}
+.sticky{
+  position:static;
+}
+.step{
+  background:var(--soft);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1.1rem 1.15rem;
+  margin:0 0 1rem 0;
+  min-height:42vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.step h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;
+  margin:0 0 .4rem 0;
+}
+.step p{
+  margin:.35rem 0 0 0;
+  color:#222;
+}
+.note{
+  background:#fff;
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  padding:1rem 1.1rem;
+  border-radius:10px;
+  margin-top:1rem;
+}
+.note strong{
+  display:block;
+  margin-bottom:.25rem;
+}
+.scrolly .right{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:0;
+}
+.scrolly .right .gis{
+  order:-1;
+}
+.left{
+  padding-top:1rem;
+  max-width:420px;
+}
+.right{
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+  align-items:stretch;
+}
+.photo{
+  border:none;
+  border-radius:0;
+  background:transparent;
+  overflow:hidden;
+  position:relative;
+  display:block;
+}
+.photo img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+.photo.gis{
+  order:0;
+  min-height:700px;
+  width:100%;
+}
+.photo.gis img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+.photo.station{
+  background:transparent;
+  border-radius:0;
+  width:100%;
+  overflow:hidden;
+  position:relative;
+  margin-top:1rem;
+  transform:scale(1.35);
+  transform-origin:top right;
+}
+.photo.station img{
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  display:block;
+}
+.photo-caption{
+  display:none;
+}
+.photo-caption strong{
+  display:block;
+  font-weight:600;
+  margin-bottom:.05rem;
+}
+.photo.station .station-placeholder{
+  width:100%;
+  padding:1.5rem;
+  border:none;
+  border-radius:0;
+  background:transparent;
+  color:#222;
+  font-family:'Inter',sans-serif;
+  font-size:1rem;
+  text-align:center;
+}
+.chart-carousel{
+  display:grid;
+  gap:1rem;
+  width:100%;
+  margin:0;
+  position:relative;
+  top:0;
+}
+.carousel-inner{
+  position:relative;
+  overflow:hidden;
+  border-radius:0;
+  background:transparent;
+}
+.carousel-slide{
+  display:none;
+  opacity:0;
+  transition:opacity .35s ease;
+}
+.carousel-slide.active{
+  display:block;
+  opacity:1;
+}
+.carousel-slide img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+.photo .ph{
+  min-height:260px;
+  display:grid;
+  place-items:center;
+  color:#999;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:.82rem;
+  padding:2rem;
+}
+.photo .caption{
+  display:none;
+}
+.gis{
+  min-height:auto;
+  background:transparent;
+  position:static;
+  align-self:auto;
+}
+.gis img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+.chart{
+  min-height:auto;
+  aspect-ratio:auto;
+  background:transparent;
+  position:static;
+  overflow:visible;
+}
+.chart img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+}
+.chart .ph{
+  min-height:340px;
+}
+.carousel-controls{
+  display:flex;
+  justify-content:flex-end;
+  gap:.75rem;
+  align-items:center;
+}
+.carousel-arrow{
+  border:1px solid rgba(0,0,0,.9);
+  background:transparent;
+  color:#111;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  font-size:1.1rem;
+  cursor:pointer;
+  transition:background .2s ease, color .2s ease;
+}
+.carousel-arrow:hover{
+  background:rgba(0,0,0,.08);
+}
+.carousel-label{
+  display:none;
+}
+.placeholder{
+  background:linear-gradient(180deg,#fff,#f7f7f7);
+}
+.caption{
+  padding:.7rem .9rem;
+  border-top:1px solid var(--line);
+  font-size:.85rem;
+  color:var(--muted);
+}
+.subject{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(420px,.92fr);
+  gap:2rem;
+  align-items:start;
+  padding:7vh 0;
+  border-top:1px solid var(--line);
+}
+.subject .box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1rem;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:1rem;
+  align-items:start;
+}
+.subject .box > div{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:1rem;
+  align-items:start;
+}
+.subject .box .gis{
+  position:sticky;
+  top:6rem;
+  grid-row:span 2;
+}
+.subject .box .chart{
+  background:#fafafa;
+  border:1px solid #e6e6e6;
+  border-radius:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.subject .box .chart:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 30px rgba(0,0,0,.08);
+}
+.subject .box .chart .ph{
+  min-height:260px;
+  display:grid;
+  place-items:center;
+  color:#555;
+  font-weight:600;
+  text-transform:none;
+  letter-spacing:0;
+  font-size:1rem;
+}
+.subject .copy h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.75rem;
+  margin:0 0 .4rem 0;
+}
+.subject .copy p{
+  margin:.35rem 0 0 0;
+  color:#222;
+}
+
+.findings{
+  padding:9vh 0 10vh;
+}
+.findings-header{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);
+  gap:2rem;
+  align-items:end;
+  margin-bottom:2rem;
+}
+.findings-kicker{
+  font-size:.78rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin:0 0 .65rem 0;
+}
+.findings h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,4vw,3.4rem);
+  line-height:1;
+  margin:0;
+}
+.findings-note{
+  background:var(--soft);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1rem 1.1rem;
+  color:#222;
+}
+.findings-note strong{
+  display:block;
+  margin:0;
+}
+.findings-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+.stat-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1.15rem;
+  box-shadow:0 10px 24px rgba(0,0,0,.04);
+}
+.stat-card .label{
+  display:block;
+  font-size:.78rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:.55rem;
+}
+.stat-card .value{
+  display:block;
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;
+  line-height:1;
+  margin:0;
+}
+.findings-body{
+  display:block;
+}
+.findings-scrolly{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:0;
+  align-items:start;
+  margin-bottom:.35rem;
+  margin-top:0;
+  position:relative;
+}
+.findings-scroll-copy{
+  position:relative;
+  width:100%;
+  display:grid;
+  gap:1rem;
+  grid-area:1 / 1;
+  z-index:2;
+  pointer-events:none;
+}
+.findings-scroll-step{
+  min-height:72vh;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:0;
+  margin:0;
+  opacity:.12;
+  transition:opacity .22s ease;
+  position:relative;
+}
+.findings-scroll-step[data-series="blue"]{
+  min-height:88vh;
+}
+.findings-scroll-step::before{
+  content:none;
+}
+.findings-scroll-step h4{
+  display:none;
+}
+.findings-scroll-step p{
+  display:none;
+}
+.findings-scroll-step.is-active{
+  opacity:1;
+}
+.findings-scroll-step.is-active::before{
+  background:rgba(111,143,58,.9);
+  border-color:#fff;
+  box-shadow:0 0 0 4px rgba(111,143,58,.25);
+}
+.findings-scroll-sticky{
+  position:sticky;
+  top:8vh;
+  transform:none;
+  align-self:start;
+  grid-area:1 / 1;
+  justify-self:center;
+  width:min(112vw,1780px);
+  z-index:1;
+}
+.findings-image-first{
+  margin:0;
+  position:relative;
+  left:auto;
+  width:100%;
+  max-width:none;
+  height:auto;
+  transform:none;
+  background:#fff;
+}
+.findings-image-first.scrolly-pin{
+  margin:0;
+  left:auto;
+  transform:none;
+  width:100%;
+}
+.findings-scrolly-canvas{
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fff;
+  padding-top:26px;
+  box-shadow:0 14px 30px rgba(0,0,0,.06);
+}
+.findings-scrolly.is-intro-step .findings-scrolly-canvas{
+  padding-top:26px;
+  overflow:visible;
+}
+.findings-scrolly.is-intro-step .findings-floating-note{
+  --intro-note-w:clamp(260px,24vw,360px);
+  left:12px;
+  top:12px;
+  transform:none;
+  width:var(--intro-note-w);
+  height:auto;
+  min-height:0;
+  max-height:none;
+}
+.findings-scene{
+  position:relative;
+  transform-origin:0 0;
+  will-change:auto;
+  transition:transform .9s cubic-bezier(.22,.61,.36,1);
+}
+.findings-series-base,
+.findings-series-full{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:none;
+  image-rendering:auto;
+}
+.findings-series-base{
+  position:relative;
+}
+.findings-series-full{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .75s ease;
+}
+.findings-scrolly.is-blue-visible .findings-series-full{
+  opacity:1;
+}
+.findings-floating-note{
+  position:absolute;
+  left:var(--note-x,7%);
+  top:var(--note-y,8%);
+  transform:translate(-50%,-50%);
+  width:var(--note-w,min(420px,42vw));
+  height:auto !important;
+  min-width:240px;
+  min-height:220px;
+  max-width:min(640px,88vw);
+  max-height:none;
+  z-index:5;
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1rem 1.05rem;
+  box-shadow:0 18px 34px rgba(0,0,0,.14);
+  overflow:visible;
+  display:flex;
+  flex-direction:column;
+  gap:.7rem;
+  transition:left .7s cubic-bezier(.22,.61,.36,1), top .7s cubic-bezier(.22,.61,.36,1), opacity .25s ease;
+  pointer-events:auto;
+}
+.findings-floating-note h4{
+  margin:0 0 .25rem 0;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem;
+  line-height:1.05;
+}
+.findings-floating-note p{
+  margin:0;
+  padding-right:0;
+  font:500 .9rem/1.52 'Inter',sans-serif;
+  color:#222;
+}
+.findings-note-resizer{
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  border:2px solid rgba(111,143,58,.95);
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+  display:none;
+  z-index:6;
+}
+.findings-note-resizer[data-dir="nw"]{
+  left:0;
+  top:0;
+  transform:translate(-50%,-50%);
+  cursor:nwse-resize;
+}
+.findings-note-resizer[data-dir="ne"]{
+  right:0;
+  top:0;
+  transform:translate(50%,-50%);
+  cursor:nesw-resize;
+}
+.findings-note-resizer[data-dir="sw"]{
+  left:0;
+  bottom:0;
+  transform:translate(-50%,50%);
+  cursor:nesw-resize;
+}
+.findings-note-resizer[data-dir="se"]{
+  right:0;
+  bottom:0;
+  transform:translate(50%,50%);
+  cursor:nwse-resize;
+}
+.findings-image-first img{
+  width:100%;
+  height:auto;
+  display:block;
+  margin:0;
+}
+.findings-chart-overlay{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  font-family:'NYT Imperial','Cormorant Garamond',Georgia,serif;
+  color:#111;
+}
+.findings-chart-overlay .chart-title,
+.findings-chart-overlay .chart-axis,
+.findings-chart-overlay .chart-legend,
+.findings-chart-overlay .chart-axis-left-mask,
+.findings-chart-overlay .chart-axis-bottom-mask,
+.findings-chart-overlay .chart-title-mask{
+  position:absolute;
+  background:#fff;
+}
+.findings-chart-overlay .chart-title-mask{
+  height:3.8%;
+  width:22.5%;
+  transform:translate(-50%,-50%);
+  border-radius:4px;
+}
+.findings-chart-overlay .chart-title{
+  transform:translate(-50%,-50%);
+  font-size:clamp(.95rem,1.15vw,1.25rem);
+  font-weight:700;
+  line-height:1;
+  white-space:nowrap;
+}
+.findings-chart-overlay .chart-title.parallel-title{
+  left:50%;
+  top:1.5%;
+  transform:translate(-50%,0);
+  font-size:clamp(1.35rem,1.95vw,2rem);
+  font-family:'NYT Imperial','Cormorant Garamond',Georgia,serif;
+  background:rgba(255,255,255,.96);
+  border-radius:5px;
+  padding:.25rem .7rem;
+}
+.parallel-trends-heading,
+.event-study-heading{
+  margin:0 0 10px 0;
+  text-align:center;
+  font-size:clamp(1.35rem,1.95vw,2rem);
+  font-family:'NYT Imperial','Cormorant Garamond',Georgia,serif;
+  font-weight:700;
+  line-height:1.1;
+}
+.findings-event-study{
+  display:grid;
+  grid-template-columns:minmax(300px,360px) minmax(0,1fr);
+  gap:.9rem;
+  align-items:start;
+  margin:1.6rem calc(50% - 50vw) 0;
+  width:100vw;
+  padding:0 1rem;
+  box-sizing:border-box;
+}
+.event-study-copy{
+  position:relative;
+  padding:.5rem 0 56vh .6rem;
+}
+.event-study-step{
+  display:none;
+}
+.event-study-card{
+  position:sticky;
+  top:11vh;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1rem 1.05rem;
+  box-shadow:0 12px 24px rgba(0,0,0,.08);
+  max-width:100%;
+}
+.event-study-card h4{
+  margin:0 0 .35rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;
+  line-height:1.1;
+}
+.event-study-card p{
+  margin:0;
+  font:500 .9rem/1.45 'Inter',sans-serif;
+  color:#222;
+}
+.event-study-controls{
+  margin-top:.85rem;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:.5rem;
+}
+.event-study-step-readout{
+  margin-right:.35rem;
+  font:600 .8rem/1 'Inter',sans-serif;
+  color:#555;
+}
+.event-study-visual{
+  position:sticky;
+  top:11vh;
+  margin-top:.15rem;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:.25rem .35rem .45rem;
+  box-shadow:none;
+  min-width:0;
+  width:100%;
+  max-width:none;
+  justify-self:center;
+}
+.event-study-visual .event-study-heading{
+  margin:0 0 .1rem 0;
+}
+.findings-event-study .parallel-study-image{
+  width:34%;
+  max-width:none;
+  max-height:none;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
+}
+.findings-event-study .average-effect-mask{
+  position:absolute;
+  left:2.52%;
+  top:0;
+  transform:none;
+  width:32.91%;
+  height:3.4%;
+  background:#fff;
+  border-radius:4px;
+  z-index:2;
+  pointer-events:none;
+}
+.findings-chart-overlay .chart-axis-left-mask{
+  left:0.2%;
+  top:12%;
+  width:6.2%;
+  height:74%;
+}
+.findings-chart-overlay .chart-axis-bottom-mask{
+  left:10%;
+  bottom:0.4%;
+  width:80%;
+  height:7.5%;
+}
+.findings-chart-overlay .chart-axis{
+  font-size:clamp(.95rem,1.1vw,1.4rem);
+  font-weight:700;
+  letter-spacing:.08em;
+  line-height:1;
+  white-space:nowrap;
+}
+.findings-chart-overlay .chart-axis.y{
+  left:2.1%;
+  top:50%;
+  transform:translate(-50%,-50%) rotate(-90deg);
+  transform-origin:center;
+}
+.findings-chart-overlay .chart-axis.x{
+  left:50%;
+  bottom:2.1%;
+  transform:translateX(-50%);
+}
+.findings-chart-overlay .chart-legend{
+  left:50%;
+  bottom:0.5%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:1.1rem;
+  font-size:clamp(.9rem,1vw,1.2rem);
+  font-weight:500;
+  white-space:nowrap;
+}
+.findings-chart-overlay .chart-legend::before,
+.findings-chart-overlay .chart-legend::after{
+  content:'';
+  width:.7rem;
+  height:.7rem;
+  border-radius:50%;
+  display:inline-block;
+  margin-right:.3rem;
+}
+.findings-chart-overlay .chart-legend::before{
+  background:#7d9432;
+}
+.findings-chart-overlay .chart-legend::after{
+  background:#9ecae6;
+}
+.findings-dot-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:auto;
+  z-index:4;
+}
+.findings-dot{
+  appearance:none;
+  -webkit-appearance:none;
+  padding:0;
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-50%);
+  width:0;
+  height:0;
+  border-radius:50%;
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  pointer-events:none;
+  cursor:default;
+  opacity:1;
+  visibility:visible;
+  transition:none;
+}
+.findings-dot.is-active{
+  opacity:1;
+  visibility:visible;
+}
+.findings-dot.is-dragging{
+  cursor:default;
+}
+.findings-dot::after{
+  content:attr(data-pct);
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 9px);
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font:600 .78rem/1.2 'Inter',sans-serif;
+  color:#111;
+  background:rgba(255,255,255,.98);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:.36rem .5rem;
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.findings-dot.show-label::after{
+  opacity:1;
+  visibility:visible;
+}
+.findings-hotspot-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:auto;
+  z-index:3;
+}
+.findings-hotspot{
+  appearance:none;
+  -webkit-appearance:none;
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-50%);
+  width:9px;
+  height:9px;
+  aspect-ratio:1/1;
+  border:none;
+  border-radius:50%;
+  background:transparent;
+  padding:0;
+  margin:0;
+  cursor:default;
+}
+.findings-hotspot::after{
+  content:attr(data-pct);
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 9px);
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font:600 .78rem/1.2 'Inter',sans-serif;
+  color:#111;
+  background:rgba(255,255,255,.98);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:.36rem .5rem;
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .15s ease, transform .15s ease;
+  pointer-events:none;
+}
+.findings-hotspot.is-active::after{
+  opacity:1;
+  visibility:visible;
+  transform:translateX(-50%) translateY(-2px);
+}
+.findings-hotspot-readout{
+  position:relative;
+  z-index:1;
+  margin-top:1rem;
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:.45rem .55rem;
+  font:500 .74rem/1.35 'Inter',sans-serif;
+  color:#111;
+  white-space:pre-line;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+  max-height:240px;
+  max-width:100%;
+  overflow:auto;
+}
+.findings-story-editor{
+  margin-top:1rem;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  padding:.7rem .75rem;
+  display:grid;
+  gap:.55rem;
+}
+.findings-hotspot-readout{
+  display:none;
+}
+.findings-pct-toggle{
+  position:static;
+  align-self:flex-end;
+  margin-top:.15rem;
+  z-index:8;
+}
+.findings-editor-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+}
+.findings-editor-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:999px;
+  font:600 .74rem/1 'Inter',sans-serif;
+  padding:.42rem .65rem;
+  color:#111;
+  cursor:pointer;
+}
+.findings-editor-btn[disabled]{
+  opacity:.45;
+  cursor:not-allowed;
+}
+.findings-editor-btn.is-on{
+  border-color:#6f8f3a;
+  background:#eef4e2;
+  color:#3c5221;
+}
+.findings-editor-readout{
+  font:500 .73rem/1.35 'Inter',sans-serif;
+  color:#333;
+  white-space:pre-line;
+}
+.findings-floating-note.is-draggable{
+  cursor:grab;
+  border-color:rgba(111,143,58,.85);
+  box-shadow:0 22px 40px rgba(0,0,0,.2);
+}
+.findings-floating-note.is-draggable .findings-note-resizer{
+  display:block;
+}
+.findings-floating-note.is-dragging{
+  cursor:grabbing;
+}
+.findings-scrolly.is-editing .findings-floating-note,
+.findings-scrolly.is-editing .findings-scene,
+.findings-scrolly.is-editing .findings-scroll-step{
+  transition:none !important;
+}
+.findings-scrolly.is-editing .findings-scroll-step{
+  transform:none !important;
+}
+.findings-scrolly.is-editing .findings-scrolly-canvas{
+  cursor:grab;
+  touch-action:none;
+}
+.findings-scrolly.is-editing .findings-scrolly-canvas.is-panning{
+  cursor:grabbing;
+}
+.findings-table-wrap h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.7rem;
+  margin:0 0 .7rem 0;
+}
+.findings-table-wrap{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1.2rem 1.25rem;
+  overflow:auto;
+}
+.findings-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.94rem;
+}
+.findings-table th,
+.findings-table td{
+  padding:.72rem .5rem;
+  text-align:left;
+  border-top:1px solid var(--line);
+  vertical-align:top;
+}
+.findings-table thead th{
+  border-top:none;
+  border-bottom:1px solid var(--line);
+  font-size:.77rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.findings-table tbody tr:nth-child(even){
+  background:#fcfcfc;
+}
+.findings-table td:last-child,
+.findings-table td:nth-last-child(2){
+  font-weight:600;
+}
+.research-entry{
+  margin-top:1rem;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:.95rem 1rem 1rem;
+  background:#fff;
+}
+.research-entry textarea{
+  width:100%;
+  min-height:190px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:.8rem .9rem;
+  font:inherit;
+  color:#111;
+  background:#fcfcfc;
+  resize:vertical;
+}
+.research-entry textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(111,143,58,.14);
+  background:#fff;
+}
+
+.event-study-plot{
+  position:relative;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0;
+}
+.event-study-plot .parallel-study-image{
+  width:100%;
+  max-width:none;
+  max-height:none;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border:1px solid rgba(0,0,0,.12);
+  border-radius:8px;
+  box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
+@media (max-width:950px){
+  body{
+    zoom:1;
+    transform:none;
+    width:auto;
+  }
+  .scrolly,.subject{
+    grid-template-columns:1fr;
+  }
+  .findings-header,
+  .findings-body,
+  .findings-stats{
+    grid-template-columns:1fr;
+  }
+  .findings-scrolly{
+    grid-template-columns:1fr;
+  }
+  .findings-scroll-sticky{
+    position:relative;
+    top:auto;
+    transform:none;
+    width:100%;
+  }
+  .findings-floating-note{
+    position:relative;
+    left:auto;
+    top:auto;
+    transform:none;
+    width:100%;
+    max-width:100%;
+    min-height:auto;
+    margin-top:.75rem;
+  }
+  .findings-image-first{
+    width:100%;
+  }
+  .findings-scroll-step{
+    min-height:auto;
+    opacity:1 !important;
+    transform:none !important;
+  }
+  .findings-event-study{
+    grid-template-columns:1fr;
+    gap:.9rem;
+    width:100%;
+    margin:1.6rem 0 0;
+    padding:0 .35rem;
+  }
+  .event-study-copy{
+    position:relative;
+    left:auto;
+    top:auto;
+    width:100%;
+    padding:.35rem 0 0;
+  }
+  .event-study-visual{
+    position:relative;
+    top:auto;
+    margin-top:.2rem;
+  }
+  .event-study-plot .parallel-study-image,
+  .findings-event-study .parallel-study-image{
+    max-height:none;
+    width:100%;
+  }
+  .event-study-card{
+    position:relative;
+    top:auto;
+  }
+  .event-study-controls{
+    justify-content:flex-start;
+  }
+  .sticky{
+    position:relative;
+    top:auto;
+  }
+  .step{
+    min-height:auto;
+  }
+  .hero{
+    min-height:86vh;
+    background-attachment:scroll;
+  }
+  .photo.gis{
+    min-height:auto;
+    width:100%;
+    margin-left:0;
+    margin-bottom:0;
+  }
+  .photo.station{
+    width:100%;
+    margin-left:0;
+    transform:none;
+  }
+  .chart-carousel{
+    top:0;
+  }
+}
+
+
+:root{
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#666666;
+  --line:#e9e9e9;
+  --page-scale:.8;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+  zoom:0.8;
+}
+
+@supports not (zoom:1){
+  body{
+    transform:scale(0.8);
+    transform-origin:top left;
+    width:125%;
+  }
+}
+
+.site-header{
+  border-bottom:1px solid var(--line);
+  height:56px;
+  display:flex;
+  align-items:center;
+  position:relative;
+  z-index:1200;
+  background:#fff;
+}
+.site-header .container{
+  width:min(920px,92vw);
+  margin:0 auto;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+}
+.page-menu{
+  position:relative;
+  padding-bottom:.35rem;
+  margin-bottom:-.35rem;
+}
+.menu-trigger{
+  width:24px;
+  height:20px;
+  border:none;
+  border-radius:0;
+  background:transparent;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  padding:0;
+  transition:opacity .2s ease;
+}
+.menu-trigger:hover,
+.page-menu:focus-within .menu-trigger{
+  opacity:.72;
+}
+.menu-trigger .bar{
+  display:block;
+  width:16px;
+  height:2px;
+  margin:1px 0;
+  border-radius:2px;
+  background:#111;
+}
+.page-menu-panel{
+  position:absolute;
+  top:100%;
+  right:0;
+  z-index:1300;
+  min-width:180px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:.3rem;
+  display:grid;
+  gap:.1rem;
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+  opacity:0;
+  transform:translateY(-6px);
+  visibility:hidden;
+  pointer-events:none;
+  transform-origin:top right;
+  transition:opacity .2s ease, transform .24s ease, visibility .24s;
+}
+.page-menu:hover .page-menu-panel,
+.page-menu:focus-within .page-menu-panel{
+  opacity:1;
+  transform:translateY(0);
+  visibility:visible;
+  pointer-events:auto;
+}
+.page-link{
+  text-decoration:none;
+  color:#111;
+  padding:.6rem .7rem;
+  border-radius:6px;
+  font-size:.9rem;
+}
+.page-link:hover{
+  background:#f6f6f6;
+}
+.page-link.current{
+  background:#f6f6f6;
+  font-weight:600;
+}
+
+.conclusion-content {
+  width:min(760px,92vw);
+  margin:0 auto;
+  padding:2.2rem 0 4rem;
+}
+
+.conclusion-hero{
+  height:min(94vh,1100px);
+  min-height:620px;
+  width:calc(100vw / var(--page-scale));
+  max-width:calc(100vw / var(--page-scale));
+  margin-left:calc(50% - (50vw / var(--page-scale)));
+  margin-right:calc(50% - (50vw / var(--page-scale)));
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.16)),
+    url('USMap.png') center 24% / cover no-repeat,
+    url('AustinMap.png') center 24% / cover no-repeat;
+  background-attachment:fixed;
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  align-items:center;
+}
+
+.conclusion-hero-inner{
+  width:min(900px,94vw);
+  margin:0 auto;
+  padding:0;
+  text-align:center;
+}
+
+.conclusion-hero-card{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(0,0,0,.1);
+  padding:1rem 1.5rem;
+}
+
+.conclusion-hero h1{
+  font-size:clamp(3.4rem,7.8vw,5.8rem);
+  line-height:1;
+  margin:0;
+}
+
+.section-break{
+  height:68vh;
+  min-height:460px;
+  max-height:860px;
+  width:calc(100vw / var(--page-scale));
+  max-width:calc(100vw / var(--page-scale));
+  margin:1.2rem 0;
+  margin-left:calc(50% - (50vw / var(--page-scale)));
+  margin-right:calc(50% - (50vw / var(--page-scale)));
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.18)),
+    url('HoustonMap.png') center center / cover no-repeat;
+  background-attachment:fixed;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.section-break-top{
+  background-position:center top;
+}
+
+.section-break-bottom{
+  height:56vh;
+  min-height:380px;
+  max-height:760px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.18)),
+    url('PhoenixMap.png') center bottom / cover no-repeat;
+  background-attachment:fixed;
+}
+
+.kicker{
+  font-size:.75rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin:0 0 .55rem 0;
+}
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem;
+  line-height:1.05;
+  margin:0 0 1rem 0;
+}
+
+section{
+  border-top:1px solid var(--line);
+  padding:1.15rem 0;
+}
+section:first-of-type{
+  border-top:none;
+  padding-top:0;
+}
+h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.55rem;
+  line-height:1.2;
+  margin:0 0 .35rem 0;
+}
+h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;
+  line-height:1.25;
+  margin:.9rem 0 .3rem 0;
+}
+p{
+  margin:.2rem 0 0 0;
+}
+
+.so-what-band{
+  width:calc(100vw / var(--page-scale));
+  max-width:calc(100vw / var(--page-scale));
+  margin:1.2rem 0 0;
+  margin-left:calc(50% - (50vw / var(--page-scale)));
+  margin-right:calc(50% - (50vw / var(--page-scale)));
+  background:#95b782;
+  border-top:1px solid rgba(255,255,255,.14);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  color:#fff;
+}
+
+.so-what-inner{
+  width:min(760px,92vw);
+  margin:0 auto;
+  padding:1.5rem 0 1.7rem;
+}
+
+.so-what-band h2,
+.so-what-band p{
+  color:#fff;
+}
+
+.so-what-band p{
+  opacity:.98;
+}
+
+.conclusion-band{
+  width:calc(100vw / var(--page-scale));
+  max-width:calc(100vw / var(--page-scale));
+  margin:1.2rem 0 0;
+  margin-left:calc(50% - (50vw / var(--page-scale)));
+  margin-right:calc(50% - (50vw / var(--page-scale)));
+  background:#95b782;
+  border-top:1px solid rgba(255,255,255,.14);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  color:#fff;
+}
+
+.conclusion-inner{
+  width:min(760px,92vw);
+  margin:0 auto;
+  padding:1.5rem 0 1.7rem;
+}
+
+.conclusion-band h2,
+.conclusion-band p{
+  color:#fff;
+}
+
+.conclusion-band p{
+  opacity:.98;
+}
+
+.quant-figure{
+  position:relative;
+  margin:1.25rem 0 .2rem;
+  border:1px solid var(--line);
+  background:#fff;
+}
+
+.quant-figure img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.quant-figure-note{
+  border-top:1px solid var(--line);
+  min-height:88px;
+  background:#fff;
+  padding:.7rem .8rem;
+}
+
+.prompt{
+  color:var(--muted);
+  font-size:.95rem;
+  margin-top:.35rem;
+}
+
+@media (max-width:700px){
+  :root{
+    --page-scale:1;
+  }
+  body{
+    zoom:1;
+    transform:none;
+    width:auto;
+  }
+  .conclusion-hero,
+  .section-break{
+    background-attachment:scroll;
+    width:100vw;
+    max-width:100vw;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+  }
+  .site-header{
+    height:auto;
+  }
+  .site-header .container{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.55rem;
+    padding:.85rem 1rem;
+  }
+  .page-menu{
+    width:100%;
+  }
+  .menu-trigger{
+    width:100%;
+    height:24px;
+  }
+  .page-menu-panel{
+    position:static;
+    margin-top:.5rem;
+    min-width:0;
+    transform:translateY(0);
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .section-break{
+    height:46vh;
+    min-height:300px;
+    margin:1rem 0;
+  }
+  .section-break-bottom{
+    height:38vh;
+    min-height:240px;
+    max-height:560px;
+  }
+}
 </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="container">
-    <nav class="page-menu" aria-label="Page selection">
-      <button class="menu-trigger" type="button" aria-label="Open page menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-      <div class="page-menu-panel">
-        <a class="page-link current" href="index.html">Overview</a>
-        <a class="page-link" href="Light%20Rail%20Findings.html">Findings</a>
-        <a class="page-link" href="Conclusion.html">Conclusion</a>
-      </div>
-    </nav>
-  </div>
-</header>
 <main>
   <section class="hero" id="top">
     <div class="hero-inner">
@@ -1139,95 +2907,6 @@ section{
         }
       });
 
-      function splitTextInHalf(text) {
-        var cleaned = text.replace(/\s+/g, ' ').trim();
-        var midpoint = Math.floor(cleaned.length / 2);
-        var splitAt = cleaned.indexOf(' ', midpoint);
-
-        if (splitAt === -1) {
-          splitAt = cleaned.lastIndexOf(' ', midpoint);
-        }
-        if (splitAt === -1) {
-          return [cleaned, ''];
-        }
-
-        var first = cleaned.slice(0, splitAt).trim();
-        var second = cleaned.slice(splitAt + 1).trim();
-        return [first, second];
-      }
-
-      document.querySelectorAll('.step > p').forEach(function(paragraph) {
-        var fullText = paragraph.textContent.replace(/\s+/g, ' ').trim();
-        if (fullText.length < 950) {
-          return;
-        }
-
-        var splitParts = splitTextInHalf(fullText);
-        if (!splitParts[1]) {
-          return;
-        }
-
-        var pager = document.createElement('div');
-        pager.className = 'step-pager';
-
-        var pages = document.createElement('div');
-        pages.className = 'step-pages';
-
-        var pageOne = document.createElement('p');
-        pageOne.className = 'step-page is-active';
-        pageOne.textContent = splitParts[0];
-
-        var pageTwo = document.createElement('p');
-        pageTwo.className = 'step-page';
-        pageTwo.textContent = splitParts[1];
-
-        pages.appendChild(pageOne);
-        pages.appendChild(pageTwo);
-
-        var controls = document.createElement('div');
-        controls.className = 'step-pager-controls';
-
-        var buttons = document.createElement('div');
-        buttons.className = 'step-pager-buttons';
-
-        var prev = document.createElement('button');
-        prev.className = 'step-pager-arrow';
-        prev.type = 'button';
-        prev.setAttribute('aria-label', 'Previous text section');
-        prev.textContent = '←';
-        prev.disabled = true;
-
-        var next = document.createElement('button');
-        next.className = 'step-pager-arrow';
-        next.type = 'button';
-        next.setAttribute('aria-label', 'Next text section');
-        next.textContent = '→';
-
-        buttons.appendChild(prev);
-        buttons.appendChild(next);
-        controls.appendChild(buttons);
-
-        pager.appendChild(pages);
-        pager.appendChild(controls);
-
-        paragraph.replaceWith(pager);
-
-        function showPage(pageIndex) {
-          var showFirst = pageIndex === 0;
-          pageOne.classList.toggle('is-active', showFirst);
-          pageTwo.classList.toggle('is-active', !showFirst);
-          prev.disabled = showFirst;
-          next.disabled = !showFirst;
-        }
-
-        prev.addEventListener('click', function() {
-          showPage(0);
-        });
-
-        next.addEventListener('click', function() {
-          showPage(1);
-        });
-      });
     });
   </script>
 
@@ -1529,5 +3208,990 @@ section{
   </section>
 
 </main>
+
+
+  <section class="findings" id="findings" style="border-top:none;padding-top:0;">
+    <div class="findings-body">
+      <div class="findings-scrolly" id="findings-scrolly">
+        <div class="findings-scroll-copy">
+          <aside class="findings-floating-note" id="findings-floating-note" aria-live="polite">
+            <h4 id="findings-floating-title">Treated Areas First</h4>
+            <p id="findings-floating-copy">Start by reading the treated pattern on its own, before the control trend is introduced.</p>
+            <button class="carousel-arrow next findings-pct-toggle" id="pct-toggle" type="button" aria-label="Switch percentage set">→</button>
+            <span class="findings-note-resizer" data-dir="nw" aria-hidden="true"></span>
+            <span class="findings-note-resizer" data-dir="ne" aria-hidden="true"></span>
+            <span class="findings-note-resizer" data-dir="sw" aria-hidden="true"></span>
+            <span class="findings-note-resizer" data-dir="se" aria-hidden="true"></span>
+          </aside>
+          <article class="findings-scroll-step is-active" data-intro="true" data-series="green" data-target="" data-zoom="1.00" data-fx="50.00" data-fy="50.00" data-note-x="2.00" data-note-y="18.00" data-note-w="14.00" data-note-h="10.50">
+            <h4>Introduction</h4>
+            <p>To establish a causal relationship, verifying the parallel trends assumption prior to an event study is essential. In the treated graphs to the right, a wide array of differing behaviors is immediately evident. However, in the specific case of station openings and the aforementioned anticipatory pricing, the parallel-trends assumption becomes trickier. This raises a more complicated question of the correct application of quasi-experiments to predict or model noisy, nuanced real-world phenomena. This point will be expanded upon in the conclusions section.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="first-d1,first-d2,first-d3,first-d4" data-zoom="1.00" data-fx="49.97" data-fy="51.75" data-note-x="66.00" data-note-y="16.50" data-note-w="40.60" data-note-h="17.39">
+            <h4>Census Tract - 1067.01</h4>
+            <p>Immediately, an inversion is noticeable. The two tracts’ diverging and opposite behavior is worrisome if the parallel trends assumption must hold. Additionally, the treated tract’s downward sweep compared to the control tract’s upward may deem an anticipation false. This case may violate the parallel trends assumption and the anticipation hypothesis. It could be that the anticipation occurred before the data's time frame, but anticipation should, in theory, peak closest to the opening. Although if construction of the line proved to be a nuisance to proximal residents (who evidently have more elasticity in what they pay), and demand for housing in an area situated closely to an active construction site drops, then so too would prices. If this theory is correct, we should see a post-opening increase to make up for the earlier dip.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g7-d1,g7-d2,g7-d3,g7-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="66.00" data-note-y="28.95">
+            <h4>Census Tract - 4214</h4>
+            <p>It's immediately apparent that more promising behavior exists than in the previous tract pair, though the two tracts don't display a perfect parallel. The general downward movement may indicate a common trend. It's also likely that the treated tract didn’t show anticipation. Both tracts share similar percentage changes of -1.1% and -1.0% in the year immediately before treatment, which could point to a direct parallel. Though for the parallel trend assumption to hold, this similarity should have been continuous throughout the period. Expecting mathematical equivalence between the points is unrealistic. No anticipatory effect likely exists in the treated, due to the perpetual decline. The conditions of both tracts are similar enough throughout to not completely rule out the parallel trends assumption.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g9-d1,g9-d2,g9-d3,g9-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="66.00" data-note-y="46.94">
+            <h4>Census Tract - 75.02</h4>
+            <p>The movement evident arouses suspicion. While the treated tract shows consistent growth, the control tract’s dissimilar behavior invalidates a parallel trend. The treated tract’s 12.3% increase shortly before opening may point to early market anticipation. This anticipation could make it challenging for the null to conclude that an opening has a marginal effect. The station’s expected opening likely caused a rent change ahead of treatment, a crucial piece of information made more evident by further analysis of the pre-treatment timeline. This suggests that the simple lack of verification of a parallel trend is not disqualifying in this scenario.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g4-d1,g4-d2,g4-d3,g4-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="66.00" data-note-y="63.26">
+            <h4>Census Tract - 3101.01</h4>
+            <p>The dip four years prior (-19.3%) is likely an anomaly, as the rent rebounds with a 32.4% increase, then stabilizes. The behavior directly following the rebound may confirm a stable pre-treatment market anticipation. At first, it seems both tracts follow a similar pattern. Still, upon closer inspection of the percentage changes, it is clear that they had dissimilar pre-treatment behavior, ruling out a parallel trend. Anticipation, while not definitive, is likely.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g2-d1,g2-d2,g2-d3,g2-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="66.00" data-note-y="81.99">
+            <h4>Census Tract - 57</h4>
+            <p>There is a good chance that the percentage change increases two years prior to the opening in Census Tract 57, and the steady rise in the years before makes this an anticipatory effect. Comparing the specific percentage changes between the treated and control tracts makes this more apparent, as the control saw relatively minimal increases in the two years prior. A parallel trend can be firmly established as being non-existent; the two tracts hardly share any commonality. The lack of a parallel trend may cause issues for further analysis, giving way to a shaky foundation for any firm declaration of causal effects.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g6-d1,g6-d2,g6-d3,g6-d4" data-zoom="0.50" data-fx="50" data-fy="50" data-note-x="30.00" data-note-y="16.50">
+            <h4>Census Tract - 4216.02</h4>
+            <p>Averaging the movements of both tracts, the treated’s 1.4% increase contrasted with the controls' 6.3% and indicates drastically different behavior in a pre-opening period. The clear difference in average percentage change most likely points to a non-parallel trend. To avoid oversimplifying, the control tract has a median household income 62% higher than the treated's (as of 2024), and the treated has an 86.7% higher poverty rate. The control's steeper incline as a result of gentrification or revitalization, which the treated experienced less of, or not at all, could be a plausible explanation, but is speculative. The treated's modest, stable rise during this same window argues against a strong anticipatory effect, since rent would have been expected to lead rather than trail if anticipation were driving the trend.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g8-d1,g8-d2,g8-d3,g8-d4" data-zoom="1.00" data-fx="50.00" data-fy="50.00" data-note-x="30.00" data-note-y="27.94">
+            <h4>Census Tract - 53.05</h4>
+            <p>The treated and control tracts display similar growth in the beginning, but the treated diverges, increasing and widening the gap. The treated tract had an average percentage change of 8.3%; the control tract’s was 5.9%. This suggests a difference, which may threaten the parallel trends assumption. The treated tract's significant jumps shortly before a fall of 5.2% in the year before opening may indicate anticipation. While anticipation can't be completely established, it is fair to say the area saw growth. The transit may have been developed in an area of already rapid growth, rather than the transit being the source of that growth. This speculation can't be firmly established with the present data, though.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g10-d1,g10-d2,g10-d3,g10-d4" data-zoom="1.00" data-fx="50.00" data-fy="49.99" data-note-x="30.00" data-note-y="46.59">
+            <h4>Census Tract - 3104</h4>
+            <p>Both tracts in the three to five years before opening show broadly similar movement, which suggests a broader regional trend. The exact percentage points differ, but both tracts’ shared sharp rise in the year immediately before opening is still informative, since parallel trends graphs do not require identical movement but comparable behavior and direction. This commonality may be supported in the comparison of the average percent changes: the treated tract saw a 4.2% increase, in contrast to the control tract's 5.5%. These values do not differ immensely, but their closeness doesn't automatically equate to a parallel trend. Though mathematical equality between the two, when reviewing the data of something as disorderly as rent, isn’t realistic. The broad similarity between the two favors the parallel trends assumption, but it does not prove a firm conclusion.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g3-d1,g3-d2,g3-d3,g3-d4" data-zoom="1.00" data-fx="49.98" data-fy="49.99" data-note-x="30.00" data-note-y="64.25">
+            <h4>Census Tract - 3102</h4>
+            <p>The treated tract’s 2.3% average compared to the control tract’s 11% suggests a significant difference. The treated tract’s comparatively lower rise complicates the interpretation of an anticipatory effect. Census Tract 3102 has a $132,929 median household income, compared to Census Tract 1000.01’s $102,588. Census Tract 3102 has a 12.9% poverty rate; Census Tract 1000.01 has a poverty rate of 11.2%. The socioeconomic profiles share a similarity. Despite some socioeconomic similarity, the pre-treatment trends differ enough that the parallel-trends assumption is less convincing.</p>
+          </article>
+          <article class="findings-scroll-step" data-series="blue" data-target="g1-d1,g1-d2,g1-d3,g1-d4" data-zoom="2.40" data-fx="49.99" data-fy="50.04" data-note-x="30.00" data-note-y="82.68" data-note-w="40.60" data-note-h="19.67">
+            <h4>Census Tract - 2.02</h4>
+            <p>In the year before opening, the tracts diverge: the control tract increases while the treated tract decreases. This divergence is also visible in the three years before opening, when the treated tract increases as the control tract decreases. In the four years prior, the control tract grows substantially more than the treated tract. These patterns of divergence suggest that the parallel trend assumption does not hold. If the values had increased together, this would have been more plausible. The treated tract’s dip in the year immediately before opening doesn't outright invalidate an anticipatory effect, but it does show that the pre-treatment path is not stable.</p>
+          </article>
+        </div>
+        <div class="findings-scroll-sticky">
+          <figure class="findings-image-first scrolly-pin">
+            <h3 class="parallel-trends-heading">Parallel Trends: Treated and Control Tracts</h3>
+            <div class="findings-scrolly-canvas">
+              <div class="findings-scene">
+                <img class="findings-series-base" src="rent_trends_green_only.png" alt="Rent trends, treated series only" />
+                <img class="findings-series-full" src="rent_trends.png" alt="Rent trends across treated and control areas" />
+                <div class="findings-hotspot-layer" aria-label="Tract 1067.01 treated green dot percentages">
+          <button class="findings-hotspot" type="button" title="-0.7%" aria-label="Treated value -0.7 percent" style="--x:15.6%; --y:11.1%;" data-id="first-d1" data-pct="-0.7%"></button>
+          <button class="findings-hotspot" type="button" title="-2.0%" aria-label="Treated value -2.0 percent" style="--x:24.0%; --y:12.1%;" data-id="first-d2" data-pct="-2.0%"></button>
+          <button class="findings-hotspot" type="button" title="-3.6%" aria-label="Treated value -3.6 percent" style="--x:32.6%; --y:13.9%;" data-id="first-d3" data-pct="-3.6%"></button>
+          <button class="findings-hotspot" type="button" title="+0.7%" aria-label="Treated value +0.7 percent" style="--x:41.1%; --y:13.6%;" data-id="first-d4" data-pct="+0.7%"></button>
+
+          <button class="findings-hotspot" type="button" title="+0.8%" aria-label="Treated value +0.8 percent" style="--x:64.5%; --y:86.0%;" data-id="g1-d1" data-pct="+0.8%"></button>
+          <button class="findings-hotspot" type="button" title="+7.1%" aria-label="Treated value +7.1 percent" style="--x:72.9%; --y:84.5%;" data-id="g1-d2" data-pct="+7.1%"></button>
+          <button class="findings-hotspot" type="button" title="+8.5%" aria-label="Treated value +8.5 percent" style="--x:81.4%; --y:82.6%;" data-id="g1-d3" data-pct="+8.5%"></button>
+          <button class="findings-hotspot" type="button" title="-2.8%" aria-label="Treated value -2.8 percent" style="--x:89.9%; --y:83.2%;" data-id="g1-d4" data-pct="-2.8%"></button>
+
+          <button class="findings-hotspot" type="button" title="+4.4%" aria-label="Treated value +4.4 percent" style="--x:15.6%; --y:80.3%;" data-id="g2-d1" data-pct="+4.4%"></button>
+          <button class="findings-hotspot" type="button" title="+1.9%" aria-label="Treated value +1.9 percent" style="--x:24.1%; --y:79.7%;" data-id="g2-d2" data-pct="+1.9%"></button>
+          <button class="findings-hotspot" type="button" title="+6.3%" aria-label="Treated value +6.3 percent" style="--x:32.5%; --y:77.1%;" data-id="g2-d3" data-pct="+6.3%"></button>
+          <button class="findings-hotspot" type="button" title="+4.1%" aria-label="Treated value +4.1 percent" style="--x:41.1%; --y:75.5%;" data-id="g2-d4" data-pct="+4.1%"></button>
+
+          <button class="findings-hotspot" type="button" title="+1.9%" aria-label="Treated value +1.9 percent" style="--x:64.5%; --y:67.9%;" data-id="g3-d1" data-pct="+1.9%"></button>
+          <button class="findings-hotspot" type="button" title="+1.5%" aria-label="Treated value +1.5 percent" style="--x:73.0%; --y:67.6%;" data-id="g3-d2" data-pct="+1.5%"></button>
+          <button class="findings-hotspot" type="button" title="+2.4%" aria-label="Treated value +2.4 percent" style="--x:81.4%; --y:67.1%;" data-id="g3-d3" data-pct="+2.4%"></button>
+          <button class="findings-hotspot" type="button" title="+3.2%" aria-label="Treated value +3.2 percent" style="--x:89.9%; --y:66.7%;" data-id="g3-d4" data-pct="+3.2%"></button>
+
+          <button class="findings-hotspot" type="button" title="-19.3%" aria-label="Treated value -19.3 percent" style="--x:15.5%; --y:68.1%;" data-id="g4-d1" data-pct="-19.3%"></button>
+          <button class="findings-hotspot" type="button" title="+32.4%" aria-label="Treated value +32.4 percent" style="--x:24.1%; --y:62.9%;" data-id="g4-d2" data-pct="+32.4%"></button>
+          <button class="findings-hotspot" type="button" title="+2.3%" aria-label="Treated value +2.3 percent" style="--x:32.6%; --y:62.5%;" data-id="g4-d3" data-pct="+2.3%"></button>
+          <button class="findings-hotspot" type="button" title="+5.1%" aria-label="Treated value +5.1 percent" style="--x:41.1%; --y:61.3%;" data-id="g4-d4" data-pct="+5.1%"></button>
+
+          <button class="findings-hotspot" type="button" title="-1.5%" aria-label="Treated value -1.5 percent" style="--x:10.3%; --y:36.6%;" data-id="g5-d1" data-pct="-1.5%"></button>
+          <button class="findings-hotspot" type="button" title="-0.6%" aria-label="Treated value -0.6 percent" style="--x:18%; --y:36%;" data-id="g5-d2" data-pct="-0.6%"></button>
+          <button class="findings-hotspot" type="button" title="-2.0%" aria-label="Treated value -2.0 percent" style="--x:26%; --y:36%;" data-id="g5-d3" data-pct="-2.0%"></button>
+          <button class="findings-hotspot" type="button" title="-3.6%" aria-label="Treated value -3.6 percent" style="--x:34%; --y:36%;" data-id="g5-d4" data-pct="-3.6%"></button>
+
+          <button class="findings-hotspot" type="button" title="0.0%" aria-label="Treated value 0.0 percent" style="--x:64.4%; --y:14.0%;" data-id="g6-d1" data-pct="0.0%"></button>
+          <button class="findings-hotspot" type="button" title="+2.0%" aria-label="Treated value +2.0 percent" style="--x:72.9%; --y:13.6%;" data-id="g6-d2" data-pct="+2.0%"></button>
+          <button class="findings-hotspot" type="button" title="+2.2%" aria-label="Treated value +2.2 percent" style="--x:81.4%; --y:13.4%;" data-id="g6-d3" data-pct="+2.2%"></button>
+          <button class="findings-hotspot" type="button" title="+1.5%" aria-label="Treated value +1.5 percent" style="--x:89.9%; --y:13.2%;" data-id="g6-d4" data-pct="+1.5%"></button>
+
+          <button class="findings-hotspot" type="button" title="+1.0%" aria-label="Treated value +1.0 percent" style="--x:15.6%; --y:30.1%;" data-id="g7-d1" data-pct="+1.0%"></button>
+          <button class="findings-hotspot" type="button" title="-3.1%" aria-label="Treated value -3.1 percent" style="--x:24.1%; --y:31.0%;" data-id="g7-d2" data-pct="-3.1%"></button>
+          <button class="findings-hotspot" type="button" title="-2.6%" aria-label="Treated value -2.6 percent" style="--x:32.6%; --y:31.7%;" data-id="g7-d3" data-pct="-2.6%"></button>
+          <button class="findings-hotspot" type="button" title="-1.1%" aria-label="Treated value -1.1 percent" style="--x:41.1%; --y:31.9%;" data-id="g7-d4" data-pct="-1.1%"></button>
+
+          <button class="findings-hotspot" type="button" title="+15.0%" aria-label="Treated value +15.0 percent" style="--x:64.4%; --y:27.9%;" data-id="g8-d1" data-pct="+15.0%"></button>
+          <button class="findings-hotspot" type="button" title="+6.6%" aria-label="Treated value +6.6 percent" style="--x:72.9%; --y:26.2%;" data-id="g8-d2" data-pct="+6.6%"></button>
+          <button class="findings-hotspot" type="button" title="+16.8%" aria-label="Treated value +16.8 percent" style="--x:81.4%; --y:21.4%;" data-id="g8-d3" data-pct="+16.8%"></button>
+          <button class="findings-hotspot" type="button" title="-5.2%" aria-label="Treated value -5.2 percent" style="--x:89.9%; --y:23.1%;" data-id="g8-d4" data-pct="-5.2%"></button>
+
+          <button class="findings-hotspot" type="button" title="+7.3%" aria-label="Treated value +7.3 percent" style="--x:15.6%; --y:46.1%;" data-id="g9-d1" data-pct="+7.3%"></button>
+          <button class="findings-hotspot" type="button" title="+1.2%" aria-label="Treated value +1.2 percent" style="--x:24.1%; --y:45.8%;" data-id="g9-d2" data-pct="+1.2%"></button>
+          <button class="findings-hotspot" type="button" title="+3.2%" aria-label="Treated value +3.2 percent" style="--x:32.6%; --y:44.7%;" data-id="g9-d3" data-pct="+3.2%"></button>
+          <button class="findings-hotspot" type="button" title="+12.3%" aria-label="Treated value +12.3 percent" style="--x:41.1%; --y:40.4%;" data-id="g9-d4" data-pct="+12.3%"></button>
+
+          <button class="findings-hotspot" type="button" title="+2.7%" aria-label="Treated value +2.7 percent" style="--x:64.5%; --y:49.2%;" data-id="g10-d1" data-pct="+2.7%"></button>
+          <button class="findings-hotspot" type="button" title="-0.4%" aria-label="Treated value -0.4 percent" style="--x:72.9%; --y:49.2%;" data-id="g10-d2" data-pct="-0.4%"></button>
+          <button class="findings-hotspot" type="button" title="+7.2%" aria-label="Treated value +7.2 percent" style="--x:81.5%; --y:46.7%;" data-id="g10-d3" data-pct="+7.2%"></button>
+          <button class="findings-hotspot" type="button" title="+7.1%" aria-label="Treated value +7.1 percent" style="--x:89.9%; --y:44.0%;" data-id="g10-d4" data-pct="+7.1%"></button>
+                </div>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </div>
+      <div class="findings-event-study" id="event-study-static">
+        <div class="event-study-copy" aria-label="Event study narrative">
+          <aside class="event-study-card" id="event-study-card" aria-live="polite">
+            <h4 id="event-study-card-title">Methodology</h4>
+            <p id="event-study-card-copy">Using an event study with this type of data poses issues because the treatment timing is staggered across station openings. A standard Two-Way Fixed Effect (TWFE) difference-in-differences model requires all groups to be treated at the same time, which is not the case here given the clear differences in opening dates between the tracts. As a result, using the TWFE model would produce biased results and fail to account for the heterogeneous nature of the treatments. To address this issue, the Sant'Anna and Callaway event study model was utilized because it accommodates datasets with differing treatment times, i.e., staggered treatment.</p>
+            <div class="event-study-controls" aria-label="Event study text controls">
+              <span class="event-study-step-readout" id="event-study-step-readout">1 / 4</span>
+              <button class="carousel-arrow prev" id="event-study-prev" type="button" aria-label="Previous event study note">←</button>
+              <button class="carousel-arrow next" id="event-study-next" type="button" aria-label="Next event study note">→</button>
+            </div>
+          </aside>
+          <article class="event-study-step is-active" data-title="Methodology" data-copy="Using an event study with this type of data poses issues because the treatment timing is staggered across station openings. A standard Two-Way Fixed Effect (TWFE) difference-in-differences model requires all groups to be treated at the same time, which is not the case here given the clear differences in opening dates between the tracts. As a result, using the TWFE model would produce biased results and fail to account for the heterogeneous nature of the treatments. To address this issue, the Sant'Anna and Callaway event study model was utilized because it accommodates datasets with differing treatment times, i.e., staggered treatment."></article>
+          <article class="event-study-step" data-title="Pre-Treatment Analysis" data-copy="In the pre-treatment period of the event study graph, the points are broadly trendless and hover around the zero line. This pattern supports a parallel trend between the treated and control tracts. No point strays too far from the line, and the small confidence intervals suggest no significant statistical difference between the treated and control groups before treatment. This evidence makes it more plausible that the pre-treatment period was unaffected by the later treatment."></article>
+          <article class="event-study-step" data-title="Post-Treatment Analysis" data-copy="The post-treatment period showed no significant change relative to the pre-treatment trend in the point estimates, except for the final two years. The confidence intervals widen progressively as more time passes, which is attributed to the limited amount of data. Only a few tracts have nine years of data following their station opening for analysis. The dips in the point estimates in the last two years between the treated and control tracts are statistically insignificant, as the confidence intervals are wide and both cross the zero line."></article>
+          <article class="event-study-step" data-title="Interpretation" data-copy="The lack of a sharp break between the pre- and post-opening periods is largely due to the chaotic nature of rent itself. Rent, which is influenced by a variety of external factors, including inflation, gentrification, localized pressures, and, in this instance, COVID-19, is the result of a combination of competing and supportive factors that ultimately influence prices. Likely, rent and its shifts cannot be attributed entirely to one factor. Light rail is just one variable among many; it does not operate in a vacuum. The lack of substantial change upon a station opening can be interpreted as light-rail infrastructure having minimal effect."></article>
+        </div>
+        <div class="event-study-visual">
+          <h3 class="event-study-heading">Event Study: Estimated Rent Effects Over Time</h3>
+          <div class="event-study-plot">
+            <img class="parallel-study-image" src="EventStudy.svg" alt="Event study graph" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<section id="conclusion" class="conclusion-hero" aria-label="Conclusion header image">
+  <div class="conclusion-hero-inner">
+    <div class="conclusion-hero-card">
+      <h1>Conclusion</h1>
+    </div>
+  </div>
+</section>
+<div class="conclusion-content">
+  <section>
+    <h2>The Qualitative</h2>
+    <p>As previously discussed, COVID-19 created a turbulent rental market. Station openings near the worldwide COVID-19 lockdown were going to show rent data not attributable to the effect of light rail. Even though the light rail effect may influence rent, it is most likely a soft one. Any effect that would have been apparent was drowned out by the radical change in rent caused by the period-specific external factors. These period-specific factors, while not completely invalidating the analysis, did prove to complicate the search for a clear effect. Endogeneity also proved to complicate the data, as the variables studied can feed into each other simultaneously. Light rail may influence rents, but the decision to develop a station may itself be related to neighborhood growth, rising rents, or expectations of future development. In that case, a rent increase after a station opening cannot automatically be interpreted as evidence that light rail caused the increase. The relationship may operate in both directions: neighborhoods expected to grow may attract light rail, while the new station may then contribute to additional rent growth. Anticipation was another complicated factor. If developers, landlords, or residents demonstrated anticipation that resulted in rent fluctuations, this would generate an effect during the pre-treatment period, which could potentially account for the absence of a consistent, shared trend prior to the opening.</p>
+  </section>
+
+  <div class="section-break section-break-top" role="img" aria-label="Visual break between qualitative and quantitative sections"></div>
+
+  <section>
+    <h2>The Quantitative</h2>
+    <h3>The Aggregate (Event Study)</h3>
+    <p>When aggregated, the numbers point to pre-treatment stability. When you look at the market as a whole, the event study gives you a different answer than when you look at individual tracts. The pre-treatment stability supports the parallel trends assumption. The control and treated tracts, when contrasted, share enough similarity to warrant parallel trends before treatment. The confidence intervals are also contained, which is attributed to a sufficient amount of data provided for this time period. As the treatment takes effect, the points hardly budge from their original momentum. There is no clear break, which would help to discern or conclude a clear effect. The points hover near zero, then in the final two years dip substantially. The confidence intervals widen due to the decrease in the amount of data. The post-treatment period produces a null effect. The confidence intervals widening makes the estimates less precise.</p>
+    <h3>The Individual (Parallel Trends)</h3>
+    <p>Because it examines the tracts more thoroughly than the event study and helps to clarify ambiguous data, the parallel trends graph is the reality, or the disaggregated view. The results of the parallel trends graph contradict the event study implication of a parallel trend. Various graphs show various connections between the control and treated tracts. On the other hand, the substantial disparities between the tracts indicate that the event study oversimplified the period preceding treatment. There is not a clear confirmation of a parallel trend pre-treatment. The parallel trends graph reinforces the complex and varied array of results observed in each region as it prepared for light rail.</p>
+    <figure class="quant-figure">
+      <img src="conclusion_table.png" alt="Conclusion quantitative results table" />
+      <figcaption class="quant-figure-note" aria-label="Conclusion table interpretation">The Average Treatment Effect of -$26.49 suggests that, on average, treated tracts had lower rental prices compared to the control tracts. Still, the standard error of $44.40 is large relative to the average treatment effect, making the estimate quite imprecise due to substantial uncertainty. The 95% Confidence Interval crosses zero, which removes the ability to rule out a zero effect, consistent with the p-value of 0.55, which is too high in comparison to the conventional threshold (p < 0.05). The results are not statistically significant.</figcaption>
+    </figure>
+    <figure class="quant-figure">
+      <img src="aggregate_trend.png" alt="Aggregate trend graph" />
+      <figcaption class="quant-figure-note" aria-label="Aggregate trend interpretation">Aggregate Trends: Control vs. Treated Tracts. The graph above is relatively parallel throughout the pre-treatment and immediate post-treatment period. The graph and table, similar to the event study, support parallel trends, but the pre-station raw changes display wide variation between tracts. That variation offers a more nuanced picture of the rent changes at the individual tract level, suggesting heterogeneity across tracts.</figcaption>
+    </figure>
+    <figure class="quant-figure">
+      <img src="growth_table.png" alt="Growth table" />
+    </figure>
+  </section>
+
+  <div class="section-break section-break-bottom" role="img" aria-label="Visual break before final synthesis section"></div>
+
+  <section>
+    <h2>Lack of Detectable Effect</h2>
+    <p>With the parallel trends graph lacking a clear pre-treatment trend that indicates commonality, the event study is weakened. The event study not displaying a clear break or change as the treatment takes place likely suggests no detectable aggregate effect.</p>
+  </section>
+
+  <section class="conclusion-band">
+    <div class="conclusion-inner">
+      <h2>Conclusion</h2>
+      <p>The analysis did not show a clear statistically significant detectable effect. Pre-treatment patterns are not consistently comparable across treated and control tracts, and later-year estimates are noisy. The most defensible conclusion, therefore, is that station openings may have produced heterogeneous local effects, but the current design and noise make it difficult to summarize them with a single number. Analysis in the future should aim to focus on the soundness of the data and its modeling and the explicit modeling of the heterogeneous effects.</p>
+    </div>
+  </section>
+</div>
+<script>
+  (function () {
+    var root = document.getElementById('event-study-static');
+    if (!root) return;
+
+    var steps = Array.prototype.slice.call(root.querySelectorAll('.event-study-step'));
+    var title = document.getElementById('event-study-card-title');
+    var copy = document.getElementById('event-study-card-copy');
+    var prev = document.getElementById('event-study-prev');
+    var next = document.getElementById('event-study-next');
+    var readout = document.getElementById('event-study-step-readout');
+    if (!steps.length || !title || !copy || !prev || !next) return;
+
+    var activeIndex = 0;
+
+    function setActiveIndex(index) {
+      var len = steps.length;
+      activeIndex = (index + len) % len;
+      var step = steps[activeIndex];
+
+      steps.forEach(function (item, itemIndex) {
+        item.classList.toggle('is-active', itemIndex === activeIndex);
+      });
+
+      title.textContent = step.getAttribute('data-title') || '';
+      copy.textContent = step.getAttribute('data-copy') || '';
+      if (readout) {
+        readout.textContent = String(activeIndex + 1) + ' / ' + String(len);
+      }
+    }
+
+    prev.addEventListener('click', function () {
+      setActiveIndex(activeIndex - 1);
+    });
+
+    next.addEventListener('click', function () {
+      setActiveIndex(activeIndex + 1);
+    });
+
+    setActiveIndex(0);
+  })();
+
+  (function () {
+    var scrolly = document.getElementById('findings-scrolly');
+    if (!scrolly) return;
+
+    var steps = Array.prototype.slice.call(scrolly.querySelectorAll('.findings-scroll-step'));
+    var fullSeries = scrolly.querySelector('.findings-series-full');
+    var scene = scrolly.querySelector('.findings-scene');
+    var canvas = scrolly.querySelector('.findings-scrolly-canvas');
+    var layer = scrolly.querySelector('.findings-hotspot-layer');
+    var hotspots = Array.prototype.slice.call(scrolly.querySelectorAll('.findings-hotspot'));
+    var controlLayer = null;
+    var controlDotsByStep = [];
+    var blueSteps = [];
+    var frozenControlPositions = [
+      [{ x: 15.5, y: 12.95 }, { x: 23.98, y: 9.71 }, { x: 32.51, y: 5.38 }, { x: 41.05, y: 3.3 }],
+      [{ x: 15.63, y: 21.36 }, { x: 24.08, y: 21.63 }, { x: 32.53, y: 25.29 }, { x: 41, y: 25.4 }],
+      [{ x: 15.58, y: 50.02 }, { x: 23.89, y: 47.8 }, { x: 32.41, y: 39.7 }, { x: 40.99, y: 39.32 }],
+      [{ x: 15.7, y: 57.89 }, { x: 23.94, y: 58.41 }, { x: 32.48, y: 57.36 }, { x: 40.96, y: 57.59 }],
+      [{ x: 15.57, y: 82.39 }, { x: 24.06, y: 78.31 }, { x: 32.55, y: 78.13 }, { x: 41.09, y: 77.37 }],
+      [{ x: 64.56, y: 7.2 }, { x: 72.93, y: 6.43 }, { x: 81.52, y: 5.15 }, { x: 89.93, y: 3.43 }],
+      [{ x: 64.42, y: 30.03 }, { x: 72.98, y: 29.2 }, { x: 81.42, y: 27.7 }, { x: 89.94, y: 26.28 }],
+      [{ x: 64.36, y: 44.76 }, { x: 72.88, y: 44.58 }, { x: 81.33, y: 45.26 }, { x: 89.83, y: 39.52 }],
+      [{ x: 64.34, y: 63.71 }, { x: 72.84, y: 61.94 }, { x: 81.39, y: 58.41 }, { x: 89.8, y: 57.44 }],
+      [{ x: 64.44, y: 78.02 }, { x: 73.02, y: 77.92 }, { x: 81.53, y: 76.17 }, { x: 89.91, y: 75.52 }]
+    ];
+    var controlChanges = [
+      [-0.4, 6.1, 8.3, 3.7],
+      [5.2, -0.6, -9.9, -1.0],
+      [-0.8, 7.3, 24.7, 0.2],
+      [6.1, -2.1, 4.0, -0.1],
+      [11.6, 12.3, 0.4, 1.8],
+      [7.2, 3.6, 6.7, 7.8],
+      [9.2, 3.0, 6.1, 5.2],
+      [8.9, 0.0, -1.5, 14.5],
+      [14.1, 9.1, 16.8, 3.6],
+      [10.0, -0.3, 6.2, 2.0]
+    ];
+    var note = document.getElementById('findings-floating-note');
+    var noteTitle = document.getElementById('findings-floating-title');
+    var noteCopy = document.getElementById('findings-floating-copy');
+    var pctToggleBtn = document.getElementById('pct-toggle');
+    var editToggle = document.getElementById('story-edit-toggle');
+    var prevBtn = document.getElementById('story-prev');
+    var nextBtn = document.getElementById('story-next');
+    var upBtn = document.getElementById('story-up');
+    var downBtn = document.getElementById('story-down');
+    var focusLeftBtn = document.getElementById('focus-left');
+    var focusRightBtn = document.getElementById('focus-right');
+    var focusUpBtn = document.getElementById('focus-up');
+    var focusDownBtn = document.getElementById('focus-down');
+    var zoomOutBtn = document.getElementById('zoom-out');
+    var zoomInBtn = document.getElementById('zoom-in');
+    var editorReadout = document.getElementById('story-editor-readout');
+    if (steps.length === 0) return;
+
+    var editMode = false;
+    var activeIndex = 0;
+    var lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var noteDrag = null;
+    var noteResize = null;
+    var viewPan = null;
+    var noteManualSize = null;
+    var pctSetIndex = 0;
+
+    if (note && canvas && note.parentNode !== canvas) {
+      canvas.appendChild(note);
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function parsePct(value) {
+      var n = parseFloat(String(value || '').replace('%', ''));
+      return isFinite(n) ? n : 0;
+    }
+
+    function fmtPct(value) {
+      var rounded = Math.round(value * 10) / 10;
+      if (Math.abs(rounded) < 0.05) {
+        return '0.0%';
+      }
+      var sign = rounded > 0 ? '+' : '';
+      return sign + rounded.toFixed(1) + '%';
+    }
+
+    function getTargets(step) {
+      return (step.getAttribute('data-target') || '').split(',').map(function (item) {
+        return item.trim();
+      }).filter(Boolean);
+    }
+
+    function togglePercentageSet() {
+      pctSetIndex = (pctSetIndex + 1) % 2;
+      applyStep(steps[activeIndex]);
+    }
+
+    function refreshBlueSteps() {
+      blueSteps = steps.filter(function (step) {
+        return (step.getAttribute('data-series') || '') === 'blue';
+      });
+    }
+
+    function getBlueStepIndex(step) {
+      return blueSteps.indexOf(step);
+    }
+
+    function refreshSteps() {
+      steps = Array.prototype.slice.call(scrolly.querySelectorAll('.findings-scroll-step'));
+      refreshBlueSteps();
+    }
+
+    function setControlDotLabel(dot, deltaPct) {
+      var label = fmtPct(deltaPct);
+      dot.setAttribute('data-pct', label);
+      dot.setAttribute('title', label);
+      dot.setAttribute('aria-label', label);
+    }
+
+    function ensureControlLayer() {
+      if (!scene || !layer || controlLayer) return;
+      controlLayer = document.createElement('div');
+      controlLayer.className = 'findings-dot-layer';
+      controlLayer.setAttribute('aria-label', 'Control red dot percentages');
+      scene.insertBefore(controlLayer, layer);
+    }
+
+    function createControlDots() {
+      ensureControlLayer();
+      if (!controlLayer || !layer) return;
+
+      controlLayer.innerHTML = '';
+      controlDotsByStep = [];
+      refreshBlueSteps();
+
+      blueSteps.forEach(function (step, blueIndex) {
+        var targets = getTargets(step);
+        var deltas = controlChanges[blueIndex] || [0, 0, 0, 0];
+        var dots = [];
+
+        targets.forEach(function (targetId, pointIndex) {
+          var treated = layer.querySelector('[data-id="' + targetId + '"]');
+          if (!treated) return;
+
+          var tx = parseFloat((treated.style.getPropertyValue('--x') || '50%').replace('%', ''));
+          var ty = parseFloat((treated.style.getPropertyValue('--y') || '50%').replace('%', ''));
+          if (!isFinite(tx)) tx = 50;
+          if (!isFinite(ty)) ty = 50;
+
+          var treatedPct = parsePct(treated.getAttribute('data-pct'));
+          var deltaPct = deltas[pointIndex] || 0;
+          var controlPct = treatedPct + deltaPct;
+          var frozenPos = (frozenControlPositions[blueIndex] || [])[pointIndex] || null;
+          var xVal = frozenPos ? frozenPos.x : clamp(tx + ((pointIndex - 1.5) * 0.25), 2, 98);
+          var yVal = frozenPos ? frozenPos.y : clamp(ty - 0.2, 2, 98);
+
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'findings-dot';
+          dot.style.setProperty('--x', xVal.toFixed(2) + '%');
+          dot.style.setProperty('--y', yVal.toFixed(2) + '%');
+          dot.setAttribute('data-step-index', String(blueIndex));
+          dot.setAttribute('data-point-index', String(pointIndex));
+          dot.setAttribute('data-treated-pct', String(treatedPct));
+          dot.setAttribute('data-delta-pct', String(deltaPct));
+          dot.setAttribute('data-control-pct', String(controlPct));
+          setControlDotLabel(dot, deltaPct);
+          controlLayer.appendChild(dot);
+          dots.push(dot);
+        });
+
+        controlDotsByStep[blueIndex] = dots;
+      });
+    }
+
+    function setControlDotsForStep(step) {
+      if (!controlLayer) return;
+      var blueIndex = getBlueStepIndex(step);
+      controlDotsByStep.forEach(function (dots, idx) {
+        dots.forEach(function (dot) {
+          var isCurrent = idx === blueIndex;
+          dot.classList.toggle('is-active', isCurrent);
+          dot.classList.toggle('show-label', isCurrent && pctSetIndex === 1);
+        });
+      });
+    }
+
+    function getStepTitle(step) {
+      var h = step ? step.querySelector('h4') : null;
+      return h ? h.textContent || '' : '';
+    }
+
+    function getFocusFromTargets(step) {
+      var targets = (step.getAttribute('data-target') || '').split(',').map(function (item) {
+        return item.trim();
+      }).filter(Boolean);
+
+      var fx = 50;
+      var fy = 50;
+      if (targets.length > 0 && layer) {
+        var accX = 0;
+        var accY = 0;
+        var count = 0;
+        targets.forEach(function (id) {
+          var dot = layer.querySelector('[data-id="' + id + '"]');
+          if (!dot) return;
+          var xRaw = dot.style.getPropertyValue('--x').trim();
+          var yRaw = dot.style.getPropertyValue('--y').trim();
+          var x = parseFloat(xRaw.replace('%', ''));
+          var y = parseFloat(yRaw.replace('%', ''));
+          if (!isFinite(x) || !isFinite(y)) return;
+          accX += x;
+          accY += y;
+          count += 1;
+        });
+        if (count > 0) {
+          fx = accX / count;
+          fy = accY / count;
+        }
+      }
+      return { fx: fx, fy: fy };
+    }
+
+    function getStepState(step) {
+      var base = getFocusFromTargets(step);
+      var fx = parseFloat(step.getAttribute('data-fx'));
+      var fy = parseFloat(step.getAttribute('data-fy'));
+      var zoom = parseFloat(step.getAttribute('data-zoom'));
+
+      if (!isFinite(fx)) fx = base.fx;
+      if (!isFinite(fy)) fy = base.fy;
+      if (!isFinite(zoom)) zoom = 1;
+
+      return {
+        fx: clamp(fx, 0, 100),
+        fy: clamp(fy, 0, 100),
+        zoom: clamp(zoom, 1, 10)
+      };
+    }
+
+    function saveStepState(step, state) {
+      step.setAttribute('data-fx', state.fx.toFixed(2));
+      step.setAttribute('data-fy', state.fy.toFixed(2));
+      step.setAttribute('data-zoom', state.zoom.toFixed(2));
+    }
+
+    function setSeries(mode) {
+      var showBlue = mode === 'blue';
+      scrolly.classList.toggle('is-blue-visible', showBlue);
+      if (fullSeries) {
+        fullSeries.style.opacity = showBlue ? '1' : '0';
+        fullSeries.src = 'rent_trends.png';
+      }
+      var baseSeries = scrolly.querySelector('.findings-series-base');
+      if (baseSeries) {
+        baseSeries.src = 'rent_trends_green_only.png';
+      }
+      steps.forEach(function (step) {
+        step.classList.toggle('is-active', step.getAttribute('data-series') === mode);
+      });
+    }
+
+    function setFocus(step) {
+      if (!scene || !step) return;
+      scene.style.transform = 'none';
+    }
+
+    function setFloatingNote(step) {
+      if (!note || !step) return;
+      var stepIndex = steps.indexOf(step);
+      var block = Math.floor(Math.max(stepIndex, 0) / 5);
+      var sideX = block % 2 === 0 ? 80 : 20;
+      var x = parseFloat(step.getAttribute('data-note-x'));
+      var y = parseFloat(step.getAttribute('data-note-y'));
+      var w = parseFloat(step.getAttribute('data-note-w'));
+      var h = parseFloat(step.getAttribute('data-note-h'));
+      if (!isFinite(x)) x = sideX;
+      if (!isFinite(y)) y = 15;
+      note.style.setProperty('--note-x', x.toFixed(2) + '%');
+      note.style.setProperty('--note-y', y.toFixed(2) + '%');
+
+      if (isFinite(w) && isFinite(h)) {
+        noteManualSize = { wPct: w, hPct: h };
+        note.style.setProperty('--note-w', w.toFixed(2) + '%');
+        note.style.setProperty('--note-h', h.toFixed(2) + '%');
+      } else if (noteManualSize) {
+        note.style.setProperty('--note-w', noteManualSize.wPct.toFixed(2) + '%');
+        note.style.setProperty('--note-h', noteManualSize.hPct.toFixed(2) + '%');
+      }
+
+      var titleEl = step.querySelector('h4');
+      var p = step.querySelector('p');
+      var blueIndex = getBlueStepIndex(step);
+      if (noteTitle && titleEl) noteTitle.textContent = titleEl.textContent || '';
+      if (noteCopy && p) noteCopy.textContent = p.textContent || '';
+      if (pctToggleBtn) {
+        pctToggleBtn.hidden = blueIndex < 0;
+      }
+    }
+
+    function setHotspotTargets(step) {
+      if (!step || hotspots.length === 0) return;
+      var targets = (step.getAttribute('data-target') || '').split(',').map(function (item) {
+        return item.trim();
+      }).filter(Boolean);
+      var showTreated = pctSetIndex === 0;
+      hotspots.forEach(function (dot) {
+        var id = dot.getAttribute('data-id') || '';
+        dot.classList.toggle('is-active', showTreated && targets.indexOf(id) !== -1);
+      });
+    }
+
+    function saveNoteSizeForStep(step) {
+      if (!step) step = steps[activeIndex] || steps[0];
+      if (!note || !canvas || !canvas.clientWidth || !canvas.clientHeight) return;
+      var wPct = clamp((note.offsetWidth / canvas.clientWidth) * 100, 20, 92);
+      var hPct = clamp((note.offsetHeight / canvas.clientHeight) * 100, 10, 80);
+      if (step) {
+        step.setAttribute('data-note-w', wPct.toFixed(2));
+        step.setAttribute('data-note-h', hPct.toFixed(2));
+      }
+      noteManualSize = { wPct: wPct, hPct: hPct };
+      note.style.setProperty('--note-w', wPct.toFixed(2) + '%');
+      note.style.setProperty('--note-h', hPct.toFixed(2) + '%');
+    }
+
+    function panActiveStepByPixels(dx, dy) {
+      var step = steps[activeIndex];
+      if (!step || !scene) return;
+      var state = getStepState(step);
+      var sceneW = scene.offsetWidth;
+      var sceneH = scene.offsetHeight;
+      if (!sceneW || !sceneH || !state.zoom) return;
+
+      state.fx = clamp(state.fx - ((dx * 100) / (sceneW * state.zoom)), 0, 100);
+      state.fy = clamp(state.fy - ((dy * 100) / (sceneH * state.zoom)), 0, 100);
+      saveStepState(step, state);
+      applyStep(step);
+    }
+
+    function zoomActiveStepBy(deltaZoom) {
+      var step = steps[activeIndex];
+      if (!step) return;
+      var state = getStepState(step);
+      state.zoom = clamp(state.zoom + deltaZoom, 1, 2.4);
+      saveStepState(step, state);
+      applyStep(step);
+    }
+
+    function getActiveStepFromScroll() {
+      var useMobileMode = window.matchMedia('(max-width: 950px)').matches;
+      if (useMobileMode) {
+        var mobileProbeY = window.innerHeight * 0.45;
+        var bestStep = steps[0] || null;
+        var bestDist = Number.POSITIVE_INFINITY;
+
+        for (var m = 0; m < steps.length; m += 1) {
+          var mobileRect = steps[m].getBoundingClientRect();
+          var mobileCenter = mobileRect.top + (mobileRect.height * 0.5);
+          var mobileDist = Math.abs(mobileCenter - mobileProbeY);
+          if (mobileDist < bestDist) {
+            bestDist = mobileDist;
+            bestStep = steps[m];
+          }
+          steps[m].style.removeProperty('--float-y');
+          steps[m].style.removeProperty('--float-scale');
+          steps[m].style.opacity = '1';
+        }
+
+        activeIndex = Math.max(0, steps.indexOf(bestStep));
+        return bestStep;
+      }
+
+      var probeY = window.innerHeight * 0.52;
+      var advanceY = window.innerHeight * 0.45;
+      var retreatY = window.innerHeight * 0.62;
+      var currentScrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var movingDown = currentScrollTop >= lastScrollTop;
+      var guard = 0;
+
+      if (movingDown) {
+        // Catch up in sequence when momentum scrolling moves across multiple steps.
+        while (activeIndex < steps.length - 1 && guard < steps.length) {
+          var nextRect = steps[activeIndex + 1].getBoundingClientRect();
+          if (nextRect.top <= advanceY) {
+            activeIndex += 1;
+            guard += 1;
+            continue;
+          }
+          break;
+        }
+      } else {
+        while (activeIndex > 0 && guard < steps.length) {
+          var currentRect = steps[activeIndex].getBoundingClientRect();
+          if (currentRect.top > retreatY) {
+            activeIndex -= 1;
+            guard += 1;
+            continue;
+          }
+          break;
+        }
+      }
+
+      lastScrollTop = currentScrollTop;
+      activeIndex = clamp(activeIndex, 0, Math.max(steps.length - 1, 0));
+
+      var active = steps[activeIndex] || steps[0];
+
+      for (var i = 0; i < steps.length; i += 1) {
+        var rect = steps[i].getBoundingClientRect();
+        var center = rect.top + (rect.height * 0.5);
+        var maxDist = window.innerHeight * 0.7;
+        var normDist = Math.min(Math.abs(center - probeY), maxDist);
+        var t = 1 - (normDist / maxDist);
+        var floatY = (1 - t) * 20;
+        var scale = 0.965 + (t * 0.04);
+        var opacity = 0.5 + (t * 0.5);
+
+        steps[i].style.setProperty('--float-y', floatY.toFixed(2) + 'px');
+        steps[i].style.setProperty('--float-scale', scale.toFixed(3));
+        steps[i].style.opacity = opacity.toFixed(3);
+      }
+      return active;
+    }
+
+    function updateEditorReadout(step) {
+      if (!editorReadout || !step) return;
+      var state = getStepState(step);
+      var stepNumber = steps.indexOf(step) + 1;
+      var noteX = parseFloat(step.getAttribute('data-note-x'));
+      var noteY = parseFloat(step.getAttribute('data-note-y'));
+      var noteW = parseFloat(step.getAttribute('data-note-w'));
+      var noteH = parseFloat(step.getAttribute('data-note-h'));
+
+      if (!isFinite(noteX)) noteX = 15;
+      if (!isFinite(noteY)) noteY = 15;
+      if (!isFinite(noteW) && noteManualSize) noteW = noteManualSize.wPct;
+      if (!isFinite(noteH) && noteManualSize) noteH = noteManualSize.hPct;
+
+      var lines = [];
+      lines.push('Step ' + stepNumber + ' of ' + steps.length + ': ' + getStepTitle(step));
+      lines.push('Mode: ' + (editMode ? 'EDITING (drag note/corners, drag chart, wheel zoom)' : 'view only'));
+      lines.push('');
+      lines.push('Save these on this step <article>:');
+      lines.push('data-note-x="' + noteX.toFixed(2) + '"  data-note-y="' + noteY.toFixed(2) + '"');
+      if (isFinite(noteW) && isFinite(noteH)) {
+        lines.push('data-note-w="' + noteW.toFixed(2) + '"  data-note-h="' + noteH.toFixed(2) + '"');
+      }
+      lines.push('data-fx="' + state.fx.toFixed(2) + '"  data-fy="' + state.fy.toFixed(2) + '"  data-zoom="' + state.zoom.toFixed(2) + '"');
+      editorReadout.textContent = lines.join('\n');
+    }
+
+    function updateEditorButtons() {
+      var isOn = !!editMode;
+      scrolly.classList.toggle('is-editing', isOn);
+      if (note) note.classList.toggle('is-draggable', isOn);
+      if (editToggle) {
+        editToggle.classList.toggle('is-on', isOn);
+        editToggle.textContent = isOn ? 'Disable Edit Mode' : 'Enable Edit Mode';
+      }
+
+      var controls = [
+        prevBtn, nextBtn, upBtn, downBtn,
+        focusLeftBtn, focusRightBtn, focusUpBtn, focusDownBtn,
+        zoomOutBtn, zoomInBtn
+      ];
+      controls.forEach(function (btn) {
+        if (!btn) return;
+        btn.disabled = !isOn;
+      });
+    }
+
+    function applyStep(step) {
+      if (!step) return;
+      var mode = step.getAttribute('data-series') || 'green';
+      scrolly.classList.toggle('is-intro-step', step.getAttribute('data-intro') === 'true');
+      setSeries(mode);
+      setFocus(step);
+      setHotspotTargets(step);
+      setControlDotsForStep(step);
+      setFloatingNote(step);
+      updateEditorReadout(step);
+    }
+
+    function selectStepByIndex(index, scrollToStep) {
+      if (steps.length === 0) return;
+      activeIndex = clamp(index, 0, steps.length - 1);
+      var step = steps[activeIndex];
+      if (scrollToStep) {
+        step.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      applyStep(step);
+    }
+
+    function nudgeFocus(dx, dy, dz) {
+      var step = steps[activeIndex];
+      if (!step) return;
+      var state = getStepState(step);
+      state.fx = clamp(state.fx + dx, 0, 100);
+      state.fy = clamp(state.fy + dy, 0, 100);
+      state.zoom = clamp(state.zoom + dz, 1, 10);
+      saveStepState(step, state);
+      applyStep(step);
+    }
+
+    function moveStep(direction) {
+      var step = steps[activeIndex];
+      if (!step) return;
+      if (direction < 0) {
+        var prev = step.previousElementSibling;
+        if (prev) step.parentNode.insertBefore(step, prev);
+      } else {
+        var next = step.nextElementSibling;
+        if (next) step.parentNode.insertBefore(next, step);
+      }
+      refreshSteps();
+      activeIndex = steps.indexOf(step);
+      applyStep(step);
+      step.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function setNotePositionFromClient(step, clientX, clientY) {
+      if (!step || !canvas || !note) return;
+      var rect = canvas.getBoundingClientRect();
+      var x = ((clientX - rect.left) / rect.width) * 100;
+      var y = ((clientY - rect.top) / rect.height) * 100;
+      x = clamp(x, 8, 92);
+      y = clamp(y, 8, 92);
+      step.setAttribute('data-note-x', x.toFixed(2));
+      step.setAttribute('data-note-y', y.toFixed(2));
+      setFloatingNote(step);
+      updateEditorReadout(step);
+    }
+
+    function updateFromScroll() {
+      if (editMode) {
+        applyStep(steps[activeIndex]);
+        return;
+      }
+      var active = getActiveStepFromScroll();
+      applyStep(active);
+    }
+
+    var scrollTicking = false;
+    function requestScrollUpdate() {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      window.requestAnimationFrame(function () {
+        scrollTicking = false;
+        updateFromScroll();
+      });
+    }
+
+    if (editToggle) {
+      editToggle.addEventListener('click', function () {
+        editMode = !editMode;
+        if (editMode) {
+          var current = getActiveStepFromScroll();
+          activeIndex = steps.indexOf(current);
+        }
+        updateEditorButtons();
+        requestScrollUpdate();
+      });
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { selectStepByIndex(activeIndex - 1, true); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { selectStepByIndex(activeIndex + 1, true); });
+    if (upBtn) upBtn.addEventListener('click', function () { moveStep(-1); });
+    if (downBtn) downBtn.addEventListener('click', function () { moveStep(1); });
+    if (focusLeftBtn) focusLeftBtn.addEventListener('click', function () { nudgeFocus(-1.5, 0, 0); });
+    if (focusRightBtn) focusRightBtn.addEventListener('click', function () { nudgeFocus(1.5, 0, 0); });
+    if (focusUpBtn) focusUpBtn.addEventListener('click', function () { nudgeFocus(0, -1.5, 0); });
+    if (focusDownBtn) focusDownBtn.addEventListener('click', function () { nudgeFocus(0, 1.5, 0); });
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', function () { nudgeFocus(0, 0, -0.08); });
+    if (zoomInBtn) zoomInBtn.addEventListener('click', function () { nudgeFocus(0, 0, 0.08); });
+    if (pctToggleBtn) {
+      pctToggleBtn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        togglePercentageSet();
+      });
+    }
+
+    if (canvas) {
+      canvas.addEventListener('pointerdown', function (event) {
+        if (!editMode) return;
+        if (note && note.contains(event.target)) return;
+        viewPan = {
+          pointerId: event.pointerId,
+          lastX: event.clientX,
+          lastY: event.clientY
+        };
+        canvas.classList.add('is-panning');
+        try { canvas.setPointerCapture(event.pointerId); } catch (_err) {}
+      });
+
+      canvas.addEventListener('pointermove', function (event) {
+        if (!viewPan || viewPan.pointerId !== event.pointerId) return;
+        var dx = event.clientX - viewPan.lastX;
+        var dy = event.clientY - viewPan.lastY;
+        viewPan.lastX = event.clientX;
+        viewPan.lastY = event.clientY;
+        panActiveStepByPixels(dx, dy);
+      });
+
+      function endPan(event) {
+        if (!viewPan || viewPan.pointerId !== event.pointerId) return;
+        try { canvas.releasePointerCapture(event.pointerId); } catch (_err) {}
+        viewPan = null;
+        canvas.classList.remove('is-panning');
+      }
+
+      canvas.addEventListener('pointerup', endPan);
+      canvas.addEventListener('pointercancel', endPan);
+
+      canvas.addEventListener('wheel', function (event) {
+        if (!editMode) return;
+        event.preventDefault();
+        zoomActiveStepBy(event.deltaY < 0 ? 0.08 : -0.08);
+      }, { passive: false });
+    }
+
+    if (note) {
+      var noteResizers = Array.prototype.slice.call(note.querySelectorAll('.findings-note-resizer'));
+
+      function endResizeSession() {
+        if (!noteResize) return;
+        noteResize = null;
+        note.classList.remove('is-dragging');
+        saveNoteSizeForStep(steps[activeIndex]);
+        updateEditorReadout(steps[activeIndex]);
+      }
+
+      noteResizers.forEach(function (handle) {
+        handle.addEventListener('pointerdown', function (event) {
+          if (!editMode) return;
+          event.preventDefault();
+          event.stopPropagation();
+          noteResize = {
+            pointerId: event.pointerId,
+            dir: handle.getAttribute('data-dir') || 'se',
+            startX: event.clientX,
+            startY: event.clientY,
+            startW: note.offsetWidth,
+            startH: note.offsetHeight
+          };
+          note.classList.add('is-dragging');
+        });
+
+        function endResizeFromHandle(event) {
+          if (!noteResize || noteResize.pointerId !== event.pointerId) return;
+          endResizeSession();
+        }
+
+        handle.addEventListener('pointerup', endResizeFromHandle);
+        handle.addEventListener('pointercancel', endResizeFromHandle);
+      });
+
+      note.addEventListener('pointerdown', function (event) {
+        if (!editMode) return;
+        if (event.target && event.target.classList && event.target.classList.contains('findings-note-resizer')) return;
+        noteDrag = { pointerId: event.pointerId };
+        note.classList.add('is-dragging');
+        note.setPointerCapture(event.pointerId);
+        setNotePositionFromClient(steps[activeIndex], event.clientX, event.clientY);
+      });
+      note.addEventListener('pointermove', function (event) {
+        if (noteResize && noteResize.pointerId === event.pointerId) {
+          if ((event.buttons & 1) === 0) {
+            endResizeSession();
+            return;
+          }
+          var dx = event.clientX - noteResize.startX;
+          var dy = event.clientY - noteResize.startY;
+          var dir = noteResize.dir;
+          var nextW = noteResize.startW;
+          var nextH = noteResize.startH;
+
+          if (dir.indexOf('e') !== -1) nextW += dx;
+          if (dir.indexOf('w') !== -1) nextW -= dx;
+          if (dir.indexOf('s') !== -1) nextH += dy;
+          if (dir.indexOf('n') !== -1) nextH -= dy;
+
+          var minW = Math.min(220, Math.max(160, (canvas ? canvas.clientWidth - 24 : 220)));
+          var maxW = canvas ? Math.max(minW, Math.min(560, canvas.clientWidth - 12)) : 560;
+          var minH = Math.min(92, Math.max(72, (canvas ? canvas.clientHeight - 24 : 92)));
+          var maxH = canvas ? Math.max(minH, Math.min(420, canvas.clientHeight - 12)) : 420;
+
+          nextW = clamp(nextW, minW, maxW);
+          nextH = clamp(nextH, minH, maxH);
+
+          var step = steps[activeIndex];
+          if (step) {
+            note.style.setProperty('--note-w', nextW.toFixed(0) + 'px');
+            note.style.setProperty('--note-h', nextH.toFixed(0) + 'px');
+            updateEditorReadout(step);
+          }
+          return;
+        }
+        if (!noteDrag || noteDrag.pointerId !== event.pointerId) return;
+        setNotePositionFromClient(steps[activeIndex], event.clientX, event.clientY);
+      });
+      function endNoteDrag(event) {
+        if (!noteDrag || noteDrag.pointerId !== event.pointerId) return;
+        try { note.releasePointerCapture(event.pointerId); } catch (_err) {}
+        noteDrag = null;
+        note.classList.remove('is-dragging');
+        updateEditorReadout(steps[activeIndex]);
+      }
+      note.addEventListener('pointerup', endNoteDrag);
+      note.addEventListener('pointercancel', endNoteDrag);
+
+      window.addEventListener('pointerup', function () {
+        endResizeSession();
+      }, true);
+      window.addEventListener('pointercancel', function () {
+        endResizeSession();
+      }, true);
+      window.addEventListener('blur', function () {
+        endResizeSession();
+      });
+    }
+
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+    window.addEventListener('resize', requestScrollUpdate);
+    window.addEventListener('load', requestScrollUpdate);
+    refreshBlueSteps();
+    createControlDots();
+    updateEditorButtons();
+    setSeries((steps[0] && steps[0].getAttribute('data-series')) || 'green');
+    setFocus(steps[0]);
+    if (steps[0] && (!steps[0].hasAttribute('data-note-w') || !steps[0].hasAttribute('data-note-h'))) {
+      saveNoteSizeForStep(steps[0]);
+    }
+    setFloatingNote(steps[0]);
+    updateEditorReadout(steps[0]);
+    requestScrollUpdate();
+  })();
+
+</script>
+
 </body>
 </html>
