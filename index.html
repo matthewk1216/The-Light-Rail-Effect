@@ -2889,6 +2889,80 @@ p{
         }
       });
 
+      document.querySelectorAll('.step > p').forEach(function(paragraph) {
+        var fullText = paragraph.textContent.replace(/\s+/g, ' ').trim();
+        if (fullText.length < 950) {
+          return;
+        }
+
+        var midpoint = Math.floor(fullText.length / 2);
+        var splitAt = fullText.indexOf(' ', midpoint);
+        if (splitAt === -1) {
+          splitAt = fullText.lastIndexOf(' ', midpoint);
+        }
+        if (splitAt === -1) {
+          return;
+        }
+
+        var pager = document.createElement('div');
+        pager.className = 'step-pager';
+
+        var pages = document.createElement('div');
+        pages.className = 'step-pages';
+
+        var pageOne = document.createElement('p');
+        pageOne.className = 'step-page is-active';
+        pageOne.textContent = fullText.slice(0, splitAt).trim();
+
+        var pageTwo = document.createElement('p');
+        pageTwo.className = 'step-page';
+        pageTwo.textContent = fullText.slice(splitAt + 1).trim();
+
+        pages.appendChild(pageOne);
+        pages.appendChild(pageTwo);
+
+        var controls = document.createElement('div');
+        controls.className = 'step-pager-controls';
+
+        var buttons = document.createElement('div');
+        buttons.className = 'step-pager-buttons';
+
+        var prev = document.createElement('button');
+        prev.className = 'step-pager-arrow';
+        prev.type = 'button';
+        prev.setAttribute('aria-label', 'Previous text section');
+        prev.textContent = '←';
+        prev.disabled = true;
+
+        var next = document.createElement('button');
+        next.className = 'step-pager-arrow';
+        next.type = 'button';
+        next.setAttribute('aria-label', 'Next text section');
+        next.textContent = '→';
+
+        buttons.appendChild(prev);
+        buttons.appendChild(next);
+        controls.appendChild(buttons);
+        pager.appendChild(pages);
+        pager.appendChild(controls);
+        paragraph.replaceWith(pager);
+
+        function showPage(pageIndex) {
+          var showFirst = pageIndex === 0;
+          pageOne.classList.toggle('is-active', showFirst);
+          pageTwo.classList.toggle('is-active', !showFirst);
+          prev.disabled = showFirst;
+          next.disabled = !showFirst;
+        }
+
+        prev.addEventListener('click', function() {
+          showPage(0);
+        });
+        next.addEventListener('click', function() {
+          showPage(1);
+        });
+      });
+
     });
   </script>
 
