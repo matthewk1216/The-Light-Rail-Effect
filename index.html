@@ -898,6 +898,7 @@ section{
 }
 .findings-body{
   display:block;
+  padding-top:2.2rem;
 }
 .findings-table-wrap h3{
   font-family:'Cormorant Garamond',serif;
@@ -952,6 +953,9 @@ section{
   .findings-body,
   .findings-stats{
     grid-template-columns:1fr;
+  }
+  .findings-body{
+    padding-top:1.5rem;
   }
   .sticky{
     position:relative;
@@ -2539,7 +2543,32 @@ body{
   align-items:center;
 }
 
+.findings-title-hero{
+  height:min(94vh,1100px);
+  min-height:620px;
+  width:calc(100vw / var(--page-scale));
+  max-width:calc(100vw / var(--page-scale));
+  margin-left:calc(50% - (50vw / var(--page-scale)));
+  margin-right:calc(50% - (50vw / var(--page-scale)));
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.16)),
+    url('USMap.png') center 24% / cover no-repeat,
+    url('AustinMap.png') center 24% / cover no-repeat;
+  background-attachment:fixed;
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  align-items:center;
+}
+
 .conclusion-hero-inner{
+  width:min(900px,94vw);
+  margin:0 auto;
+  padding:0;
+  text-align:center;
+}
+
+.findings-title-inner{
   width:min(900px,94vw);
   margin:0 auto;
   padding:0;
@@ -2555,7 +2584,22 @@ body{
   padding:1rem 1.5rem;
 }
 
+.findings-title-card{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(0,0,0,.1);
+  padding:1rem 1.5rem;
+}
+
 .conclusion-hero h1{
+  font-size:clamp(3.4rem,7.8vw,5.8rem);
+  line-height:1;
+  margin:0;
+}
+
+.findings-title-card h2{
   font-size:clamp(3.4rem,7.8vw,5.8rem);
   line-height:1;
   margin:0;
@@ -2720,6 +2764,7 @@ p{
     width:auto;
   }
   .conclusion-hero,
+  .findings-title-hero,
   .section-break{
     background-attachment:scroll;
     width:100vw;
@@ -3313,14 +3358,11 @@ p{
 
 <main class="findings-main">
   <section class="findings" id="findings" style="border-top:none;padding-top:0;">
-    <div class="findings-header">
-      <div>
-        <p class="findings-kicker">02 · Findings</p>
-        <h2>Findings</h2>
-      </div>
-      <div class="findings-note">
-        <strong>How to read this section</strong>
-        Start with the individual tract comparisons, then consider how their varied patterns relate to the aggregate event-study results.
+    <div class="findings-title-hero" aria-label="Findings section header">
+      <div class="findings-title-inner">
+        <div class="findings-title-card">
+          <h2>Findings</h2>
+        </div>
       </div>
     </div>
     <div class="findings-body">
