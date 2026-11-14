@@ -433,6 +433,12 @@ section{
   display:flex;
   gap:.5rem;
 }
+.step-pager-readout{
+  margin-right:auto;
+  color:var(--muted);
+  font-size:.8rem;
+  font-variant-numeric:tabular-nums;
+}
 .step-pager-arrow{
   border:1px solid rgba(0,0,0,.9);
   background:transparent;
@@ -2956,6 +2962,12 @@ p{
         var buttons = document.createElement('div');
         buttons.className = 'step-pager-buttons';
 
+        var readout = document.createElement('span');
+        readout.className = 'step-pager-readout';
+        readout.setAttribute('aria-live', 'polite');
+        readout.setAttribute('aria-atomic', 'true');
+        readout.textContent = '1 / 2';
+
         var prev = document.createElement('button');
         prev.className = 'step-pager-arrow';
         prev.type = 'button';
@@ -2971,6 +2983,7 @@ p{
 
         buttons.appendChild(prev);
         buttons.appendChild(next);
+        controls.appendChild(readout);
         controls.appendChild(buttons);
         pager.appendChild(pages);
         pager.appendChild(controls);
@@ -2982,6 +2995,7 @@ p{
           pageTwo.classList.toggle('is-active', !showFirst);
           prev.disabled = showFirst;
           next.disabled = !showFirst;
+          readout.textContent = showFirst ? '1 / 2' : '2 / 2';
         }
 
         prev.addEventListener('click', function() {
@@ -3297,6 +3311,16 @@ p{
 
 <main class="findings-main">
   <section class="findings" id="findings" style="border-top:none;padding-top:0;">
+    <div class="findings-header">
+      <div>
+        <p class="findings-kicker">02 · Findings</p>
+        <h2>Findings</h2>
+      </div>
+      <div class="findings-note">
+        <strong>How to read this section</strong>
+        Start with the individual tract comparisons, then consider how their varied patterns relate to the aggregate event-study results.
+      </div>
+    </div>
     <div class="findings-body">
       <div class="findings-scrolly" id="findings-scrolly">
         <div class="findings-scroll-copy">
