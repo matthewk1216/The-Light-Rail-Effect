@@ -1874,6 +1874,9 @@ section{
 .event-study-card{
   position:sticky;
   top:11vh;
+  display:flex;
+  flex-direction:column;
+  height:35rem;
   background:#fff;
   border:1px solid var(--line);
   border-radius:12px;
@@ -1882,18 +1885,21 @@ section{
   max-width:100%;
 }
 .event-study-card h4{
+  flex:none;
   margin:0 0 .35rem;
   font-family:'Cormorant Garamond',serif;
   font-size:1.25rem;
   line-height:1.1;
 }
 .event-study-card p{
+  flex:1;
   margin:0;
   font:500 .9rem/1.45 'Inter',sans-serif;
   color:#222;
 }
 .event-study-controls{
-  margin-top:.85rem;
+  flex:none;
+  margin-top:auto;
   display:flex;
   justify-content:flex-end;
   align-items:center;
