@@ -1664,7 +1664,7 @@ section{
 }
 .findings-scroll-sticky{
   position:sticky;
-  top:8vh;
+  top:4vh;
   transform:none;
   align-self:start;
   grid-area:1 / 1;
@@ -1870,21 +1870,20 @@ section{
   grid-template-columns:minmax(300px,360px) minmax(0,1fr);
   gap:.9rem;
   align-items:start;
-  margin:1.6rem calc(50% - 50vw) 0;
-  width:100vw;
-  padding:0 1rem;
+  margin:1.6rem calc(50% - (50vw / var(--page-scale))) 0;
+  width:calc(100vw / var(--page-scale));
+  padding:2rem 1.5rem 0;
   box-sizing:border-box;
 }
 .event-study-copy{
   position:relative;
-  padding:.5rem 0 56vh .6rem;
+  padding:.5rem 0 .6rem .6rem;
 }
 .event-study-step{
   display:none;
 }
 .event-study-card{
-  position:sticky;
-  top:11vh;
+  position:relative;
   display:flex;
   flex-direction:column;
   height:35rem;
@@ -1922,11 +1921,10 @@ section{
   color:#555;
 }
 .event-study-visual{
-  position:sticky;
-  top:11vh;
+  position:relative;
   display:flex;
   flex-direction:column;
-  height:min(86vh,52rem);
+  height:min(92vh,58rem);
   margin-top:.15rem;
   background:transparent;
   border:0;
